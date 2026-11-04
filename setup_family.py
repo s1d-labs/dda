@@ -19,6 +19,8 @@ for p in PROJECTS:
     kw = {}
     if p.get("proxy"):
         kw["proxy"] = p["proxy"]
+    if p.get("max_workers") is not None:
+        kw["max_workers"] = p["max_workers"]
     set_pool(p["name"], FAMILY, p["task"], target=p["target"], env=p["env"], probe=p["probe"], **kw)
     if items:
         print(p["name"], "queue:", seed_queue(p["name"], items))

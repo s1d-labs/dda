@@ -65,6 +65,7 @@ PROJECTS = [
         "env": {"SITE": SITE},
         "probe": PROBE,
         "proxy": "IN",
+        "max_workers": 2,          # split the 4 India proxies 2+2 so pages and docs both progress
         "unit_label": "page", "record_label": "page",
         "items": PAGE_ITEMS,
     },
@@ -76,6 +77,7 @@ PROJECTS = [
         "env": {"SITE": SITE},
         "probe": PROBE,
         "proxy": "IN",
+        "max_workers": 2,          # split the 4 India proxies 2+2 so pages and docs both progress
         "unit_label": "file", "record_label": "document",
         "items": DOC_ITEMS,
     },

@@ -1,4 +1,4 @@
-"""Parsing tests on a saved page: fast, no network. Add a saved page for every layout your site has."""
+"""Parsing tests on saved dda.gov.in pages: fast, no network."""
 from pathlib import Path
 
 import crawl
@@ -6,15 +6,60 @@ import crawl
 PAGES = Path(__file__).parent / "pages"
 
 
-def test_catalogue_page_gives_twenty_books():
-    rows = crawl.parse((PAGES / "catalogue-page-1.html").read_text(encoding="utf-8"))
-    assert len(rows) == 20
-    rid, book = rows[0]
-    assert rid == "a-light-in-the-attic_1000"                       # the site's own id: stable across runs
-    assert book["title"] == "A Light in the Attic" and book["price"] == "£51.77" and book["availability"] == "In stock"
-    assert book["url"].startswith("https://books.toscrape.com/catalogue/")
-    assert len({r for r, _ in rows}) == 20                          # no duplicate ids on a page
+def _whatsnew():
+    return crawl.parse((PAGES / "whats-new.html").read_text(encoding="utf-8"),
+                       "https://dda.gov.in/whats-new")
 
 
-def test_an_empty_page_gives_nothing():
-    assert crawl.parse("<html><body>No products</body></html>") == []
+def test_page_metadata():
+    d = _whatsnew()
+    assert d["type"] == "page"
+    assert d["title"] == "What's New"
+    assert d["category"]                                   # non-empty
+    assert d["url"] == "https://dda.gov.in/whats-new"
+
+
+def test_listing_rows_have_titles_and_dates():
+    d = _whatsnew()
+    assert len(d["rows"]) >= 5
+    # the header row is dropped: every row has real text, not the column labels
+    assert all("Publishing Date" not in r["text"] for r in d["rows"])
+    dated = [r for r in d["rows"] if r["date"] and r["date"][:2] == "20"]
+    assert dated, "at least one row has an ISO date"
+
+
+def test_documents_are_absolute_and_deduped():
+    d = _whatsnew()
+    assert d["n_documents"] >= 1
+    assert d["documents"] == sorted(set(d["documents"]))   # no duplicates
+    assert all(u.startswith("https://dda.gov.in/") for u in d["documents"])
+    assert all(crawl.classify(u) == "document" for u in d["documents"])
+
+
+def test_links_split_internal_external():
+    d = _whatsnew()
+    assert all(crawl.classify(u) == "page" for u in d["page_links"])
+    assert all(crawl.classify(u) == "external" for u in d["external_links"])
+
+
+def test_record_id_stable_and_short():
+    a = crawl.record_id("https://dda.gov.in/whats-new")
+    b = crawl.record_id("https://dda.gov.in/whats-new#x")   # fragment ignored
+    assert a == b and 0 < len(a) <= 20
+
+
+def test_bucket_path_is_safe():
+    p = crawl.bucket_path("https://dda.gov.in/sites/default/files/2025-07/a b.pdf", "docs")
+    assert p == "docs/sites/default/files/2025-07/a_b.pdf"
+    assert ".." not in p
+
+
+def test_iso_date():
+    assert crawl.iso_date("04-11-2026") == "2026-11-04"
+    assert crawl.iso_date("03.11.2026") == "2026-11-03"
+    assert crawl.iso_date("no date here") is None
+
+
+def test_empty_page():
+    d = crawl.parse("<html><body>nothing</body></html>", "https://dda.gov.in/x")
+    assert d["rows"] == [] and d["n_documents"] == 0

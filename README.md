@@ -1,47 +1,73 @@
-# family-template
+# dda — Delhi Development Authority scraper
 
-Start a new scraping family for the s1d-labs pool. A family is one kind of site (or one platform many sites share); the pool runs
-its code on members' GitHub Actions minutes. This template is a complete, working family for
-[books.toscrape.com](https://books.toscrape.com) (a public site made for scraping practice): copy it, then change it.
+This family scrapes the public website of the Delhi Development Authority (DDA), `https://dda.gov.in/`.
+It collects every public page and every linked document (tenders, notices, public documents, policy pages,
+unauthorised colony and PM-UDAY material, and all other public pages and files).
 
-## Make your family
+It is part of the s1d-labs scrape pool. The full technical contract is in `CLAUDE.md`.
 
-1. Ask the hub owner to **add the family** on [scrape.s1d.me/runners](https://scrape.s1d.me/runners) (name, what it scrapes, owner).
-   The hub creates `s1d-labs/<family>` from this template, names the family in `scrape.json`, and makes the owner admin
-   (with the GitHub account they added on home.s1d.me).
-2. Clone it: `gh repo clone s1d-labs/<family>`.
-3. In your repo:
-   - `scrape.json`: set `"family"` to the family name; list your tasks (one command each) and setup steps.
-   - `family.py`: your projects (one queue of work per site), their target hosts, the env your command needs, the queue items,
-     and the health checks.
-   - `crawl.py` (or whatever your tasks run): the scraper.
-4. **Check it**: `scrape-check` in the repo (needs `pip install "scrape-hub-client @ git+https://github.com/s1d-labs/runner@main#subdirectory=sdk"`).
-   It runs your setup and task against a local stand-in hub on 3 real items and says what works. The **check** workflow runs it
-   (and `tests/`) on every push.
-5. Run the **setup** workflow (Actions → setup → Run workflow). It registers the projects, puts them in the pool and registers
-   the health checks.
-6. The hub starts runs in members' accounts when the pool is on and there is work. Watch it on scrape.s1d.me.
+## What it collects
 
-## What your code gets
+- **Pages** (`dda-pages`): one record per public HTML page. Each record has the URL, title, breadcrumb
+  category, published dates, Drupal view rows (title, date, attachment links), and classified links.
+- **Documents** (`dda-docs`): one record per linked file (PDF, DOC, XLS, PPT, ZIP, ...). Each record has
+  the URL, filename, type, size, SHA-256, and content type. The file itself goes to the family bucket.
 
-The pool worker ([s1d-labs/runner](https://github.com/s1d-labs/runner)) checks out this repo at `main`, runs the `setup` steps from
-`scrape.json`, and for each assignment runs the task's command here with:
+The transactional e-services portals (`eservices.dda.org.in`, `online.dda.org.in`, `citzservices.dda.org.in`,
+`ddalop.org.in`, and `eprocure.gov.in`) are separate systems that need a login. They are out of scope. The
+scraper records them only as external links.
 
-| Variable | What |
+## How access works
+
+DDA has three access constraints. The scraper handles all three:
+
+1. **India only.** The site answers only from Indian IP addresses. Pool work uses `proxy="IN"`, so each
+   worker runs through one of the hub's India proxies. From the box, use `myproxy run ...`.
+2. **Legacy TLS renegotiation.** OpenSSL 3.x refuses the handshake by default. `ddatls.py` enables
+   `OP_LEGACY_SERVER_CONNECT`. This is a compatibility option only.
+3. **Incomplete certificate chain.** The server does not send its intermediate CA. `ddatls.py` ships the
+   GlobalSign GCC R46 OV intermediate in `certs/` and adds it to the trust store. Certificate verification
+   stays **on**. The scraper never disables verification.
+
+## Run it
+
+1. **Discover the site** (enumerate pages and documents, write `seeds.json`):
+
+   ```
+   myproxy run python discover.py
+   ```
+
+2. **Test one page or document** without the hub:
+
+   ```
+   myproxy run python crawl.py --local https://dda.gov.in/whats-new
+   myproxy run python crawl.py --local https://dda.gov.in/sites/default/files/2025-07/pio_list_2025.pdf
+   ```
+
+3. **Check the family** against the stand-in hub (through the proxy, because the site is India only):
+
+   ```
+   myproxy run scrape-check --project dda-pages --items 2
+   ```
+
+4. **Apply to the hub**: run the **setup** workflow (Actions → setup → Run workflow). It registers the
+   projects, seeds the queue from `seeds.json`, and registers the health check. The pool then scrapes.
+
+## Files
+
+| File | What |
 |---|---|
-| `SCRAPE_POOL_PROJECT` | the project to work on |
-| `SCRAPE_JOB_INDEX`, `SCRAPE_TOTAL_JOBS` | this worker's slice |
-| `SCRAPE_MAX_HOURS` | how long the command may run |
-| `SCRAPE_HUB_URL` | the hub |
-| your project's `env` | e.g. `SITE` |
+| `ddatls.py` | legacy-TLS requests session (verification stays on) |
+| `discover.py` | breadth-first site crawl → `seeds.json` + scope summary |
+| `crawl.py` | the `crawl` task: page parsing and document download |
+| `family.py` | the two projects and their queue items (from `seeds.json`) |
+| `setup_family.py` | registers projects, pool entries, health checks, seeds queues |
+| `report.py` | reads the scraped data from the hub database and writes a coverage report |
+| `certs/` | the GlobalSign intermediate CA the site fails to send |
+| `tests/` | offline parse tests on a saved page |
 
-Use `scrape_hub_client` (`HubClient`) to claim queue items, store records, upload files and report counters. Exit when there is
-nothing left; the worker then asks the hub for the next assignment.
+## Rules
 
-## Rules (the full contract is in CLAUDE.md, written for people and for Claude Code)
-
-- **Be polite.** Use `hub.settings["threads"]` and `delay_ms`, idle while `hub.settings["paused"]`, and report `n_http` and
-  `t_http_s` for every request and `http_<code>` / `http_error` for failures: the hub throttles you from these.
-- **Files go through the hub** (`hub.upload_many`): it signs each upload into the family's bucket (500 GB per member) and stops at
-  the cap. Never put storage keys in this repo.
-- **Public data only**; read the site's terms first. See the team docs on home.s1d.me (Scraping rules).
+- Public data only. No login, OTP, or captcha systems are accessed.
+- Files go through the hub (`hub.upload_many`); no storage keys in this repo.
+- Reports use ASD-STE100 Simplified Technical English and name no private individuals.

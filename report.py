@@ -11,6 +11,7 @@ The database part uses the `psql` client and is read-only. Run it on the box:
 
 It names no private individuals. It reports counts, categories and coverage only.
 """
+import os
 import argparse
 import json
 import re
@@ -25,9 +26,11 @@ PROBE = "dda:dda.gov.in"
 
 
 def psql(sql, db="scrape_hub"):
-    """Run one query, return rows as lists of strings (tab-separated, no header)."""
+    """Run one query, return rows as lists of strings (tab-separated, no header).
+    A statement timeout (via PGOPTIONS) keeps a heavy aggregate on the 83 GB records table from hanging."""
+    env = dict(os.environ, PGOPTIONS="-c statement_timeout=90000")
     out = subprocess.run(["psql", db, "-tAF", "\t", "-c", sql],
-                         capture_output=True, text=True, timeout=120)
+                         capture_output=True, text=True, timeout=150, env=env)
     if out.returncode != 0:
         raise RuntimeError(out.stderr.strip()[:300])
     return [line.split("\t") for line in out.stdout.splitlines() if line]
@@ -66,33 +69,47 @@ def discovery_scope(seeds_path):
 
 
 def db_section():
-    probe_rows = psql(f"select ok, at, ms, coalesce(detail,'') from public.probes "
-                      f"where target='{PROBE}' order by at desc limit 1;")
-    probe = None
-    if probe_rows:
-        ok, at, ms, detail = probe_rows[0]
-        probe = {"ok": ok == "t", "at": at, "ms": int(ms) if ms.isdigit() else ms, "detail": detail[:160]}
+    # The projects run with no probe (the hub prober cannot do dda.gov.in legacy TLS).
+    # Report whether any probe target is still registered; the last check is historical.
+    try:
+        reg = one(f"select count(*) from public.probe_targets where name='{PROBE}';")
+        probe_rows = psql(f"select ok, at from public.probes where target='{PROBE}' order by at desc limit 1;")
+        last = None
+        if probe_rows and len(probe_rows[0]) >= 2:
+            last = {"ok": probe_rows[0][0] == "t", "at": probe_rows[0][1]}
+        probe = {"registered": (reg not in (None, "0")), "note": "removed on purpose; no probe gates work",
+                 "last_check": last}
+    except Exception as e:
+        probe = {"error": str(e)[:120]}
 
     def proj_stats(proj):
         q = psql(f"select status, count(*) from public.queue where project='{proj}' group by status;")
         queue = {r[0]: int(r[1]) for r in q}
-        recs = int(one(f"select count(*) from public.records where project='{proj}';") or 0)
+        # record_counts.n (distinct stored ids) is fast; public.records count on 83 GB is not
+        recs = int(one(f"select n from public.record_counts where project='{proj}';") or
+                   queue.get("done", 0))
         fetched = int(one(f"select coalesce(sum(fetched),0) from public.queue where project='{proj}' and status='done';") or 0)
-        return {"queue": queue, "records": recs, "fetched_sum": fetched}
+        return {"queue": queue, "records": recs, "done": queue.get("done", 0),
+                "failed": queue.get("failed", 0), "fetched_sum": fetched}
 
     pages = proj_stats(PAGES_PROJECT)
     docs = proj_stats(DOCS_PROJECT)
 
-    # document types + total bytes from stored records
-    doc_types = {r[0]: int(r[1]) for r in psql(
-        f"select coalesce(data->>'ext','?'), count(*) from public.records "
-        f"where project='{DOCS_PROJECT}' group by 1 order by 2 desc;")}
-    total_bytes = int(one(f"select coalesce(sum((data->>'bytes')::bigint),0) from public.records "
-                          f"where project='{DOCS_PROJECT}' and data ? 'bytes';") or 0)
-    # page categories from stored records
-    page_cats = {r[0]: int(r[1]) for r in psql(
-        f"select coalesce(data->>'category','?'), count(*) from public.records "
-        f"where project='{PAGES_PROJECT}' group by 1 order by 2 desc limit 30;")}
+    # document types + total bytes from stored records (may time out on the big table: best effort)
+    try:
+        doc_types = {r[0]: int(r[1]) for r in psql(
+            f"select coalesce(data->>'ext','?'), count(*) from public.records "
+            f"where project='{DOCS_PROJECT}' group by 1 order by 2 desc;")}
+        total_bytes = int(one(f"select coalesce(sum((data->>'bytes')::bigint),0) from public.records "
+                              f"where project='{DOCS_PROJECT}' and data ? 'bytes';") or 0)
+    except Exception as e:
+        doc_types, total_bytes = {"(timeout)": str(e)[:60]}, 0
+    try:
+        page_cats = {r[0]: int(r[1]) for r in psql(
+            f"select coalesce(data->>'category','?'), count(*) from public.records "
+            f"where project='{PAGES_PROJECT}' group by 1 order by 2 desc limit 30;")}
+    except Exception as e:
+        page_cats = {"(timeout)": str(e)[:60]}
 
     failures = [{"project": r[0], "kind": r[1], "reason": r[2][:120], "attempts": r[3]}
                 for r in psql("select project, kind, reason, attempts from public.failures "

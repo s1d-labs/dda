@@ -125,5 +125,11 @@ This section records indicators, not findings of wrongdoing.
 
 ## 9. Current progress
 
-The scrape of about 16,000 documents is a multi-hour job. It continues on the pool after this report.
-Run `python report.py` for the live numbers, or run `/report` for the team-format progress report.
+- **Pages:** 2,871 of 2,871 scraped (100%). The page structured data is complete and stored in the hub database.
+- **Documents:** the download runs now. About 5% is done at the time of this report. The rest continues on the pool.
+- **Order:** the pages were scraped first (the structured index). The documents follow, because the download is large.
+- **Scale:** the document download is about 19,000 files. It is a multi-hour task. It continues after this report.
+
+Run `python report.py` for the live numbers. Run `/report D01` for the team-format progress report.
+Re-dispatch the scrape when a runner window ends:
+`gh workflow run run.yml --repo <account>/scrape-runner -f jobs=4 -f procs=1 -f family=dda -f max_hours=5.5`

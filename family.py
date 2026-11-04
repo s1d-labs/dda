@@ -78,6 +78,9 @@ PROJECTS = [
         "probe": PROBE,
         "proxy": "IN",
         "max_workers": 2,          # split the 4 India proxies 2+2 so pages and docs both progress
+        # Temporarily out of the pool: scrape the pages (the structured index) first, then
+        # re-enable documents for the long bulk download. Set back to True (or remove) to resume docs.
+        "pool": False,
         "unit_label": "file", "record_label": "document",
         "items": DOC_ITEMS,
     },

@@ -85,9 +85,10 @@ def db_section():
     def proj_stats(proj):
         q = psql(f"select status, count(*) from public.queue where project='{proj}' group by status;")
         queue = {r[0]: int(r[1]) for r in q}
-        # record_counts.n (distinct stored ids) is fast; public.records count on 83 GB is not
-        recs = int(one(f"select n from public.record_counts where project='{proj}';") or
-                   queue.get("done", 0))
+        # record_counts.n (distinct stored ids) is fast but lags; done items each store a record,
+        # so use the larger of the two as the stored-record figure.
+        rc = int(one(f"select n from public.record_counts where project='{proj}';") or 0)
+        recs = max(rc, queue.get("done", 0))
         fetched = int(one(f"select coalesce(sum(fetched),0) from public.queue where project='{proj}' and status='done';") or 0)
         return {"queue": queue, "records": recs, "done": queue.get("done", 0),
                 "failed": queue.get("failed", 0), "fetched_sum": fetched}

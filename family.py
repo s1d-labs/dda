@@ -21,7 +21,12 @@ HERE = Path(__file__).parent
 FAMILY = json.loads((HERE / "scrape.json").read_text())["family"]
 TARGET = "dda.gov.in"
 SITE = "https://dda.gov.in/"
-PROBE = f"{FAMILY}:dda.gov.in"
+
+# No health-check probe. dda.gov.in needs legacy TLS renegotiation (see ddatls.py),
+# which the hub's prober does not do, so a probe here would stay red and hold all
+# work. The crawl task handles the TLS itself and reports errors for retry, so the
+# project runs without a probe gating it.
+PROBE = None
 
 
 def _seeds():
@@ -76,4 +81,4 @@ PROJECTS = [
     },
 ]
 
-PROBES = [{"name": PROBE, "url": SITE, "expect": "Delhi Development Authority"}]
+PROBES = []  # no probe: see the note in family.py

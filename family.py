@@ -26,7 +26,7 @@ SITE = "https://dda.gov.in/"
 # which the hub's prober does not do, so a probe here would stay red and hold all
 # work. The crawl task handles the TLS itself and reports errors for retry, so the
 # project runs without a probe gating it.
-PROBE = None
+PROBE = ""   # explicit empty clears the probe on the hub (None would leave the old one)
 
 
 def _seeds():

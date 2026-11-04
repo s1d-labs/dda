@@ -65,7 +65,7 @@ PROJECTS = [
         "env": {"SITE": SITE},
         "probe": PROBE,
         "proxy": "IN",
-        "max_workers": 2,          # split the 4 India proxies 2+2 so pages and docs both progress
+        "max_workers": 4,          # while documents are paused, give pages all 4 India proxies
         "unit_label": "page", "record_label": "page",
         "items": PAGE_ITEMS,
     },

@@ -12,7 +12,7 @@ This report uses ASD-STE100 Simplified Technical English. It names no private in
 ## 1. Summary
 
 - The site is a Drupal content site with a full Hindi mirror under `/hi/`.
-- The discovery crawl mapped the whole site and found about **2,500 pages** and about **16,000 documents**.
+- The discovery crawl mapped the whole site and found **2,871 pages** and **19,134 documents** (28 pages stay unreached).
 - The documents are mostly PDF files. The crawl also found map files, spreadsheets, archives and a few application files.
 - The scraper collects two kinds of record: one per page and one per document. It stores each document file in the bucket.
 - The scrape runs on GitHub runners through the hub India proxy. The site answers only from India.
@@ -36,23 +36,24 @@ The scraper never disables certificate verification.
 
 | Measure | Count |
 |---|---|
-| Pages found | ~2,500 |
-| English pages | ~1,900 |
-| Hindi pages (`/hi/`) | ~620 |
+| Pages found | 2,871 |
+| English pages | 2,191 |
+| Hindi pages (`/hi/`) | 680 |
+| Pages unreached (budget tail) | 28 |
 
 ### 3.2 Documents by type
 
 | Type | Count |
 |---|---|
-| PDF | ~14,600 |
+| PDF | 18,201 |
 | KMZ (map boundary files) | 639 |
-| DOC | ~144 |
+| DOC | 161 |
+| DOCX | 59 |
 | ZIP | 31 |
-| DOCX | 28 |
 | APK (application files) | 12 |
-| XLS / XLSX | ~14 |
-| Other (RAR, RTF, PPTX, EXE) | ~16 |
-| **Total documents** | **~16,000** |
+| XLS / XLSX | 14 |
+| Other (RAR, RTF, PPTX, EXE, TIF) | 15 |
+| **Total documents** | **19,134** |
 
 ### 3.3 Top document sections (category)
 
@@ -60,19 +61,19 @@ The site stores documents under `/sites/default/files/<section>/`. The largest s
 
 | Section | Documents | Target data |
 |---|---|---|
-| `pmuday` | ~1,700 | Unauthorised colony and PM-UDAY lists and orders |
-| `Personnel` | ~1,680 | Staff orders and circulars |
-| `tender` | ~1,180 | Tenders and corrigenda |
-| `LandDisposal` | ~770 | Auctions and land disposal |
-| `layoutplan` | ~730 | Layout plans |
-| `class-iii` / `class-iv` / `class-v` | ~1,770 | Recruitment and result documents |
-| `public-notice` / `notice` | ~970 | Public notices |
-| `horticulture_division` | ~640 | Horticulture |
-| `Engineering` | ~620 | Engineering |
-| `RTI` | ~530 | Right to Information documents |
-| `Landmgmt` | ~440 | Land management |
-| `technical_committee` | ~410 | Technical committee |
-| `land-pooling` | ~250 | Land pooling |
+| `tender` | 2,411 | Tenders and corrigenda |
+| `Personnel` | 1,819 | Staff orders and circulars |
+| `pmuday` | 1,741 | Unauthorised colony and PM-UDAY lists and orders |
+| `Landmgmt` | 997 | Land management |
+| `Engineering` | 958 | Engineering |
+| `public-notice` | 827 | Public notices |
+| `LandDisposal` | 784 | Auctions and land disposal |
+| `layoutplan` | 729 | Layout plans |
+| `class-iv` / `class-v` | 1,366 | Recruitment and result documents |
+| `horticulture_division` | 639 | Horticulture |
+| `RTI` | 570 | Right to Information documents |
+| `Accounts` | 529 | Finance and accounts |
+| `technical_committee` | 410 | Technical committee |
 
 ## 4. Target data coverage
 
@@ -109,7 +110,7 @@ This section records indicators, not findings of wrongdoing.
 
 ## 7. Failures and missing data
 
-- **Discovery errors:** about 200 page fetches failed during discovery. The cause is a request timeout under proxy load.
+- **Discovery errors:** 232 page fetches failed during discovery. The cause is a request timeout under proxy load.
   These pages can be fetched again with a resume crawl.
 - **Download failures:** a small number of documents fail to download on the first try. The hub retries them automatically.
 - **Pager depth limit:** the first discovery pass stopped at a page budget. A resume pass continued and drained the rest.

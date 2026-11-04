@@ -14,7 +14,9 @@ It is resumable in the sense that re-running refreshes the list; seed_queue keep
 """
 import argparse
 import json
+import os
 import re
+import signal
 import sys
 import time
 from collections import deque, Counter
@@ -71,23 +73,72 @@ def page_title(page):
     return re.sub(r"\s+", " ", unescape(m.group(1))).strip()[:300]
 
 
-def crawl(max_pages, delay, verbose=True):
+def _snapshot(pages, documents, external, errors, frontier, fetched, t0):
+    return {
+        "pages": sorted(pages),
+        "page_meta": pages,
+        "documents": sorted(documents),
+        "external": dict(external.most_common()),
+        "errors": errors,
+        "frontier": list(frontier),
+        "stats": {
+            "pages_fetched": fetched,
+            "pages_total": len(pages),
+            "pages_queued_unreached": len(frontier),
+            "documents": len(documents),
+            "external_hosts": len(external),
+            "errors": len(errors),
+            "seconds": round(time.time() - t0, 1),
+        },
+    }
+
+
+def _save(path, state):
+    tmp = path + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(state, f, indent=1, ensure_ascii=False)
+    os.replace(tmp, path)
+
+
+def crawl(max_pages, delay, verbose=True, out=None, resume=False, checkpoint_every=100):
     session = ddatls.make_session()
     bundle = ddatls.ca_bundle()
-    seeds = [BASE, BASE + "sitemap"]
     seen_pages = set()
     frontier = deque()
-    for s in seeds:
+    documents = {}          # url -> {referrer, ext}
+    external = Counter()
+    pages = {}              # url -> {title, n_docs}
+    errors = {}             # url -> reason
+    fetched = 0
+    t0 = time.time()
+
+    if resume and out and os.path.exists(out):
+        prev = json.load(open(out))
+        pages = prev.get("page_meta", {})
+        documents = {u: {} for u in prev.get("documents", [])}
+        external = Counter(prev.get("external", {}))
+        errors = prev.get("errors", {})
+        for u in prev.get("pages", []):
+            seen_pages.add(u)
+        for u in prev.get("frontier", []):
+            if u not in seen_pages:
+                seen_pages.add(u)
+                frontier.append(u)
+        print(f"resumed: {len(pages)} pages done, {len(frontier)} queued, {len(documents)} docs", file=sys.stderr)
+
+    for s in [BASE, BASE + "sitemap"]:
         if s not in seen_pages:
             seen_pages.add(s)
             frontier.append(s)
-    documents = {}          # url -> {referrers}
-    external = Counter()
-    pages = {}              # url -> {title, n_out, n_docs}
-    errors = {}             # url -> reason
-    fetched = 0
 
-    while frontier and fetched < max_pages:
+    stop = {"now": False}
+
+    def _on_signal(signum, frame):
+        stop["now"] = True
+    signal.signal(signal.SIGTERM, _on_signal)
+    signal.signal(signal.SIGINT, _on_signal)
+
+    while frontier and fetched < max_pages and not stop["now"]:
         url = frontier.popleft()
         try:
             r = session.get(url, timeout=45, verify=bundle, allow_redirects=True)
@@ -121,23 +172,16 @@ def crawl(max_pages, delay, verbose=True):
         pages[url] = {"title": page_title(body), "n_docs": n_docs}
         if verbose and fetched % 20 == 0:
             print(f"  ...{fetched} pages, frontier {len(frontier)}, docs {len(documents)}", file=sys.stderr)
+        if out and fetched % checkpoint_every == 0:
+            _save(out, _snapshot(pages, documents, external, errors, frontier, fetched, t0))
         time.sleep(delay)
 
-    return {
-        "pages": sorted(pages),
-        "page_meta": pages,
-        "documents": sorted(documents),
-        "external": dict(external.most_common()),
-        "errors": errors,
-        "stats": {
-            "pages_fetched": fetched,
-            "pages_total": len(pages),
-            "pages_queued_unreached": max(0, len(seen_pages) - fetched),
-            "documents": len(documents),
-            "external_hosts": len(external),
-            "errors": len(errors),
-        },
-    }
+    state = _snapshot(pages, documents, external, errors, frontier, fetched, t0)
+    if out:
+        _save(out, state)
+        if stop["now"]:
+            print("stopped by signal; checkpoint saved", file=sys.stderr)
+    return state
 
 
 def main():
@@ -145,12 +189,11 @@ def main():
     ap.add_argument("--max", type=int, default=5000, help="max pages to fetch")
     ap.add_argument("--delay", type=float, default=0.7, help="seconds between requests")
     ap.add_argument("--out", default=SEEDS_PATH)
+    ap.add_argument("--resume", action="store_true", help="continue from an existing seeds.json")
+    ap.add_argument("--checkpoint-every", type=int, default=100)
     args = ap.parse_args()
-    t0 = time.time()
-    result = crawl(args.max, args.delay)
-    result["stats"]["seconds"] = round(time.time() - t0, 1)
-    with open(args.out, "w") as f:
-        json.dump(result, f, indent=1, ensure_ascii=False)
+    result = crawl(args.max, args.delay, out=args.out, resume=args.resume,
+                   checkpoint_every=args.checkpoint_every)
     print(json.dumps(result["stats"], indent=2))
     print("top external hosts:", dict(list(result["external"].items())[:12]))
     doc_ext = Counter()

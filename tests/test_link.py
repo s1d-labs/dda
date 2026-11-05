@@ -18,3 +18,9 @@ def test_no_key_without_year_or_office():
     assert nit_key("NIT No. 144/19-20/ Hort. Dwk.") == "144|HORTDWK|2019-20"
     assert nit_key("Tender for kiosks") is None
     assert nit_key(None) is None
+
+
+def test_combined_notice_and_recall():
+    from link_eprocure import nit_keys
+    assert nit_keys("13,14&15/EE/EMD-7/DDA/2024-25") == ["13|EEEMD7|2024-25", "14|EEEMD7|2024-25", "15|EEEMD7|2024-25"]
+    assert nit_key("14/RSC/DDA2025-26(RECALL)") == nit_key("14/RSC/DDA/2025-26") == "14|RSC|2025-26"

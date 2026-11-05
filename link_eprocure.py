@@ -22,28 +22,35 @@ import psycopg2.extras
 from build_db import fin_year
 
 
-def nit_key(ref):
-    """'07/EE/ELD-8/DDA/NIT/2026-27_R6' and 'NIT No. 7/EE/ELD-8/DDA/2026-27 (Re-invite)' -> '7|EEELD8|2026-27'.
-    Number(s) first; the office is every other part except DDA/NIT/re-invite marks; then the financial year."""
+def nit_keys(ref):
+    """All keys of one reference. '07/EE/ELD-8/DDA/NIT/2026-27_R6' -> ['7|EEELD8|2026-27']; a combined notice
+    '13,14&15/EE/EMD-7/DDA/2024-25' -> one key per number. The office is every part except DDA/NIT and the
+    year; re-invite and recall marks are dropped. An NIQ (quotation) has its own number series: 'Q' prefix."""
     if not ref:
-        return None
-    t = re.sub(r"(?i)_r\d+$|\(?re-?\s?invit\w*\)?|/re-?invit\w*", "", ref)
-    # 'NIT No. 05/...', 'Short NIQ No. 01/...', 'E-Tender Notice No: 06/...' -> '05/...'.
-    # An NIQ (quotation) has its own number series, so its key starts with 'Q'.
+        return []
+    t = re.sub(r"(?i)_r\d+$|\(?re-?\s?invit\w*\)?|/re-?invit\w*|\(?re-?\s?call\w*\)?", "", ref)
+    t = re.sub(r"(?i)DDA(?=\s*\d{4}\s*-)", "DDA/", t)          # '14/RSC/DDA2025-26' -> '14/RSC/DDA/2025-26'
     kind = "Q" if re.match(r"(?i)^\s*(short\s+)?(niq|n\.i\.q)", t) else ""
+    # 'NIT No. 05/...', 'Short NIQ No. 01/...', 'E-Tender Notice No: 06/...' -> '05/...'
     t = re.sub(r"(?i)^\s*(short\s+)?(e-?\s?tender\s+notice|nit|niq|n\.i\.[tq]\.?|tender)\s*(no\.?|number)?\s*[:.\-]*\s*", "", t)
     parts = [p.strip() for p in re.split(r"/+", t) if p.strip()]
     if len(parts) < 2:
-        return None
-    m = re.match(r"0*(\d+)", parts[0])
-    if not m:
-        return None
+        return []
+    nums = re.findall(r"\d+", parts[0]) if re.fullmatch(r"[\d\s,&and]+", parts[0]) else []
+    if not nums:
+        return []
     fy = fin_year(t)
     office = "".join(re.sub(r"[^A-Za-z0-9]", "", p).upper() for p in parts[1:]
                      if p.upper() not in ("DDA", "NIT") and not re.fullmatch(r"\d{2,4}\s*-\s*\d{2,4}.*", p))
     if not fy or not office:
-        return None
-    return f"{kind}{m.group(1)}|{office}|{fy}"
+        return []
+    return [f"{kind}{int(x)}|{office}|{fy}" for x in dict.fromkeys(nums)]
+
+
+def nit_key(ref):
+    """The key of the first (or only) number of a reference; None when it has no number, office or year."""
+    keys = nit_keys(ref)
+    return keys[0] if keys else None
 
 
 def main():
@@ -72,7 +79,7 @@ def main():
         psycopg2.extras.execute_values(cur, "INSERT INTO dda.eprocure_tenders VALUES %s ON CONFLICT DO NOTHING",
                                        ep, page_size=2000)
         cur.execute("select page_url, row_no, nit from dda.tenders where nit is not null")
-        site = [(p, r, nit_key(n)) for p, r, n in cur.fetchall()]
+        site = [(p, r, k) for p, r, n in cur.fetchall() for k in (nit_keys(n) or [None])]
         cur.execute("""DROP TABLE IF EXISTS dda.tender_links;
             CREATE TABLE dda.tender_links (page_url text, row_no int, nit_key text, tender_id text,
               PRIMARY KEY (page_url, row_no, tender_id));""")
@@ -84,7 +91,7 @@ def main():
         cur.execute("select count(*), count(distinct (page_url, row_no)) from dda.tender_links")
         links, linked_rows = cur.fetchone()
         cur.execute("select page_url, row_no, nit from dda.work_awards where nit is not null")
-        aw = [(p, r, nit_key(n)) for p, r, n in cur.fetchall()]
+        aw = [(p, r, k) for p, r, n in cur.fetchall() for k in (nit_keys(n) or [None])]
         cur.execute("""DROP TABLE IF EXISTS dda.award_links;
             CREATE TABLE dda.award_links (page_url text, row_no int, nit_key text, tender_id text,
               PRIMARY KEY (page_url, row_no, tender_id));
@@ -96,10 +103,11 @@ def main():
         cur.execute("select count(distinct (page_url, row_no)) from dda.award_links")
         award_rows = cur.fetchone()[0]
     dst.close()
-    keyed = sum(1 for x in site if x[2])
+    keyed = len({(x[0], x[1]) for x in site if x[2]})
+    n_site = len({(x[0], x[1]) for x in site})
     print(f"eprocure DDA tenders: {len(ep)} ({sum(1 for e in ep if e[2])} with a key); "
-          f"site tender rows with NIT: {len(site)} ({keyed} keyed); linked rows: {linked_rows} ({links} links); "
-          f"award letters with NIT: {len(aw)}, linked: {award_rows}")
+          f"site tender rows with NIT: {n_site} ({keyed} keyed); linked rows: {linked_rows} ({links} links); "
+          f"award letters with NIT: {len({(x[0], x[1]) for x in aw})}, linked: {award_rows}")
 
 
 if __name__ == "__main__":

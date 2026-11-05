@@ -53,6 +53,30 @@ DDA has three access constraints. The scraper handles all three:
 4. **Apply to the hub**: run the **setup** workflow (Actions → setup → Run workflow). It registers the
    projects, seeds the queue from `seeds.json`, and registers the health check. The pool then scrapes.
 
+5. **Repair the scope** after a discovery with timeouts. This reads every paged listing again, fills the
+   pager gaps and fixes links. Then run the setup workflow again. It adds only the new queue items.
+
+   ```
+   myproxy run python discover.py --resume --repair
+   ```
+
+## Organised data and analysis (on the box)
+
+The pool stores raw records in the hub database. These scripts make query-ready tables in the workspace
+database (`ws_<user>`, schema `dda`, also in Metabase) and an HTML audit report.
+
+```
+pip install -r requirements-analysis.txt
+mybucket get -r dda-pages/pages /tmp/dda-html            # raw pages the pool stored
+python build_db.py --html /tmp/dda-html                  # tables: pages, documents, listing_rows, tenders, ...
+mybucket get dda-docs/docs/sites/default/files/pmuday/1731_uc.pdf /tmp/uc/
+python extract_colonies.py --uc /tmp/uc/1731_uc.pdf --affluent /tmp/uc/69.pdf --csv data/unauthorised_colonies.csv
+myproxy run python linkcheck.py                          # failed downloads: 404 = broken link on the site
+python analyze.py && python report_html.py analysis.json report.html
+```
+
+`data/unauthorised_colonies.csv` holds the PM-UDAY lists of 1,731 and 69 unauthorised colonies as a table.
+
 ## Files
 
 | File | What |
@@ -63,8 +87,13 @@ DDA has three access constraints. The scraper handles all three:
 | `family.py` | the two projects and their queue items (from `seeds.json`) |
 | `setup_family.py` | registers projects, pool entries, health checks, seeds queues |
 | `report.py` | reads the scraped data from the hub database and writes a coverage report |
+| `build_db.py` | organised tables in the workspace database (schema `dda`) |
+| `extract_colonies.py` | PM-UDAY unauthorised colony lists (text PDF, no OCR) → table and CSV |
+| `linkcheck.py` | HEAD check of failed downloads → `linkcheck.json` |
+| `analyze.py`, `report_html.py` | figures → `analysis.json` → HTML audit report |
+| `data/` | small derived data sets (colony list) |
 | `certs/` | the GlobalSign intermediate CA the site fails to send |
-| `tests/` | offline parse tests on a saved page |
+| `tests/` | offline tests: parsing, downloads, discovery, colony keys |
 
 ## Rules
 

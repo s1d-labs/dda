@@ -29,8 +29,11 @@ import os
 import re
 from urllib.parse import unquote, urlparse
 
-import psycopg2
-import psycopg2.extras
+try:                       # box only; the pool task and the offline tests do not need it
+    import psycopg2
+    import psycopg2.extras
+except ImportError:
+    psycopg2 = None
 
 import crawl
 

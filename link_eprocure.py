@@ -16,9 +16,6 @@ import argparse
 import os
 import re
 
-import psycopg2
-import psycopg2.extras
-
 from build_db import fin_year
 
 
@@ -54,6 +51,8 @@ def nit_key(ref):
 
 
 def main():
+    import psycopg2
+    import psycopg2.extras
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", default="ws_" + os.environ.get("USER", "trideep"))
     args = ap.parse_args()

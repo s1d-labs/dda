@@ -157,6 +157,41 @@ def extract_rows(html, base):
     return rows
 
 
+TABLE = re.compile(r"<table\b[^>]*>(.*?)</table>", re.I | re.S)
+CELL = re.compile(r"<(t[dh])\b[^>]*>(.*?)</t[dh]>", re.I | re.S)
+MAX_TABLE_ROWS = 5000
+
+
+def extract_tables(html, base):
+    """Every content table that is not a Drupal view (those are in `rows`): header cells, then one
+    list of cell texts per row, plus the document links of each row. Pages such as
+    /delineated-boundary keep 1,700 colonies in one plain table."""
+    tables = []
+    for body in TABLE.findall(html):
+        if "views-field" in body:
+            continue
+        headers, rows, links = [], [], []
+        for tr in TR.findall(body):
+            cells = CELL.findall(tr)
+            if not cells:
+                continue
+            texts = [_strip(c)[:500] for _, c in cells]
+            if not any(texts):
+                continue
+            if not rows and not headers and (all(t.lower() == "th" for t, _ in cells)
+                                             or not re.search(r"\d", " ".join(texts[:2]))):
+                headers = texts
+                continue
+            docs = [u for u in (norm_url(h, base) for h in A_HREF.findall(tr)) if classify(u) == "document"]
+            rows.append(texts)
+            links.append(docs)
+            if len(rows) >= MAX_TABLE_ROWS:
+                break
+        if rows:
+            tables.append({"headers": headers, "rows": rows, "documents": links})
+    return tables
+
+
 def parse(html, url="https://dda.gov.in/"):
     """Pure: structured data from one HTML page. Tested on saved pages in tests/."""
     title = _strip(TITLE.search(html).group(1)) if TITLE.search(html) else ""
@@ -189,6 +224,7 @@ def parse(html, url="https://dda.gov.in/"):
         "external_links": sorted(external),
         "n_documents": len(docs),
         "n_page_links": len(pages),
+        "tables": extract_tables(html, url),
     }
 
 

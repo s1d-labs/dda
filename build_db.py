@@ -17,6 +17,8 @@ Tables (schema dda):
   work_awards     award letters (NIT reference where present)
   debarments      debarment / suspension orders and their withdrawals
   land_acq_awards land acquisition awards (award number, village)
+  html_tables     every row of every plain HTML table (re-parsed from the raw pages, --html DIR)
+  delineated_boundaries  PM-UDAY boundary maps of unauthorised colonies (/delineated-boundary)
   views: duplicate_files, size_mismatch, broken_links
 
 Needs psycopg2 (pip install -r requirements-analysis.txt). Box only; not used by the pool task.
@@ -163,6 +165,12 @@ CREATE TABLE work_awards (
   PRIMARY KEY (page_url, row_no));
 CREATE TABLE debarments (
   title text, kind text, date date, doc_url text, page_url text, row_no int, PRIMARY KEY (page_url, row_no));
+CREATE TABLE html_tables (
+  page_url text, table_no int, row_no int, headers jsonb, cells jsonb, doc_urls text[],
+  PRIMARY KEY (page_url, table_no, row_no));
+CREATE TABLE delineated_boundaries (
+  map_no int, reg_no text, colony text, remarks text, draft_uploaded date, final_uploaded date,
+  map_url text, row_no int PRIMARY KEY);
 CREATE TABLE land_acq_awards (
   award_no text, village text, award_fy text, title text, doc_url text, page_url text, row_no int,
   PRIMARY KEY (page_url, row_no));
@@ -186,10 +194,56 @@ CREATE VIEW dda.broken_links AS
 """
 
 
+def reg_no(text):
+    from extract_colonies import reg_key
+    return reg_key(text)
+
+
+def raw_html(html_dir, *urls):
+    """The raw page the pool stored (bucket dda-pages/pages/..., mirrored to html_dir)."""
+    import gzip
+    for u in urls:
+        f = os.path.join(html_dir, crawl.bucket_path(u, "pages")[len("pages/"):] + ".html.gz")
+        if os.path.exists(f):
+            with gzip.open(f) as g:
+                return g.read().decode("utf-8", "replace")
+    return None
+
+
+def boundaries(table):
+    out = []
+    for i, (cells, docs) in enumerate(zip(table["rows"], table["documents"])):
+        cells = cells + [""] * (8 - len(cells))
+        m = re.match(r"\s*(\d+)", cells[0])
+        out.append((int(m.group(1)) if m else None, reg_no(cells[1]), cells[2].strip(" .")[:300],
+                    cells[4] if cells[4] not in ("", "N/A") else None,
+                    crawl.iso_date(cells[5]), crawl.iso_date(cells[7]),
+                    crawl.canon_url(docs[-1]) if docs else None, i))
+    return out
+
+
+COLONY_VIEW = """
+CREATE OR REPLACE VIEW dda.colony_boundary_status AS
+  SELECT c.list, c.sl_no, c.reg_no, c.reg_key, c.name, c.pin,
+         b.map_no, b.remarks, b.draft_uploaded, b.final_uploaded, b.map_url, d.status AS map_status,
+         CASE WHEN b.reg_no IS NULL THEN 'not in boundary table'
+              WHEN b.remarks ILIKE '%can not be delineated%' THEN 'can not be delineated'
+              WHEN b.map_url IS NULL THEN 'no map file'
+              WHEN b.final_uploaded IS NULL THEN 'map, no final date'
+              ELSE 'final boundary published' END AS boundary_status
+  FROM dda.unauthorised_colonies c
+  LEFT JOIN (SELECT DISTINCT ON (reg_no) * FROM dda.delineated_boundaries
+             ORDER BY reg_no, final_uploaded NULLS LAST) b ON b.reg_no = c.reg_key
+  LEFT JOIN dda.documents d ON d.url = b.map_url;
+"""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", default="ws_" + os.environ.get("USER", "trideep"))
+    ap.add_argument("--html", help="local mirror of the bucket's dda-pages/pages/ (mybucket get -r dda-pages/pages DIR)")
     args = ap.parse_args()
+    html_rows, bounds = [], []
 
     pages, prows, links, ext_links, seen_pages = [], [], {}, [], set()
     tenders, awards, debar, laa = [], [], [], []
@@ -212,6 +266,16 @@ def main():
                 links[d].append(url)
         for e in data.get("external_links", []):
             ext_links.append((url, e, urlparse(e).netloc.lower()))
+        tables = data.get("tables")
+        if tables is None and args.html:
+            h = raw_html(args.html, data["url"], url)
+            tables = crawl.extract_tables(h, url) if h else []
+        for t_no, t in enumerate(tables or []):
+            for r_no, (cells, docs) in enumerate(zip(t["rows"], t["documents"])):
+                html_rows.append((url, t_no, r_no, json.dumps(t["headers"], ensure_ascii=False),
+                                  json.dumps(cells, ensure_ascii=False), [crawl.canon_url(d) for d in docs]))
+            if url == "https://dda.gov.in/delineated-boundary" and t_no == 0:
+                bounds = boundaries(t)
         cat = data.get("category") or ""
         for i, r in enumerate(data.get("rows", [])):
             text = r.get("text", "")
@@ -293,14 +357,24 @@ def main():
         ins("work_awards", awards)
         ins("debarments", debar)
         ins("land_acq_awards", laa)
+        ins("html_tables", html_rows)
+        ins("delineated_boundaries", bounds)
+        # keep the colony list (extract_colonies.py) across rebuilds
+        cur.execute("SELECT to_regclass('dda.unauthorised_colonies') IS NOT NULL")
+        if cur.fetchone()[0]:
+            cur.execute("CREATE TABLE dda_new.unauthorised_colonies AS TABLE dda.unauthorised_colonies")
         cur.execute("DROP SCHEMA IF EXISTS dda CASCADE; ALTER SCHEMA dda_new RENAME TO dda;")
         cur.execute(VIEWS)
+        cur.execute("SELECT to_regclass('dda.unauthorised_colonies') IS NOT NULL")
+        if cur.fetchone()[0]:
+            cur.execute(COLONY_VIEW)
         cur.execute("COMMENT ON SCHEMA dda IS %s",
                     ("DDA (dda.gov.in) scrape, built by s1d-labs/dda build_db.py from scrape_hub projects dda-pages/dda-docs",))
     conn.close()
     st = {k: len(v) for k, v in [("pages", pages), ("documents", docs), ("listing_rows", prows),
                                  ("tenders", tenders), ("work_awards", awards), ("debarments", debar),
-                                 ("land_acq_awards", laa), ("external_links", ext_links)]}
+                                 ("land_acq_awards", laa), ("external_links", ext_links),
+                                 ("html_tables", html_rows), ("delineated_boundaries", bounds)]}
     print(json.dumps(st))
 
 

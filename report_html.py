@@ -341,8 +341,9 @@ eprocure already gives these values for the linked tenders.</li>
     if dt[0]:
         s.append(f"""<h3>Full-text table</h3>
 <p><code>extract_text.py</code> reads the text layer of the stored PDF files into <code>dda.document_text</code>, with a
-full-text index. It has read {n(dt[0])} of {n(dt[3])} stored PDF files so far. {n(dt[1])} of them have text
-({n(dt[2])} characters). The rest are scans for OCR later. Run it again to continue.</p>
+full-text index. It read {n(dt[0])} of {n(dt[3])} stored PDF files (the files over 25 MB are left out; they are
+mostly scans). {n(dt[1])} of them ({dt[1] * 100 / max(dt[0], 1):.1f}%) have text ({n(dt[2])} characters). The rest are scans for OCR later.
+The table shows how many documents contain some search words.</p>
 {table(["Search words", "Documents that match"], [(r[0], r[1]) for r in a.get("doc_text_search", [])], num_cols=(1,))}
 """)
 
@@ -350,7 +351,7 @@ full-text index. It has read {n(dt[0])} of {n(dt[3])} stored PDF files so far. {
 <p>These are the next sources and tasks. Each one is public data. None needs a login.</p>
 """ + table(["Scope", "What it gives", "Size or effort"], [
         ["Award letters to eprocure", "Award date and contractor for tenders that eprocure shows as in evaluation", "Text PDF; link table exists"],
-        ["Text of text-layer PDFs", "Full-text search of orders, circulars, notices", "Started: dda.document_text; run extract_text.py again"],
+        ["Values from the full text", "Award amounts and dates from award letters; areas from land awards", "Text exists for about half the files"],
         ["OCR of scanned PDFs", "Text of old orders, agendas, Authority minutes since 1959", "Large; for later"],
         ["Authority meeting agendas", "Decisions of the Authority by date, 1959 to now", "About 470 files, many scanned"],
         ["Land acquisition awards", "Village, award number and year for about 1,800 awards", "Rows exist; PDFs give area and amount"],

@@ -127,7 +127,7 @@ We checked the stored records against the site structure. The checks found these
 | Discovery of files | A file linked as a page was read in full (more than 400 MB). | Discovery reads the headers first. |
 | Files never delivered | The server cuts 2 files at the same point on every try. 1 link has no file name. The pool ran about 38 runner jobs an hour to retry these 3 files. | After 10 tries the file is recorded as unretrievable. |
 | Bucket completeness | HEAD check of all 22,746 stored files. | All present. All sizes match. |
-| Link to eprocure | The first key parser missed references that start with "NIT No." or "NIQ No.". | Fixed. 1,499 rows link. |
+| Link to eprocure | The first key parser missed references that start with "NIT No." or "NIQ No.", and combined notices. | Fixed. 1,506 rows link. |
 
 The repair pass (`discover.py --resume --repair`) added 397 pages and 3,988 documents. Setup added them to the queues.
 
@@ -141,17 +141,17 @@ These are indicators, not findings of wrongdoing.
 - **Tenders on the site.** The site has 1,919 tender rows with 1,470 NIT numbers. 143 rows (7.5%) are "re-invited".
 - **Awards are not on the central portal.** The team database has 53,170 DDA tenders from `eprocure.gov.in`. Only 1,070 (2.0%)
   reach the stage "awarded"; 45,894 (86.3%) stay "in evaluation". This is the lowest awarded share of the ten largest buyers
-  on the portal. 244 award letters on the DDA site link to eprocure tenders; 240 of these still show "in evaluation" there.
-- **Link between site and portal.** 1,499 of 1,837 tender rows with an NIT number (81.6%) link to an eprocure tender
+  on the portal. 243 of the 252 eprocure tenders that have an award letter on the DDA site still show "in evaluation" there. 14 letters print the eprocure Tender ID; all 14 are "in evaluation".
+- **Link between site and portal.** 1,506 of 1,837 tender rows with an NIT number (82.0%) link to an eprocure tender
   (`link_eprocure.py`). Where eprocure shows an award, the median award is 0.74 times the estimated value.
 - **Single bids.** On eprocure, 2.5% to 9.3% of DDA tenders with bids have exactly one bid, by year. Some divisions are
   above 15% since 2022.
-- **Text in documents.** In a random sample of 500 stored PDF files, 53.0% have a text layer. The rest are scans that need OCR.
+- **Text in documents.** 10,524 of 21,089 stored PDF files (49.9%) have a text layer; the rest are scans that need OCR. The text is in `dda.document_text` with a full-text index.
 - **Debarments.** The site has 39 debarment or suspension orders and 3 withdrawals.
 - **Broken links.** 346 document links return HTTP 404. Most are in the contractor enlistment folders (`class-i` to `class-v`).
 - **Duplicate files.** 1,252 files occur at more than one URL (1,494 extra copies, 2.4 GB).
 - **Privacy indicator.** The archive of registered contractors links 2,171 files. They include about 540 bank solvency
-  certificates and 540 application forms. These can hold personal and financial data. We did not open these files.
+  certificates and 540 application forms. These can hold personal and financial data. We did not open these files. Also, 73 of 349 award letters with a text layer print a bank account number of the contractor (counted only).
 - **Security indicators.** Legacy TLS renegotiation, an incomplete certificate chain, links to raw IP addresses over plain
   HTTP, one link to a vendor staging host, and two links to DDA services that return HTTP 404.
 
@@ -178,4 +178,4 @@ These are indicators, not findings of wrongdoing.
 - **Pages:** 3,046 of 3,046 scraped (100%).
 - **Documents:** 22,746 stored (about 87 GB), 346 broken links, 3 not delivered by the server. Total 23,095.
 - **Organised data:** workspace database `ws_trideep`, schema `dda` (see README).
-- **Full text:** `extract_text.py` fills `dda.document_text` in time-limited runs. Run it again to continue.
+- **Full text:** `dda.document_text` holds 21,089 PDFs (all stored PDFs up to 25 MB); 10,524 have text.

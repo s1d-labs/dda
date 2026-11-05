@@ -144,13 +144,14 @@ Most orders are from 2022 to 2025.</li>
 <li><strong>Links to raw IP addresses.</strong> Some pages link to services by IP address over plain HTTP.</li>
 <li><strong>Link to a staging server.</strong> One page links to a vendor staging host on port 91.</li>
 <li><strong>Plain HTTP links.</strong> 89 external links use <code>http://</code>. Most go to the DDA online services portal.</li>
-<li><strong>Hindi mirror.</strong> The site has 598 Hindi pages and 2,448 English pages. Many English listings have no Hindi page.</li>
+<li><strong>Hindi mirror.</strong> The site has 598 Hindi pages and 2,448 English pages. Only 522 of 2,448 English pages have a Hindi page at the same path (a lower bound).</li>
 </ul>
 <h3>Sections with no new dated entry for a long time</h3>
 <div class="tw"><table><thead><tr><th class="">Section (category)</th><th class="">Latest date</th><th class="num">Rows</th></tr></thead><tbody><tr><td class="">Archive Gazette Notification</td><td class="">2019-05-27</td><td class="num">80</td></tr><tr><td class="">Gazette Notifications</td><td class="">2019-05-27</td><td class="num">26</td></tr><tr><td class="">Archives-2019</td><td class="">2019-12-31</td><td class="num">20</td></tr><tr><td class="">Career</td><td class="">2021-03-19</td><td class="num">506</td></tr><tr><td class="">Archived Work Award</td><td class="">2021-04-19</td><td class="num">122</td></tr><tr><td class="">Archive</td><td class="">2021-11-15</td><td class="num">23</td></tr><tr><td class="">Archives-2021</td><td class="">2021-12-24</td><td class="num">55</td></tr><tr><td class="">Archived Administrative Orders, SOPs, Boundary Delineation</td><td class="">2022-04-05</td><td class="num">20</td></tr></tbody></table></div>
 <div class="flag"><p><strong>Privacy indicator.</strong> The archive of registered contractors links 2,171 files.
 They include 543 bank solvency certificates and 541 application forms. Many registered contractors are
 sole proprietors, so these files can hold personal and financial data. We did not open or extract these files.
+Also, 73 of 349 award letters with a text layer print a bank account number of the contractor (counted, not stored in the report).
 We recommend that DDA reviews whether these files must stay public.</p></div>
 
 <h2>7. DDA on the central e-procurement portal</h2>
@@ -159,7 +160,7 @@ We recommend that DDA reviews whether these files must stay public.</p></div>
 award letters. Both use the same NIT reference, so we linked them by number, office and financial year
 (<code>link_eprocure.py</code>).</p>
 <ul>
-<li>1,499 of 1,837 tender rows on the DDA site (81.6%) link to an eprocure tender.</li>
+<li>1,506 of 1,837 tender rows on the DDA site (82.0%) link to an eprocure tender.</li>
 <li>244 of 288 award letters with an NIT number link to an eprocure tender.</li>
 </ul>
 <figure><figcaption>DDA tenders published on eprocure by year</figcaption>
@@ -169,7 +170,8 @@ award letters. Both use the same NIT reference, so we linked them by number, off
 <div class="flag"><p><strong>Indicator.</strong> Only 1,070 of 53,170 DDA tenders
 (2.0%) reach the stage "awarded" on eprocure. 45,894
 (86.3%) stay "in evaluation". Of the tenders with an award letter on the DDA site,
-240 still show "in evaluation" on eprocure. DDA publishes the award on its own site, not on the portal.</p></div>
+243 still show "in evaluation" on eprocure. DDA publishes the award on its own site, not on the portal.
+14 award letters print the eprocure Tender ID itself; 14 of these tenders show "in evaluation" on eprocure.</p></div>
 <h3>Awarded share of the largest buyers on eprocure</h3>
 <div class="tw"><table><thead><tr><th class="">Organisation code</th><th class="num">Tenders</th><th class="">Awarded on eprocure (%)</th></tr></thead><tbody><tr><td class="">IHQ</td><td class="num">128,642</td><td class="">30.0</td></tr><tr><td class="">DDA</td><td class="num">53,170</td><td class="">2.0</td></tr><tr><td class="">BSF</td><td class="num">40,527</td><td class="">4.4</td></tr><tr><td class="">FCI</td><td class="num">38,186</td><td class="">7.9</td></tr><tr><td class="">DRDO</td><td class="num">36,470</td><td class="">24.7</td></tr><tr><td class="">RCFL</td><td class="num">28,543</td><td class="">45.2</td></tr><tr><td class="">DOP</td><td class="num">25,279</td><td class="">18.6</td></tr><tr><td class="">MoRTH</td><td class="num">24,695</td><td class="">7.7</td></tr><tr><td class="">BRO</td><td class="num">22,442</td><td class="">18.2</td></tr><tr><td class="">DARE</td><td class="num">21,710</td><td class="">11.5</td></tr></tbody></table></div>
 <ul>
@@ -193,13 +195,14 @@ eprocure already gives these values for the linked tenders.</li>
 
 <h3>Full-text table</h3>
 <p><code>extract_text.py</code> reads the text layer of the stored PDF files into <code>dda.document_text</code>, with a
-full-text index. It has read 2,640 of 21,704 stored PDF files so far. 1,431 of them have text
-(15,159,331 characters). The rest are scans for OCR later. Run it again to continue.</p>
-<div class="tw"><table><thead><tr><th class="">Search words</th><th class="num">Documents that match</th></tr></thead><tbody><tr><td class="">land pooling</td><td class="num">9</td></tr><tr><td class="">unauthorised colony</td><td class="num">1</td></tr><tr><td class="">encroachment</td><td class="num">5</td></tr><tr><td class="">demolition</td><td class="num">6</td></tr><tr><td class="">arbitration</td><td class="num">25</td></tr><tr><td class="">debarment</td><td class="num">1</td></tr></tbody></table></div>
+full-text index. It read 21,089 of 21,704 stored PDF files (the files over 25 MB are left out; they are
+mostly scans). 10,524 of them (49.9%) have text (110,311,213 characters). The rest are scans for OCR later.
+The table shows how many documents contain some search words.</p>
+<div class="tw"><table><thead><tr><th class="">Search words</th><th class="num">Documents that match</th></tr></thead><tbody><tr><td class="">land pooling</td><td class="num">453</td></tr><tr><td class="">unauthorised colony</td><td class="num">1,809</td></tr><tr><td class="">encroachment</td><td class="num">267</td></tr><tr><td class="">demolition</td><td class="num">144</td></tr><tr><td class="">arbitration</td><td class="num">190</td></tr><tr><td class="">debarment</td><td class="num">14</td></tr></tbody></table></div>
 
 <h2>9. More scope and next steps</h2>
 <p>These are the next sources and tasks. Each one is public data. None needs a login.</p>
-<div class="tw"><table><thead><tr><th class="">Scope</th><th class="">What it gives</th><th class="">Size or effort</th></tr></thead><tbody><tr><td class="">Award letters to eprocure</td><td class="">Award date and contractor for tenders that eprocure shows as in evaluation</td><td class="">Text PDF; link table exists</td></tr><tr><td class="">Text of text-layer PDFs</td><td class="">Full-text search of orders, circulars, notices</td><td class="">Started: dda.document_text; run extract_text.py again</td></tr><tr><td class="">OCR of scanned PDFs</td><td class="">Text of old orders, agendas, Authority minutes since 1959</td><td class="">Large; for later</td></tr><tr><td class="">Authority meeting agendas</td><td class="">Decisions of the Authority by date, 1959 to now</td><td class="">About 470 files, many scanned</td></tr><tr><td class="">Land acquisition awards</td><td class="">Village, award number and year for about 1,800 awards</td><td class="">Rows exist; PDFs give area and amount</td></tr><tr><td class="">Layout plans and KMZ maps</td><td class="">Boundaries of parks, plots and colonies as map files</td><td class="">About 700 KMZ files</td></tr><tr><td class="">Hindi mirror</td><td class="">Check which English listings have no Hindi page</td><td class="">Data exists</td></tr><tr><td class="">STF portal and DDA Greens</td><td class="">Enforcement notices; plantation counts</td><td class="">Small public pages</td></tr><tr><td class="">Change watch</td><td class="">New tenders, notices and orders each week</td><td class="">Re-run discovery; seed_queue adds only new keys</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th class="">Scope</th><th class="">What it gives</th><th class="">Size or effort</th></tr></thead><tbody><tr><td class="">Award letters to eprocure</td><td class="">Award date and contractor for tenders that eprocure shows as in evaluation</td><td class="">Text PDF; link table exists</td></tr><tr><td class="">Values from the full text</td><td class="">Award amounts and dates from award letters; areas from land awards</td><td class="">Text exists for about half the files</td></tr><tr><td class="">OCR of scanned PDFs</td><td class="">Text of old orders, agendas, Authority minutes since 1959</td><td class="">Large; for later</td></tr><tr><td class="">Authority meeting agendas</td><td class="">Decisions of the Authority by date, 1959 to now</td><td class="">About 470 files, many scanned</td></tr><tr><td class="">Land acquisition awards</td><td class="">Village, award number and year for about 1,800 awards</td><td class="">Rows exist; PDFs give area and amount</td></tr><tr><td class="">Layout plans and KMZ maps</td><td class="">Boundaries of parks, plots and colonies as map files</td><td class="">About 700 KMZ files</td></tr><tr><td class="">Hindi mirror</td><td class="">Check which English listings have no Hindi page</td><td class="">Data exists</td></tr><tr><td class="">STF portal and DDA Greens</td><td class="">Enforcement notices; plantation counts</td><td class="">Small public pages</td></tr><tr><td class="">Change watch</td><td class="">New tenders, notices and orders each week</td><td class="">Re-run discovery; seed_queue adds only new keys</td></tr></tbody></table></div>
 
 <h2>10. How to use the data</h2>
 <p>The workspace database <code>ws_trideep</code>, schema <code>dda</code>, holds the data. Metabase shows it as

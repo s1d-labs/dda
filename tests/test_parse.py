@@ -77,3 +77,13 @@ def test_iso_date_formats():
 
 def test_date_with_space():
     assert crawl.iso_date("Tender document of CNG sites 31-12- 2025 Size :19.5 MB") == "2025-12-31"
+
+
+def test_canon_url_merges_spellings():
+    c = crawl.canon_url
+    assert c("http://dda.gov.in/about-housing") == "https://dda.gov.in/about-housing"
+    assert c("https://dda.gov.in//hi/x") == "https://dda.gov.in/hi/x"
+    assert c("https://dda.gov.in/sites/default/files/a b.pdf") == c("https://dda.gov.in/sites/default/files/a%20b.pdf")
+    assert c("https://www.dda.gov.in/x#top") == "https://dda.gov.in/x"
+    assert c("https://dda.gov.in/tender?page=3") == "https://dda.gov.in/tender?page=3"
+    assert c("https://eprocure.gov.in/x#a") == "https://eprocure.gov.in/x"

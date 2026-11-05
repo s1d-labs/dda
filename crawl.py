@@ -21,7 +21,7 @@ import re
 import sys
 import time
 from html import unescape
-from urllib.parse import urljoin, urlparse, urldefrag
+from urllib.parse import quote, unquote, urljoin, urlparse, urldefrag, urlunparse
 
 import requests
 
@@ -54,10 +54,21 @@ def _strip(fragment):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", unescape(fragment or ""))).strip()
 
 
+def canon_url(url):
+    """One spelling per resource on the site: https, no www, no '//' in the path, one percent-encoding
+    (a space and %20 are the same file), no fragment. Other hosts are only stripped of the fragment."""
+    url, _ = urldefrag((url or "").strip())
+    p = urlparse(url)
+    host = p.netloc.lower()
+    if host.removeprefix("www.") != HOST:
+        return url
+    path = re.sub(r"/{2,}", "/", p.path) or "/"
+    path = quote(unquote(path), safe="/-._~()!*',;:@&=+$")
+    return urlunparse(("https", HOST, path, "", p.query, ""))
+
+
 def norm_url(url, base):
-    url = urljoin(base, (url or "").strip())
-    url, _ = urldefrag(url)
-    return url
+    return canon_url(urljoin(base, (url or "").strip()))
 
 
 def classify(url):

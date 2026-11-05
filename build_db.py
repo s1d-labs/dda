@@ -191,19 +191,25 @@ def main():
     ap.add_argument("--db", default="ws_" + os.environ.get("USER", "trideep"))
     args = ap.parse_args()
 
-    pages, prows, links, ext_links = [], [], {}, []
+    pages, prows, links, ext_links, seen_pages = [], [], {}, [], set()
     tenders, awards, debar, laa = [], [], [], []
     for rid, at, data in src_rows("select record_id, scraped_at, data from projects.dda_pages"):
         if data.get("broken"):
             continue
-        url = data["url"]
+        url = crawl.canon_url(data["url"])
+        if url in seen_pages:          # a second spelling of one page (http/https): keep one
+            continue
+        seen_pages.add(url)
         lang, section = lang_section(url)
         pages.append((url, rid, lang, section, data.get("category"), data.get("title"),
                       data.get("description"), data.get("n_documents"), data.get("n_page_links"),
                       len(data.get("rows", [])), len(data.get("external_links", [])),
                       data.get("fetched_at"), data.get("content_sha256")))
-        for d in data.get("documents", []):
-            links.setdefault(d, []).append(url)
+        for d in data.get("documents", []) + [u for u in data.get("page_links", [])
+                                              if crawl.classify(u) == "document"]:   # kmz etc. (older records)
+            d = crawl.canon_url(d)
+            if url not in links.setdefault(d, []):
+                links[d].append(url)
         for e in data.get("external_links", []):
             ext_links.append((url, e, urlparse(e).netloc.lower()))
         cat = data.get("category") or ""
@@ -212,7 +218,7 @@ def main():
             serial, title, size = parse_row(text)
             date = fix_date(r.get("date"), text)
             docs = r.get("documents", [])
-            doc = docs[0] if docs else None
+            doc = crawl.canon_url(docs[0]) if docs else None
             prows.append((url, i, cat, lang, serial, title[:1000], date, size, doc, len(docs)))
             key = (url, i)
             low = title.lower()
@@ -235,8 +241,11 @@ def main():
         u = data.get("url")
         if not u:
             continue
-        folder, month = doc_folder(u)
+        u = crawl.canon_url(u)
         status = "broken" if data.get("broken") else "stored"
+        if u in docs and docs[u][6] == "stored":
+            continue
+        folder, month = doc_folder(u)
         docs[u] = [u, rid, unquote(urlparse(u).path.rsplit("/", 1)[-1])[:300], data.get("ext"), folder, month,
                    status, data.get("status") or (200 if status == "stored" else None),
                    data.get("bytes"), data.get("sha256"), (data.get("content_type") or "").split(";")[0],
@@ -244,7 +253,10 @@ def main():
     for key, payload, qstatus, err in src_rows(
             "select key, payload, status, last_error from public.queue where project='dda-docs'"):
         u = payload.get("url")
-        if not u or u in docs:
+        if not u:
+            continue
+        u = crawl.canon_url(u)
+        if u in docs:
             continue
         folder, month = doc_folder(u)
         m = re.search(r"HTTP (\d{3})", err or "")
@@ -254,6 +266,13 @@ def main():
         ext = (re.search(r"\.([a-z0-9]{1,6})$", urlparse(u).path.lower()) or [None, ""])[1]
         docs[u] = [u, crawl.record_id(u), unquote(urlparse(u).path.rsplit("/", 1)[-1])[:300], ext, folder, month,
                    status, int(m.group(1)) if m else None, None, None, None, None]
+    # HEAD results for failed downloads (linkcheck.py): a 404/410 is a broken link on the site
+    lc = os.path.join(os.path.dirname(os.path.abspath(__file__)), "linkcheck.json")
+    if os.path.exists(lc):
+        for u, code in json.load(open(lc)).get("status", {}).items():
+            row = docs.get(crawl.canon_url(u))
+            if row and row[6] == "failed" and code in (404, 410):
+                row[6], row[7] = "broken", code
     for u, row in docs.items():
         src = links.get(u, [])
         row += [len(src), src[0] if src else None]

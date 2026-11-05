@@ -15,6 +15,7 @@ seeds.json is optional at import time; without it the projects register with an
 empty queue, which a later discover + Setup fills (seed_queue keeps old keys).
 """
 import json
+import os
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -91,7 +92,9 @@ PROJECTS = [
         "probe": PROBE,
         "proxy": "IN",
         "max_workers": 4,          # pages are scraped; documents now use all 4 India proxies
-        "pool": False,             # paused while the 399 repaired pages are scraped first
+        # Normally on. To scrape pages first, run Setup with the input docs_pool=false; Setup without it turns
+        # documents on again. (Running workers finish their run; only new assignments follow this flag.)
+        "pool": os.environ.get("DDA_DOCS_POOL", "true").lower() != "false",
         "unit_label": "file", "record_label": "document",
         "items": DOC_ITEMS,
     },

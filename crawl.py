@@ -32,7 +32,8 @@ DEADLINE = time.time() + float(os.environ.get("SCRAPE_MAX_HOURS", "1")) * 3600 -
 HOST = "dda.gov.in"
 
 DOC_EXT = ("pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "zip", "rar",
-           "csv", "rtf", "txt", "odt", "ods")
+           "csv", "rtf", "txt", "odt", "ods", "kmz", "kml", "apk", "exe", "tif", "tiff", "dwg")
+GONE = (404, 410)          # a broken link on the site: record it once, do not retry it
 ASSET_EXT = ("css", "js", "ico", "png", "jpg", "jpeg", "gif", "svg", "webp",
              "woff", "woff2", "ttf", "eot", "mp4", "mp3")
 
@@ -182,6 +183,8 @@ def bucket_path(url, prefix):
 # ---------------------------------------------------------------- fetching
 
 def fetch(hub, session, url, head=False):
+    """GET (or HEAD) one URL. Returns (response, status): response is None unless the status is 200;
+    status is None on a connection error or timeout."""
     t = time.time()
     try:
         r = (session.head if head else session.get)(
@@ -189,22 +192,48 @@ def fetch(hub, session, url, head=False):
     except requests.RequestException:
         hub.metric("http_error")
         hub.error()
-        return None
+        return None, None
     hub.metric("n_http")
     hub.metric("t_http_s", time.time() - t)
     if r.status_code != 200:
         hub.metric(f"http_{r.status_code}")
         if r.status_code in (403, 429, 503):
             hub.block()
+        r.close()
+        return None, r.status_code
+    return r, 200
+
+
+def read_body(hub, r):
+    """Read a streamed body. A dropped connection mid-file returns None (counted as http_error)
+    instead of raising, so one bad download cannot crash the worker."""
+    try:
+        return r.content
+    except (requests.RequestException, OSError):
+        hub.metric("http_error")
+        hub.error()
         return None
-    return r
+    finally:
+        r.close()
+
+
+def broken_link(hub, item, url, status):
+    """The site answers 404/410: store a small record that says so and finish the item,
+    so the hub does not retry a link that will never load."""
+    hub.record(record_id(url), {"url": url, "type": item["payload"].get("type", "page"),
+                                "broken": True, "status": status, "fetched_at": int(time.time())})
+    hub.metric("broken_links")
+    hub.complete([item["key"]], "done", fetched=0)
 
 
 def do_page(hub, session, item):
     url = item["payload"]["url"]
-    r = fetch(hub, session, url)
-    if r is None:
-        hub.complete([item["key"]], "failed", error="page did not load")
+    r, status = fetch(hub, session, url)
+    if status in GONE:
+        return broken_link(hub, item, url, status)
+    body_bytes = read_body(hub, r) if r is not None else None
+    if body_bytes is None:
+        hub.complete([item["key"]], "failed", error=f"page did not load (HTTP {status})" if status else "page did not load")
         return
     if not r.encoding or r.encoding.lower() == "iso-8859-1":
         r.encoding = r.apparent_encoding or "utf-8"
@@ -223,12 +252,16 @@ def do_page(hub, session, item):
 
 def do_doc(hub, session, item):
     url = item["payload"]["url"]
-    r = fetch(hub, session, url)
-    if r is None:
-        hub.failure("document", item["key"], "download failed", url=url)
-        hub.complete([item["key"]], "failed", error="document did not load")
+    r, status = fetch(hub, session, url)
+    if status in GONE:
+        hub.failure("broken-link", item["key"], f"HTTP {status}", url=url)
+        return broken_link(hub, item, url, status)
+    content = read_body(hub, r) if r is not None else None
+    if content is None:
+        why = f"HTTP {status}" if status else "connection error or timeout"
+        hub.failure("document", item["key"], f"download failed: {why}", url=url)
+        hub.complete([item["key"]], "failed", error=f"document did not load ({why})")
         return
-    content = r.content
     sha = hashlib.sha256(content).hexdigest()
     ext = (re.search(r"\.([a-z0-9]{1,6})$", urlparse(url).path.lower()) or [None, ""])[1]
     data = {

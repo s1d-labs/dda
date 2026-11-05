@@ -28,7 +28,7 @@ import ddatls
 HOST = "dda.gov.in"
 BASE = "https://dda.gov.in/"
 DOC_EXT = ("pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "zip", "rar",
-           "csv", "rtf", "txt", "odt", "ods")
+           "csv", "rtf", "txt", "odt", "ods", "kmz", "kml", "apk", "exe", "tif", "tiff", "dwg")
 ASSET_EXT = ("css", "js", "ico", "png", "jpg", "jpeg", "gif", "svg", "webp",
              "woff", "woff2", "ttf", "eot", "mp4", "mp3", "json", "xml")
 SEEDS_PATH = "seeds.json"

@@ -74,6 +74,22 @@ Q = {
                                left join dda.unauthorised_colonies c on c.reg_key=b.reg_no where c.reg_key is null""",
     "colony_pins": """select pin, count(*) from dda.unauthorised_colonies where list='1731' and pin is not null
                       group by 1 order by 2 desc limit 12""",
+    # DDA on the central e-procurement portal (link_eprocure.py); counts and values only, no bidder names
+    "ep_years": """select extract(year from published_at)::int, count(*), round(sum(tender_value)/1e7),
+                   count(*) filter (where bids_count = 1), count(*) filter (where bids_count >= 1)
+                   from dda.eprocure_tenders where is_real and published_at >= '2014-01-01' group by 1 order by 1""",
+    "ep_stage": "select stage_group, count(*) from dda.eprocure_tenders group by 1 order by 2 desc",
+    "ep_award_ratio": """select count(*), percentile_cont(0.5) within group (order by awarded_value / tender_value),
+                         count(*) filter (where awarded_value < tender_value)
+                         from dda.eprocure_tenders where awarded_value > 0 and tender_value > 0""",
+    "ep_links": """select (select count(*) from dda.tenders where nit is not null),
+                          (select count(distinct (page_url, row_no)) from dda.tender_links),
+                          (select count(*) from dda.work_awards where nit is not null),
+                          (select count(distinct (page_url, row_no)) from dda.award_links)""",
+    "ep_award_letter_stage": """select e.stage_group, count(distinct e.tender_id) from dda.award_links l
+                                join dda.eprocure_tenders e using (tender_id) group by 1 order by 2 desc""",
+    "ep_rounds": """select n_rounds, count(*) from (select nit_key, count(*) n_rounds from dda.eprocure_tenders
+                    where nit_key is not null group by 1) t group by 1 order by 1 limit 8""",
     # privacy indicator: contractor enlistment files (counts only)
     "enlistment_files": """select count(*), count(*) filter (where filename ~* 'solv'),
                            count(*) filter (where filename ~* 'appli'),
@@ -111,6 +127,12 @@ def main():
     # the full discovered scope (seeds.json, one spelling per URL) and the hub queue state
     import family
     res["scope"] = {"pages": len(family.PAGE_ITEMS), "documents": len(family.DOC_ITEMS)}
+    res["ep_peer_awarded"] = run("scrape_hub", """select org_code, count(*),
+        round(100.0 * count(*) filter (where stage_group = 'awarded') / count(*), 1)
+        from eprocure.tender_facts where org_code in (select org_code from eprocure.org_index
+        order by tenders desc limit 10) group by 1 order by 2 desc""")
+    if os.path.exists("pdf_census.json"):
+        res["pdf_census"] = json.load(open("pdf_census.json")).get("summary")
     res["hub_queue"] = run("scrape_hub", "select project, status, count(*) from public.queue "
                                          "where project in ('dda-pages','dda-docs') group by 1,2 order by 1,2")
     import time

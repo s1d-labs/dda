@@ -151,7 +151,7 @@ CREATE TABLE pages (
 CREATE TABLE documents (
   url text PRIMARY KEY, record_id text, filename text, ext text, folder text, upload_month text,
   status text, http_status int, bytes bigint, sha256 text, content_type text, fetched_at timestamptz,
-  n_linked_from int DEFAULT 0, first_linked_from text);
+  n_linked_from int DEFAULT 0, first_linked_from text, bucket_key text);
 CREATE TABLE listing_rows (
   page_url text, row_no int, category text, lang text, serial int, title text, date date,
   declared_bytes bigint, doc_url text, n_docs int, PRIMARY KEY (page_url, row_no));
@@ -300,12 +300,12 @@ def main():
                 laa.append(a + (title[:500], doc) + key)
 
     # documents: stored records + queue state for the rest
-    docs = {}
+    docs, bucket_keys = {}, {}
     for rid, data in src_rows("select record_id, data from projects.dda_docs"):
         u = data.get("url")
         if not u or "&amp;" in u:
             continue
-        u = crawl.canon_url(u)
+        raw, u = u, crawl.canon_url(u)
         status = "broken" if data.get("broken") else "unretrievable" if data.get("unretrievable") else "stored"
         if u in docs and docs[u][6] == "stored":
             continue
@@ -314,6 +314,9 @@ def main():
                    status, data.get("status") or (200 if status == "stored" else None),
                    data.get("bytes"), data.get("sha256"), (data.get("content_type") or "").split(";")[0],
                    data.get("fetched_at")]
+        if status == "stored":
+            # the file was uploaded under the URL as queued (a space and %20 give different keys)
+            bucket_keys[u] = data.get("bucket_key") or "dda-docs/" + crawl.bucket_path(raw, "docs")
     for key, payload, qstatus, err in src_rows(
             "select key, payload, status, last_error from public.queue where project='dda-docs'"):
         u = payload.get("url")
@@ -339,7 +342,7 @@ def main():
                 row[6], row[7] = "broken", code
     for u, row in docs.items():
         src = links.get(u, [])
-        row += [len(src), src[0] if src else None]
+        row += [len(src), src[0] if src else None, bucket_keys.get(u)]
 
     conn = psycopg2.connect(dbname=args.db, host="127.0.0.1")
     with conn, conn.cursor() as cur:

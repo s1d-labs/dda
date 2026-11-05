@@ -352,6 +352,7 @@ def do_doc(hub, session, item):
         "content_type": r.headers.get("Content-Type", ""),
         "referrer": item["payload"].get("referrer", ""),
         "category": item["payload"].get("category", ""),
+        "bucket_key": f"{PROJECT}/{bucket_path(url, 'docs')}",
         "fetched_at": int(time.time()),
     }
     try:

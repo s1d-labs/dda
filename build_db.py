@@ -363,7 +363,7 @@ def main():
         ins("html_tables", html_rows)
         ins("delineated_boundaries", bounds)
         # keep the tables other scripts make (extract_colonies.py, link_eprocure.py) across rebuilds
-        for kept in ("unauthorised_colonies", "eprocure_tenders"):
+        for kept in ("unauthorised_colonies", "eprocure_tenders", "document_text"):
             cur.execute(f"SELECT to_regclass('dda.{kept}') IS NOT NULL")
             if cur.fetchone()[0]:
                 cur.execute(f"CREATE TABLE dda_new.{kept} AS TABLE dda.{kept}")

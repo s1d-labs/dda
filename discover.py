@@ -28,7 +28,7 @@ import ddatls
 HOST = "dda.gov.in"
 BASE = "https://dda.gov.in/"
 DOC_EXT = ("pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "zip", "rar",
-           "csv", "rtf", "txt", "odt", "ods")
+           "csv", "rtf", "txt", "odt", "ods", "kmz", "kml", "apk", "exe", "tif", "tiff", "dwg")
 ASSET_EXT = ("css", "js", "ico", "png", "jpg", "jpeg", "gif", "svg", "webp",
              "woff", "woff2", "ttf", "eot", "mp4", "mp3", "json", "xml")
 SEEDS_PATH = "seeds.json"
@@ -38,9 +38,11 @@ TITLE = re.compile(r"<title[^>]*>(.*?)</title>", re.I | re.S)
 
 
 def norm(url):
-    """Absolute, fragment-free URL. Keeps the query (Drupal paging uses ?page=N)."""
-    url, _ = urldefrag(url)
-    return url.strip()
+    """Absolute, fragment-free, canonical URL (https, one encoding, no '//').
+    Keeps the query (Drupal paging uses ?page=N). http:// and https:// spellings of one page
+    were crawled twice before this (221 pages); canon_url makes them one."""
+    from crawl import canon_url
+    return canon_url(url)
 
 
 def classify(url):

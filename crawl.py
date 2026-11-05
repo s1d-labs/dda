@@ -21,7 +21,7 @@ import re
 import sys
 import time
 from html import unescape
-from urllib.parse import urljoin, urlparse, urldefrag
+from urllib.parse import quote, unquote, urljoin, urlparse, urldefrag, urlunparse
 
 import requests
 
@@ -32,7 +32,8 @@ DEADLINE = time.time() + float(os.environ.get("SCRAPE_MAX_HOURS", "1")) * 3600 -
 HOST = "dda.gov.in"
 
 DOC_EXT = ("pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "zip", "rar",
-           "csv", "rtf", "txt", "odt", "ods")
+           "csv", "rtf", "txt", "odt", "ods", "kmz", "kml", "apk", "exe", "tif", "tiff", "dwg")
+GONE = (404, 410)          # a broken link on the site: record it once, do not retry it
 ASSET_EXT = ("css", "js", "ico", "png", "jpg", "jpeg", "gif", "svg", "webp",
              "woff", "woff2", "ttf", "eot", "mp4", "mp3")
 
@@ -46,17 +47,28 @@ LI_OR_A = re.compile(r"<(?:li|a)\b[^>]*>(.*?)</(?:li|a)>", re.I | re.S)
 TR = re.compile(r"<tr\b[^>]*>(.*?)</tr>", re.I | re.S)
 TD = re.compile(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", re.I | re.S)
 PUB_DATE_CELL = re.compile(r'views-field-field-published-date[^>]*>(.*?)</td>', re.I | re.S)
-DATE_RX = re.compile(r"\b(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})\b")
+DATE_RX = re.compile(r"\b(\d{1,2})[-/.](\d{1,2})[-/.] ?(\d{2,4})\b")
 
 
 def _strip(fragment):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", unescape(fragment or ""))).strip()
 
 
+def canon_url(url):
+    """One spelling per resource on the site: https, no www, no '//' in the path, one percent-encoding
+    (a space and %20 are the same file), no fragment. Other hosts are only stripped of the fragment."""
+    url, _ = urldefrag((url or "").strip())
+    p = urlparse(url)
+    host = p.netloc.lower()
+    if host.removeprefix("www.") != HOST:
+        return url
+    path = re.sub(r"/{2,}", "/", p.path) or "/"
+    path = quote(unquote(path), safe="/-._~()!*',;:@&=+$")
+    return urlunparse(("https", HOST, path, "", p.query, ""))
+
+
 def norm_url(url, base):
-    url = urljoin(base, (url or "").strip())
-    url, _ = urldefrag(url)
-    return url
+    return canon_url(urljoin(base, (url or "").strip()))
 
 
 def classify(url):
@@ -71,19 +83,38 @@ def classify(url):
     return "page"
 
 
+MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+DATE_NAMED_RX = re.compile(r"\b(\d{1,2})(?:st|nd|rd|th)?[-/. ]+([A-Za-z]{3,9})[-/., ]+(\d{2,4})\b")
+
+
+def _year(y):
+    """4-digit year; a 2-digit year is 19yy or 20yy, whichever is not in the future."""
+    two_digit = len(str(y)) <= 2
+    y = int(y)
+    if two_digit:
+        y += 2000 if y <= (time.gmtime().tm_year % 100) + 1 else 1900
+    return y
+
+
 def iso_date(text):
-    m = DATE_RX.search(text or "")
-    if not m:
-        return None
-    d, mth, y = m.groups()
-    if len(y) == 2:
-        y = "20" + y
-    try:
-        d, mth = int(d), int(mth)
-        if 1 <= d <= 31 and 1 <= mth <= 12:
-            return f"{int(y):04d}-{mth:02d}-{d:02d}"
-    except ValueError:
-        pass
+    """First d-m-y date in the text (12-03-2024, 24.04.1965, 20-January-2021, 5 Mar 24) as YYYY-MM-DD.
+    Years outside 1900..next year are rejected (they are serial numbers, not dates)."""
+    text = text or ""
+    found = []
+    m = DATE_RX.search(text)
+    if m:
+        found.append((m.start(), m.group(1), m.group(2), m.group(3)))
+    n = DATE_NAMED_RX.search(text)
+    if n and n.group(2)[:3].lower() in MONTHS:
+        found.append((n.start(), n.group(1), MONTHS[n.group(2)[:3].lower()], n.group(3)))
+    for _, d, mth, y in sorted(found):
+        try:
+            d, mth, y = int(d), int(mth), _year(y)
+        except ValueError:
+            continue
+        if 1 <= d <= 31 and 1 <= mth <= 12 and 1900 <= y <= time.gmtime().tm_year + 1:
+            return f"{y:04d}-{mth:02d}-{d:02d}"
     return None
 
 
@@ -182,6 +213,8 @@ def bucket_path(url, prefix):
 # ---------------------------------------------------------------- fetching
 
 def fetch(hub, session, url, head=False):
+    """GET (or HEAD) one URL. Returns (response, status): response is None unless the status is 200;
+    status is None on a connection error or timeout."""
     t = time.time()
     try:
         r = (session.head if head else session.get)(
@@ -189,22 +222,48 @@ def fetch(hub, session, url, head=False):
     except requests.RequestException:
         hub.metric("http_error")
         hub.error()
-        return None
+        return None, None
     hub.metric("n_http")
     hub.metric("t_http_s", time.time() - t)
     if r.status_code != 200:
         hub.metric(f"http_{r.status_code}")
         if r.status_code in (403, 429, 503):
             hub.block()
+        r.close()
+        return None, r.status_code
+    return r, 200
+
+
+def read_body(hub, r):
+    """Read a streamed body. A dropped connection mid-file returns None (counted as http_error)
+    instead of raising, so one bad download cannot crash the worker."""
+    try:
+        return r.content
+    except (requests.RequestException, OSError):
+        hub.metric("http_error")
+        hub.error()
         return None
-    return r
+    finally:
+        r.close()
+
+
+def broken_link(hub, item, url, status):
+    """The site answers 404/410: store a small record that says so and finish the item,
+    so the hub does not retry a link that will never load."""
+    hub.record(record_id(url), {"url": url, "type": item["payload"].get("type", "page"),
+                                "broken": True, "status": status, "fetched_at": int(time.time())})
+    hub.metric("broken_links")
+    hub.complete([item["key"]], "done", fetched=0)
 
 
 def do_page(hub, session, item):
     url = item["payload"]["url"]
-    r = fetch(hub, session, url)
-    if r is None:
-        hub.complete([item["key"]], "failed", error="page did not load")
+    r, status = fetch(hub, session, url)
+    if status in GONE:
+        return broken_link(hub, item, url, status)
+    body_bytes = read_body(hub, r) if r is not None else None
+    if body_bytes is None:
+        hub.complete([item["key"]], "failed", error=f"page did not load (HTTP {status})" if status else "page did not load")
         return
     if not r.encoding or r.encoding.lower() == "iso-8859-1":
         r.encoding = r.apparent_encoding or "utf-8"
@@ -223,12 +282,16 @@ def do_page(hub, session, item):
 
 def do_doc(hub, session, item):
     url = item["payload"]["url"]
-    r = fetch(hub, session, url)
-    if r is None:
-        hub.failure("document", item["key"], "download failed", url=url)
-        hub.complete([item["key"]], "failed", error="document did not load")
+    r, status = fetch(hub, session, url)
+    if status in GONE:
+        hub.failure("broken-link", item["key"], f"HTTP {status}", url=url)
+        return broken_link(hub, item, url, status)
+    content = read_body(hub, r) if r is not None else None
+    if content is None:
+        why = f"HTTP {status}" if status else "connection error or timeout"
+        hub.failure("document", item["key"], f"download failed: {why}", url=url)
+        hub.complete([item["key"]], "failed", error=f"document did not load ({why})")
         return
-    content = r.content
     sha = hashlib.sha256(content).hexdigest()
     ext = (re.search(r"\.([a-z0-9]{1,6})$", urlparse(url).path.lower()) or [None, ""])[1]
     data = {

@@ -41,6 +41,19 @@ def _record_key(url):
     return hashlib.sha1(url.encode()).hexdigest()[:20]
 
 
+def _unique(urls):
+    """Drop a second spelling of one URL (http vs https, space vs %20, '//' in the path).
+    The first spelling seen keeps its key, so the queue items on the hub do not change."""
+    from crawl import canon_url
+    seen, out = set(), []
+    for u in sorted(urls, key=lambda u: (not u.startswith("https://"), "%" not in u, u)):
+        c = canon_url(u)
+        if c not in seen:
+            seen.add(c)
+            out.append(u)
+    return sorted(out)
+
+
 _s = _seeds()
 _meta = _s.get("page_meta", {})
 
@@ -48,12 +61,12 @@ PAGE_ITEMS = [
     {"key": "p-" + _record_key(u),
      "payload": {"url": u, "type": "page",
                  "expected": 1 + (_meta.get(u, {}).get("n_docs", 0))}}
-    for u in _s.get("pages", [])
+    for u in _unique(_s.get("pages", []))
 ]
 
 DOC_ITEMS = [
     {"key": "d-" + _record_key(u), "payload": {"url": u, "type": "doc", "expected": 1}}
-    for u in _s.get("documents", [])
+    for u in _unique(_s.get("documents", []))
 ]
 
 PROJECTS = [

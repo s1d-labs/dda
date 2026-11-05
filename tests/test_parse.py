@@ -63,3 +63,13 @@ def test_iso_date():
 def test_empty_page():
     d = crawl.parse("<html><body>nothing</body></html>", "https://dda.gov.in/x")
     assert d["rows"] == [] and d["n_documents"] == 0
+
+
+def test_iso_date_formats():
+    assert crawl.iso_date("NIT 25-06-2026 Size") == "2026-06-25"
+    assert crawl.iso_date("1965 24.04.1965 Size:57 MB") == "1965-04-24"
+    assert crawl.iso_date("Stilt Parking Plan. 20-January-2021 Size") == "2021-01-20"
+    assert crawl.iso_date("order dated 12/03/86") == "1986-03-12"      # not 2086
+    assert crawl.iso_date("dated 01-02-24") == "2024-02-01"
+    assert crawl.iso_date("Award No-1333 DHAKKA") is None
+    assert crawl.iso_date("ref 12-11-0021") is None                     # not a real year

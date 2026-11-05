@@ -72,19 +72,38 @@ def classify(url):
     return "page"
 
 
+MONTHS = {m: i for i, m in enumerate(
+    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"], 1)}
+DATE_NAMED_RX = re.compile(r"\b(\d{1,2})(?:st|nd|rd|th)?[-/. ]+([A-Za-z]{3,9})[-/., ]+(\d{2,4})\b")
+
+
+def _year(y):
+    """4-digit year; a 2-digit year is 19yy or 20yy, whichever is not in the future."""
+    two_digit = len(str(y)) <= 2
+    y = int(y)
+    if two_digit:
+        y += 2000 if y <= (time.gmtime().tm_year % 100) + 1 else 1900
+    return y
+
+
 def iso_date(text):
-    m = DATE_RX.search(text or "")
-    if not m:
-        return None
-    d, mth, y = m.groups()
-    if len(y) == 2:
-        y = "20" + y
-    try:
-        d, mth = int(d), int(mth)
-        if 1 <= d <= 31 and 1 <= mth <= 12:
-            return f"{int(y):04d}-{mth:02d}-{d:02d}"
-    except ValueError:
-        pass
+    """First d-m-y date in the text (12-03-2024, 24.04.1965, 20-January-2021, 5 Mar 24) as YYYY-MM-DD.
+    Years outside 1900..next year are rejected (they are serial numbers, not dates)."""
+    text = text or ""
+    found = []
+    m = DATE_RX.search(text)
+    if m:
+        found.append((m.start(), m.group(1), m.group(2), m.group(3)))
+    n = DATE_NAMED_RX.search(text)
+    if n and n.group(2)[:3].lower() in MONTHS:
+        found.append((n.start(), n.group(1), MONTHS[n.group(2)[:3].lower()], n.group(3)))
+    for _, d, mth, y in sorted(found):
+        try:
+            d, mth, y = int(d), int(mth), _year(y)
+        except ValueError:
+            continue
+        if 1 <= d <= 31 and 1 <= mth <= 12 and 1900 <= y <= time.gmtime().tm_year + 1:
+            return f"{y:04d}-{mth:02d}-{d:02d}"
     return None
 
 

@@ -87,3 +87,25 @@ def test_canon_url_merges_spellings():
     assert c("https://www.dda.gov.in/x#top") == "https://dda.gov.in/x"
     assert c("https://dda.gov.in/tender?page=3") == "https://dda.gov.in/tender?page=3"
     assert c("https://eprocure.gov.in/x#a") == "https://eprocure.gov.in/x"
+
+
+BOUNDARY_TABLE = """<html><head><title>Delineated Boundary | DDA</title></head><body><table>
+<tr><td><p>Map No.</p></td><td><p>Unauthorised Colony Registration Number</p></td>
+<td><p>Name of Unauthorised Colony</p></td><td><p>Pdf</p></td></tr>
+<tr><td><p>1.</p></td><td><p>REGD. No.20.</p></td><td><p>VASHU VIHAR COLONY HOLAMBI KALAN.</p></td>
+<td><p><a href="/sites/default/files/pmuday/1_20.pdf">REGD. No.20.(PDF File)</a></p></td></tr>
+<tr><td><p>2.</p></td><td><p>REGD. No.21.</p></td><td><p>ANKUR VIHAR COLONY HOLAMBI KALAN.</p></td><td>&nbsp;</td></tr>
+</table></body></html>"""
+
+
+def test_plain_html_table_is_extracted():
+    d = crawl.parse(BOUNDARY_TABLE, "https://dda.gov.in/delineated-boundary")
+    (t,) = d["tables"]
+    assert t["headers"][0] == "Map No."
+    assert t["rows"][0][:3] == ["1.", "REGD. No.20.", "VASHU VIHAR COLONY HOLAMBI KALAN."]
+    assert t["documents"][0] == ["https://dda.gov.in/sites/default/files/pmuday/1_20.pdf"]
+    assert t["documents"][1] == []
+
+
+def test_view_tables_are_not_repeated_in_tables():
+    assert _whatsnew()["tables"] == [] or all("views-field" not in str(t) for t in _whatsnew()["tables"])

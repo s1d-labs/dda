@@ -21,7 +21,7 @@ import sys
 import time
 from collections import deque, Counter
 from html import unescape
-from urllib.parse import urljoin, urlparse, urldefrag
+from urllib.parse import urljoin, urlparse, urldefrag, urlsplit
 
 import ddatls
 
@@ -46,7 +46,7 @@ def norm(url):
 
 
 def classify(url):
-    p = urlparse(url)
+    p = urlsplit(url)
     host = p.netloc.lower()
     path = p.path.lower()
     m = re.search(r"\.([a-z0-9]{1,6})$", path)
@@ -62,10 +62,20 @@ def classify(url):
 
 def links_on(page, base_url):
     for href in A_HREF.findall(page):
-        href = href.strip()
+        href = unescape(href.strip())          # '&amp;' in an href is '&' (157 file links were lost without this)
         if not href or href.startswith(("mailto:", "tel:", "javascript:", "#", "data:")):
             continue
         yield norm(urljoin(base_url, href))
+
+
+def pager_pages(link):
+    """Drupal shows only a window of pager links. A link to ?page=N means pages 1..N exist; queue them
+    all, so one timeout in the chain cannot hide the rest of a listing (it hid 395 pages once)."""
+    p = urlparse(link)
+    m = re.fullmatch(r"page=(\d+)", p.query or "")
+    if not m:
+        return []
+    return [p._replace(query=f"page={n}").geturl() for n in range(1, int(m.group(1)) + 1)]
 
 
 def page_title(page):
@@ -102,7 +112,28 @@ def _save(path, state):
     os.replace(tmp, path)
 
 
-def crawl(max_pages, delay, verbose=True, out=None, resume=False, checkpoint_every=100):
+def repair_targets(prev):
+    """What a --repair pass fetches again: the first page of every paged listing (its pager shows the
+    last page), the pager gaps, the unreached frontier, and error URLs that were '&amp;' links."""
+    from crawl import canon_url
+    paged = {}
+    for u in prev.get("pages", []):
+        p = urlparse(canon_url(u))
+        m = re.fullmatch(r"page=(\d+)", p.query or "")
+        if m:
+            paged.setdefault(p._replace(query="").geturl(), set()).add(int(m.group(1)))
+    refetch, gaps = [], []
+    for base, nums in paged.items():
+        refetch.append(base)
+        gaps += [f"{base}?page={n}" for n in range(1, max(nums) + 1) if n not in nums]
+    fixed = {}
+    for u in prev.get("errors", {}):
+        if "&amp;" in u or "&amp" in u:
+            fixed[u] = canon_url(unescape(u.replace("&amp", "&amp;").replace("&amp;;", "&amp;")))
+    return refetch, gaps, fixed
+
+
+def crawl(max_pages, delay, verbose=True, out=None, resume=False, checkpoint_every=100, repair=False):
     session = ddatls.make_session()
     bundle = ddatls.ca_bundle()
     seen_pages = set()
@@ -120,13 +151,35 @@ def crawl(max_pages, delay, verbose=True, out=None, resume=False, checkpoint_eve
         documents = {u: {} for u in prev.get("documents", [])}
         external = Counter(prev.get("external", {}))
         errors = prev.get("errors", {})
+        from crawl import canon_url
         for u in prev.get("pages", []):
             seen_pages.add(u)
+            seen_pages.add(canon_url(u))
         for u in prev.get("frontier", []):
             if u not in seen_pages:
                 seen_pages.add(u)
                 frontier.append(u)
         print(f"resumed: {len(pages)} pages done, {len(frontier)} queued, {len(documents)} docs", file=sys.stderr)
+        if repair:
+            refetch, gaps, fixed = repair_targets(prev)
+            for u in [d for d in documents if "&amp;" in d]:        # a document seeded with '&amp;' in it
+                documents.pop(u)
+                documents.setdefault(canon_url(unescape(u)), {})
+            for bad, good in fixed.items():
+                errors.pop(bad, None)
+                kind, _ = classify(good)
+                if kind == "document":
+                    documents.setdefault(good, {})
+                elif good not in seen_pages:
+                    seen_pages.add(good)
+                    frontier.append(good)
+            for u in gaps:
+                if u not in seen_pages:
+                    seen_pages.add(u)
+                    frontier.append(u)
+            frontier.extendleft(reversed(refetch))       # first pages again: their pagers show the last page
+            print(f"repair: {len(refetch)} listings, {len(gaps)} pager gaps, {len(fixed)} '&amp;' links, "
+                  f"frontier now {len(frontier)}", file=sys.stderr)
 
     for s in [BASE, BASE + "sitemap"]:
         if s not in seen_pages:
@@ -143,18 +196,26 @@ def crawl(max_pages, delay, verbose=True, out=None, resume=False, checkpoint_eve
     while frontier and fetched < max_pages and not stop["now"]:
         url = frontier.popleft()
         try:
-            r = session.get(url, timeout=45, verify=bundle, allow_redirects=True)
+            # stream: read the headers first, so a "page" link that is really a 500 MB file is not downloaded
+            r = session.get(url, timeout=45, verify=bundle, allow_redirects=True, stream=True)
         except Exception as e:
             errors[url] = f"{type(e).__name__}: {e}"[:160]
             continue
         fetched += 1
         if r.status_code != 200:
             errors[url] = f"HTTP {r.status_code}"
+            r.close()
             continue
         ctype = r.headers.get("Content-Type", "")
         if "html" not in ctype.lower():
             # a page URL that is really a file
             documents.setdefault(url, {"referrer": url, "ctype": ctype})
+            r.close()
+            continue
+        try:
+            r.content
+        except Exception as e:
+            errors[url] = f"{type(e).__name__}: {e}"[:160]
             continue
         if not r.encoding or r.encoding.lower() == "iso-8859-1":
             r.encoding = r.apparent_encoding or "utf-8"
@@ -163,9 +224,10 @@ def crawl(max_pages, delay, verbose=True, out=None, resume=False, checkpoint_eve
         for link in links_on(body, r.url):
             kind, ext = classify(link)
             if kind == "page":
-                if link not in seen_pages:
-                    seen_pages.add(link)
-                    frontier.append(link)
+                for u in [link] + pager_pages(link):
+                    if u not in seen_pages:
+                        seen_pages.add(u)
+                        frontier.append(u)
             elif kind == "document":
                 documents.setdefault(link, {"referrer": url, "ext": ext})
                 n_docs += 1
@@ -193,9 +255,11 @@ def main():
     ap.add_argument("--out", default=SEEDS_PATH)
     ap.add_argument("--resume", action="store_true", help="continue from an existing seeds.json")
     ap.add_argument("--checkpoint-every", type=int, default=100)
+    ap.add_argument("--repair", action="store_true",
+                    help="with --resume: re-read paged listings, fill pager gaps, fix '&amp;' links")
     args = ap.parse_args()
     result = crawl(args.max, args.delay, out=args.out, resume=args.resume,
-                   checkpoint_every=args.checkpoint_every)
+                   checkpoint_every=args.checkpoint_every, repair=args.repair)
     print(json.dumps(result["stats"], indent=2))
     print("top external hosts:", dict(list(result["external"].items())[:12]))
     doc_ext = Counter()

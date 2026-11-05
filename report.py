@@ -46,8 +46,9 @@ def discovery_scope(seeds_path):
         s = json.load(open(seeds_path))
     except FileNotFoundError:
         return None
-    pages = s.get("pages", [])
-    docs = s.get("documents", [])
+    from crawl import canon_url          # one spelling per URL (http/https, space/%20 count once)
+    pages = sorted({canon_url(u) for u in s.get("pages", [])})
+    docs = sorted({canon_url(u) for u in s.get("documents", [])})
     doc_ext = Counter()
     for u in docs:
         m = re.search(r"\.([a-z0-9]{1,6})$", urlparse(u).path.lower())

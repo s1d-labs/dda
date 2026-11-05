@@ -21,7 +21,7 @@ import re
 import sys
 import time
 from html import unescape
-from urllib.parse import quote, unquote, urljoin, urlparse, urldefrag, urlunparse
+from urllib.parse import quote, unquote, urljoin, urlparse, urldefrag, urlsplit, urlunsplit
 
 import requests
 
@@ -58,21 +58,22 @@ def canon_url(url):
     """One spelling per resource on the site: https, no www, no '//' in the path, one percent-encoding
     (a space and %20 are the same file), no fragment. Other hosts are only stripped of the fragment."""
     url, _ = urldefrag((url or "").strip())
-    p = urlparse(url)
+    p = urlsplit(url)                        # urlsplit: a ';' stays in the path (urlparse drops it)
     host = p.netloc.lower()
     if host.removeprefix("www.") != HOST:
         return url
     path = re.sub(r"/{2,}", "/", p.path) or "/"
     path = quote(unquote(path), safe="/-._~()!*',;:@&=+$")
-    return urlunparse(("https", HOST, path, "", p.query, ""))
+    return urlunsplit(("https", HOST, path, p.query, ""))
 
 
 def norm_url(url, base):
-    return canon_url(urljoin(base, (url or "").strip()))
+    """An href as found in the HTML ('&amp;' is '&') -> canonical absolute URL."""
+    return canon_url(urljoin(base, unescape((url or "").strip())))
 
 
 def classify(url):
-    p = urlparse(url)
+    p = urlsplit(url)
     ext = (re.search(r"\.([a-z0-9]{1,6})$", p.path.lower()) or [None, ""])[1] if "." in p.path else ""
     if p.netloc.lower() not in (HOST, "www." + HOST):
         return "external"
@@ -157,6 +158,41 @@ def extract_rows(html, base):
     return rows
 
 
+TABLE = re.compile(r"<table\b[^>]*>(.*?)</table>", re.I | re.S)
+CELL = re.compile(r"<(t[dh])\b[^>]*>(.*?)</t[dh]>", re.I | re.S)
+MAX_TABLE_ROWS = 5000
+
+
+def extract_tables(html, base):
+    """Every content table that is not a Drupal view (those are in `rows`): header cells, then one
+    list of cell texts per row, plus the document links of each row. Pages such as
+    /delineated-boundary keep 1,700 colonies in one plain table."""
+    tables = []
+    for body in TABLE.findall(html):
+        if "views-field" in body:
+            continue
+        headers, rows, links = [], [], []
+        for tr in TR.findall(body):
+            cells = CELL.findall(tr)
+            if not cells:
+                continue
+            texts = [_strip(c)[:500] for _, c in cells]
+            if not any(texts):
+                continue
+            if not rows and not headers and (all(t.lower() == "th" for t, _ in cells)
+                                             or not re.search(r"\d", " ".join(texts[:2]))):
+                headers = texts
+                continue
+            docs = [u for u in (norm_url(h, base) for h in A_HREF.findall(tr)) if classify(u) == "document"]
+            rows.append(texts)
+            links.append(docs)
+            if len(rows) >= MAX_TABLE_ROWS:
+                break
+        if rows:
+            tables.append({"headers": headers, "rows": rows, "documents": links})
+    return tables
+
+
 def parse(html, url="https://dda.gov.in/"):
     """Pure: structured data from one HTML page. Tested on saved pages in tests/."""
     title = _strip(TITLE.search(html).group(1)) if TITLE.search(html) else ""
@@ -189,6 +225,7 @@ def parse(html, url="https://dda.gov.in/"):
         "external_links": sorted(external),
         "n_documents": len(docs),
         "n_page_links": len(pages),
+        "tables": extract_tables(html, url),
     }
 
 

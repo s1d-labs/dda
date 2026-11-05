@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 report.json
+.playwright-mcp/
+analysis.json
+report.html

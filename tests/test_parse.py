@@ -73,3 +73,7 @@ def test_iso_date_formats():
     assert crawl.iso_date("dated 01-02-24") == "2024-02-01"
     assert crawl.iso_date("Award No-1333 DHAKKA") is None
     assert crawl.iso_date("ref 12-11-0021") is None                     # not a real year
+
+
+def test_date_with_space():
+    assert crawl.iso_date("Tender document of CNG sites 31-12- 2025 Size :19.5 MB") == "2025-12-31"

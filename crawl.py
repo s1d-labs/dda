@@ -47,7 +47,7 @@ LI_OR_A = re.compile(r"<(?:li|a)\b[^>]*>(.*?)</(?:li|a)>", re.I | re.S)
 TR = re.compile(r"<tr\b[^>]*>(.*?)</tr>", re.I | re.S)
 TD = re.compile(r"<t[dh]\b[^>]*>(.*?)</t[dh]>", re.I | re.S)
 PUB_DATE_CELL = re.compile(r'views-field-field-published-date[^>]*>(.*?)</td>', re.I | re.S)
-DATE_RX = re.compile(r"\b(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})\b")
+DATE_RX = re.compile(r"\b(\d{1,2})[-/.](\d{1,2})[-/.] ?(\d{2,4})\b")
 
 
 def _strip(fragment):

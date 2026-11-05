@@ -21,7 +21,7 @@ import re
 import sys
 import time
 from html import unescape
-from urllib.parse import quote, unquote, urljoin, urlparse, urldefrag, urlunparse
+from urllib.parse import quote, unquote, urljoin, urlparse, urldefrag, urlsplit, urlunsplit
 
 import requests
 
@@ -58,21 +58,22 @@ def canon_url(url):
     """One spelling per resource on the site: https, no www, no '//' in the path, one percent-encoding
     (a space and %20 are the same file), no fragment. Other hosts are only stripped of the fragment."""
     url, _ = urldefrag((url or "").strip())
-    p = urlparse(url)
+    p = urlsplit(url)                        # urlsplit: a ';' stays in the path (urlparse drops it)
     host = p.netloc.lower()
     if host.removeprefix("www.") != HOST:
         return url
     path = re.sub(r"/{2,}", "/", p.path) or "/"
     path = quote(unquote(path), safe="/-._~()!*',;:@&=+$")
-    return urlunparse(("https", HOST, path, "", p.query, ""))
+    return urlunsplit(("https", HOST, path, p.query, ""))
 
 
 def norm_url(url, base):
-    return canon_url(urljoin(base, (url or "").strip()))
+    """An href as found in the HTML ('&amp;' is '&') -> canonical absolute URL."""
+    return canon_url(urljoin(base, unescape((url or "").strip())))
 
 
 def classify(url):
-    p = urlparse(url)
+    p = urlsplit(url)
     ext = (re.search(r"\.([a-z0-9]{1,6})$", p.path.lower()) or [None, ""])[1] if "." in p.path else ""
     if p.netloc.lower() not in (HOST, "www." + HOST):
         return "external"

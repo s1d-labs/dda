@@ -131,6 +131,14 @@ def main():
         round(100.0 * count(*) filter (where stage_group = 'awarded') / count(*), 1)
         from eprocure.tender_facts where org_code in (select org_code from eprocure.org_index
         order by tenders desc limit 10) group by 1 order by 2 desc""")
+    try:
+        res["doc_text"] = run(args.db, """select count(*), count(*) filter (where has_text), coalesce(sum(chars), 0),
+            (select count(*) from dda.documents where status='stored' and ext='pdf') from dda.document_text""")
+        res["doc_text_search"] = run(args.db, """select q, (select count(*) from dda.document_text
+            where to_tsvector('simple', coalesce(text,'')) @@ plainto_tsquery('simple', q)) from
+            unnest(array['land pooling','unauthorised colony','encroachment','demolition','arbitration','debarment']) q""")
+    except subprocess.CalledProcessError:
+        pass
     if os.path.exists("pdf_census.json"):
         res["pdf_census"] = json.load(open("pdf_census.json")).get("summary")
     res["hub_queue"] = run("scrape_hub", "select project, status, count(*) from public.queue "

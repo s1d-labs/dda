@@ -331,12 +331,20 @@ eprocure already gives these values for the linked tenders.</li>
 </ul>
 {table(["Folder", "Sampled", "With text layer"], [(k, v["sampled"], v["text"]) for k, v in bf], num_cols=(1, 2))}
 """)
+    dt = (a.get("doc_text") or [[0, 0, 0, 0]])[0]
+    if dt[0]:
+        s.append(f"""<h3>Full-text table</h3>
+<p><code>extract_text.py</code> reads the text layer of the stored PDF files into <code>dda.document_text</code>, with a
+full-text index. It has read {n(dt[0])} of {n(dt[3])} stored PDF files so far. {n(dt[1])} of them have text
+({n(dt[2])} characters). The rest are scans for OCR later. Run it again to continue.</p>
+{table(["Search words", "Documents that match"], [(r[0], r[1]) for r in a.get("doc_text_search", [])], num_cols=(1,))}
+""")
 
     s.append("""<h2>9. More scope and next steps</h2>
 <p>These are the next sources and tasks. Each one is public data. None needs a login.</p>
 """ + table(["Scope", "What it gives", "Size or effort"], [
         ["Award letters to eprocure", "Award date and contractor for tenders that eprocure shows as in evaluation", "Text PDF; link table exists"],
-        ["Text of text-layer PDFs", "Full-text search of orders, circulars, notices; values in NITs", "No OCR; see section 8"],
+        ["Text of text-layer PDFs", "Full-text search of orders, circulars, notices", "Started: dda.document_text; run extract_text.py again"],
         ["OCR of scanned PDFs", "Text of old orders, agendas, Authority minutes since 1959", "Large; for later"],
         ["Authority meeting agendas", "Decisions of the Authority by date, 1959 to now", "About 470 files, many scanned"],
         ["Land acquisition awards", "Village, award number and year for about 1,800 awards", "Rows exist; PDFs give area and amount"],

@@ -1,7 +1,7 @@
 # DDA scraper: scope and findings
 
 **Subject:** the public website of the Delhi Development Authority, `https://dda.gov.in/`.
-**Family:** `dda` (repo `s1d-labs/dda`). **Date:** 2026-11-04.
+**Family:** `dda` (repo `s1d-labs/dda`). **Date:** 2026-11-04, updated 2026-11-05.
 **Status:** the scraper is built, tested and live. The pool downloads the documents now. This report gives the measured
 scope and the findings. The numbers are live and increase while the scrape runs.
 
@@ -11,12 +11,13 @@ This report uses ASD-STE100 Simplified Technical English. It names no private in
 
 ## 1. Summary
 
-- The site is a Drupal content site with a full Hindi mirror under `/hi/`.
-- The discovery crawl mapped the whole site and found **2,871 pages** and **19,134 documents** (28 pages stay unreached).
-- The documents are mostly PDF files. The crawl also found map files, spreadsheets, archives and a few application files.
+- The site is a Drupal content site with a Hindi mirror under `/hi/`.
+- The discovery crawl and the repair pass found **3,046 unique pages** and **23,095 unique documents**.
+- The documents are mostly PDF files. The crawl also found map files (KMZ), spreadsheets, archives and application files.
 - The scraper collects two kinds of record: one per page and one per document. It stores each document file in the bucket.
 - The scrape runs on GitHub runners through the hub India proxy. The site answers only from India.
 - No login, OTP or captcha system was accessed. The transactional portals are separate systems and stay out of scope.
+- The organised tables are in the workspace database `ws_trideep`, schema `dda`. The HTML audit report gives the findings.
 
 ## 2. How the scraper reaches the site
 
@@ -36,10 +37,12 @@ The scraper never disables certificate verification.
 
 | Measure | Count |
 |---|---|
-| Pages found | 2,871 |
-| English pages | 2,191 |
-| Hindi pages (`/hi/`) | 680 |
-| Pages unreached (budget tail) | 28 |
+| Unique pages found | 3,046 |
+| Pages scraped at the time of this report | 2,649 |
+| Pages found by the repair pass (in the pool queue) | 397 |
+| Internal page links that return HTTP 404 | 76 |
+
+The numbers in 3.2 and 3.3 are from the first discovery (19,134 document URLs). The repair pass added 3,988 documents.
 
 ### 3.2 Documents by type
 
@@ -82,7 +85,7 @@ The request named five kinds of target data. The crawl found all five.
 - **Unauthorised colony lists:** the page `/pm-uday/list-of-colonies-affluent-colonies` links the list of 1,731 unauthorised
   colonies (`1731_uc.pdf`) and the list of 69 affluent colonies. The `pmuday` section holds about 1,700 documents. The `RTI`
   and `gazette-notification` sections hold the regularisation gazette notifications.
-- **Tenders:** the `/tenders` page links the external e-procurement portal. The `tender` section holds about 1,180 tender files.
+- **Tenders:** the `/tenders` page links the external e-procurement portal. The `tender` section holds about 2,400 tender files.
 - **Notices:** the `/public-notices` and `/whats-new` pages list notices. The `public-notice` and `notice` sections hold the files.
 - **Public documents:** every file under `/sites/default/files/` is collected (about 16,000 files).
 - **All other public pages and files:** the breadth-first crawl follows every internal link, so it reaches the whole site.
@@ -108,28 +111,57 @@ This section records indicators, not findings of wrongdoing.
   - `ddalop.org.in` (land pooling);
   - `eprocure.gov.in` (central e-procurement).
 
-## 7. Failures and missing data
+## 7. Verification of the scrape
 
-- **Discovery errors:** 232 page fetches failed during discovery. The cause is a request timeout under proxy load.
-  These pages can be fetched again with a resume crawl.
-- **Download failures:** a small number of documents fail to download on the first try. The hub retries them automatically.
-- **Pager depth limit:** the first discovery pass stopped at a page budget. A resume pass continued and drained the rest.
+We checked the stored records against the site structure. The checks found these defects. We fixed all of them.
+
+| Check | Result | Action |
+|---|---|---|
+| One spelling per URL | 221 pages were scraped two times (`http://` and `https://`). 27 documents had two spellings. | `crawl.canon_url` gives one spelling. |
+| HTML entities in links | 157 document links were lost. The crawler read `&amp;` in a file name as text. | Links are unescaped. |
+| Pager coverage | 395 listing pages were not reached. Example: 191 of 285 pages of the tender archive. | A `?page=N` link queues pages 1 to N. |
+| Failed downloads | All 181 failed documents return HTTP 404 on the site. | One broken-link record. No retries. |
+| Large downloads | A dropped connection in a 40 MB file stopped a worker process. | Only the item fails. |
+| Dates | Two-digit years became 20xx (1986 became 2086). | Two-digit years resolve to the past. |
+| Discovery of files | A file linked as a page was read in full (more than 400 MB). | Discovery reads the headers first. |
+
+The repair pass (`discover.py --resume --repair`) added 397 pages and 3,988 documents. Setup added them to the queues.
+
+## 8. Findings from the data
+
+These are indicators, not findings of wrongdoing.
+
+- **Unauthorised colonies.** We extracted the list of 1,731 colonies and the list of 69 affluent colonies (text PDF, no OCR).
+  Of the 1,731 colonies, 1,205 have a final boundary map on the site. 135 have the remark "can not be delineated as per SOP".
+  154 are not in the boundary table. All final boundary maps have upload dates from March to August 2020.
+- **Tenders.** The site has 713 tender rows from 94 archive pages. The repair pass found the other 191 archive pages.
+  A sample shows tenders of 2023-24 and 2024-25. The earlier gap in these years is a coverage defect.
+- **Re-invited tenders.** 51 of 713 tender rows (7.2%) are marked "re-invited".
+- **Debarments.** The site has 39 debarment or suspension orders and 3 withdrawals.
+- **Broken links.** 181 document links return HTTP 404. Most are in the contractor enlistment folders (`class-i` to `class-v`).
+- **Duplicate files.** 358 files occur at more than one URL (436 extra copies, 0.7 GB).
+- **Privacy indicator.** The archive of registered contractors links 2,171 files. They include about 540 bank solvency
+  certificates and 540 application forms. These can hold personal and financial data. We did not open these files.
+- **Security indicators.** Legacy TLS renegotiation, an incomplete certificate chain, links to raw IP addresses over plain
+  HTTP, and one link to a vendor staging host.
+
+## 9. Failures and missing data
+
+- **Discovery errors:** 76 internal page links return HTTP 404 on the site.
+- **Download failures:** 181 documents return HTTP 404 (`linkcheck.py`, `linkcheck.json`).
 - **Reliability:** the hub had one short outage during the run. The workers failed and then restarted by themselves.
 
-## 8. How to run it
+## 10. How to run it
 
 1. **Discover the site** (writes `seeds.json`): `myproxy run python discover.py`
-2. **Apply to the hub** (registers the projects and seeds the queue): run the Setup workflow (Actions → setup).
-3. **Scrape on GitHub** (uses GitHub runners through the India proxy): run the `scrape-runner` workflow with `family=dda`.
-4. **Report** (reads the hub database): `python report.py` → `report.json`.
+2. **Repair the scope** after timeouts: `myproxy run python discover.py --resume --repair`
+3. **Apply to the hub** (registers the projects and seeds the queue): run the Setup workflow (Actions, then setup).
+4. **Scrape**: the hub starts the `scrape-runner` workflow of pool members for family `dda` by itself.
+5. **Organised tables**: `python build_db.py --html DIR` and `python extract_colonies.py ...` (see README).
+6. **Report**: `python analyze.py`, then `python report_html.py analysis.json report.html`. `python report.py` gives the coverage JSON.
 
-## 9. Current progress
+## 11. Current progress
 
-- **Pages:** 2,871 of 2,871 scraped (100%). The page structured data is complete and stored in the hub database.
-- **Documents:** the download runs now. About 5% is done at the time of this report. The rest continues on the pool.
-- **Order:** the pages were scraped first (the structured index). The documents follow, because the download is large.
-- **Scale:** the document download is about 19,000 files. It is a multi-hour task. It continues after this report.
-
-Run `python report.py` for the live numbers. Run `/report D01` for the team-format progress report.
-Re-dispatch the scrape when a runner window ends:
-`gh workflow run run.yml --repo <account>/scrape-runner -f jobs=4 -f procs=1 -f family=dda -f max_hours=5.5`
+- **Pages:** 2,649 of 3,046 scraped. The 397 pages from the repair pass are in the queue.
+- **Documents:** 10,184 of 23,095 stored (about 45 GB). 181 are broken links. The rest are in the queue.
+- **Scale:** the rest of the download is about 12,700 files. It is a multi-hour task on the pool.

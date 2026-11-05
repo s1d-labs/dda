@@ -303,7 +303,7 @@ def main():
     docs = {}
     for rid, data in src_rows("select record_id, data from projects.dda_docs"):
         u = data.get("url")
-        if not u:
+        if not u or "&amp;" in u:
             continue
         u = crawl.canon_url(u)
         status = "broken" if data.get("broken") else "stored"
@@ -317,7 +317,7 @@ def main():
     for key, payload, qstatus, err in src_rows(
             "select key, payload, status, last_error from public.queue where project='dda-docs'"):
         u = payload.get("url")
-        if not u:
+        if not u or "&amp;" in u:     # a wrong spelling from before the '&amp;' fix; the right one is seeded
             continue
         u = crawl.canon_url(u)
         if u in docs:

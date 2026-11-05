@@ -196,18 +196,26 @@ def crawl(max_pages, delay, verbose=True, out=None, resume=False, checkpoint_eve
     while frontier and fetched < max_pages and not stop["now"]:
         url = frontier.popleft()
         try:
-            r = session.get(url, timeout=45, verify=bundle, allow_redirects=True)
+            # stream: read the headers first, so a "page" link that is really a 500 MB file is not downloaded
+            r = session.get(url, timeout=45, verify=bundle, allow_redirects=True, stream=True)
         except Exception as e:
             errors[url] = f"{type(e).__name__}: {e}"[:160]
             continue
         fetched += 1
         if r.status_code != 200:
             errors[url] = f"HTTP {r.status_code}"
+            r.close()
             continue
         ctype = r.headers.get("Content-Type", "")
         if "html" not in ctype.lower():
             # a page URL that is really a file
             documents.setdefault(url, {"referrer": url, "ctype": ctype})
+            r.close()
+            continue
+        try:
+            r.content
+        except Exception as e:
+            errors[url] = f"{type(e).__name__}: {e}"[:160]
             continue
         if not r.encoding or r.encoding.lower() == "iso-8859-1":
             r.encoding = r.apparent_encoding or "utf-8"

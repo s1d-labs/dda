@@ -1,0 +1,6357 @@
+{
+ "population_pdfs": 20699,
+ "tender_pdfs": 4314,
+ "files": [
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 196126,
+   "pages": 1,
+   "chars": [
+    2264
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "RTI",
+   "bytes": 7305712,
+   "pages": 198,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "architecture",
+   "bytes": 629266,
+   "pages": 1,
+   "chars": [
+    1893
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 248980,
+   "pages": 3,
+   "chars": [
+    674,
+    4117
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 36307.0
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 6782,
+   "pages": 3,
+   "chars": [
+    2244,
+    2516
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 5532209,
+   "pages": 43,
+   "chars": [
+    165,
+    1593
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iii",
+   "bytes": 330841,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 337033,
+   "pages": 4,
+   "chars": [
+    2191,
+    2000
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 342759,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "technical_committee",
+   "bytes": 2967854,
+   "pages": 10,
+   "chars": [
+    94,
+    1671
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Stf_Department",
+   "bytes": 963023,
+   "pages": 16,
+   "chars": [
+    2747,
+    695
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 266856,
+   "pages": 1,
+   "chars": [
+    21
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 643272,
+   "pages": 5,
+   "chars": [
+    2547,
+    2837
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "medical",
+   "bytes": 172513,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 2489635,
+   "pages": 5,
+   "chars": [
+    1147,
+    1259
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 273388,
+   "pages": 1,
+   "chars": [
+    1400
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 408489,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 1243507,
+   "pages": 7,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 2855823,
+   "pages": 128,
+   "chars": [
+    1368,
+    520
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 713879,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 788280,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 77265,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 776925,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 8496074,
+   "pages": 21,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 373777,
+   "pages": 6,
+   "chars": [
+    1671,
+    1956
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 6858288,
+   "pages": 1,
+   "chars": [
+    1647
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 693646,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 929766,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 279077,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 206581,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1270401,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1188023,
+   "pages": 5,
+   "chars": [
+    4376,
+    5291
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 9793.0
+  },
+  {
+   "sample": "main",
+   "folder": "gazette-notification",
+   "bytes": 1054855,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "inline-files",
+   "bytes": 1319538,
+   "pages": 3,
+   "chars": [
+    3888,
+    1844
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1456,
+   "pages": 1,
+   "chars": [
+    216
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 1010959,
+   "pages": 4,
+   "chars": [
+    0,
+    8537
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 838961,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 270996,
+   "pages": 1,
+   "chars": [
+    21
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 1264985,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "RTI",
+   "bytes": 94626,
+   "pages": 8,
+   "chars": [
+    865,
+    761
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 442865,
+   "pages": 1,
+   "chars": [
+    2102
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "gazette-notification",
+   "bytes": 58969,
+   "pages": 2,
+   "chars": [
+    2095,
+    3075
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 706310,
+   "pages": 4,
+   "chars": [
+    526,
+    1540
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 5790624.0,
+   "emd_rs": 115812.0
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1118230,
+   "pages": 6,
+   "chars": [
+    4047,
+    3926
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 248508.0,
+   "emd_rs": 10000.0
+  },
+  {
+   "sample": "main",
+   "folder": "land-pooling",
+   "bytes": 2437088,
+   "pages": 1,
+   "chars": [
+    2927
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 874702,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1385,
+   "pages": 1,
+   "chars": [
+    150
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 186876,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 170433,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 989691,
+   "pages": 7,
+   "chars": [
+    2394,
+    4513
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 29502.0
+  },
+  {
+   "sample": "main",
+   "folder": "policy_guideline",
+   "bytes": 1325044,
+   "pages": 12,
+   "chars": [
+    1296,
+    3540
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1507537,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "latest_jobs",
+   "bytes": 588031,
+   "pages": 4,
+   "chars": [
+    0,
+    969
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "inline-files",
+   "bytes": 191577,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 430184,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iii",
+   "bytes": 1005546,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "latest_jobs",
+   "bytes": 1341693,
+   "pages": 1,
+   "chars": [
+    1638
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 5770187,
+   "pages": 1,
+   "chars": [
+    1595
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 99998,
+   "pages": 2,
+   "chars": [
+    2114,
+    1845
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 13691401.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "(root)",
+   "bytes": 621662,
+   "pages": 1,
+   "chars": [
+    852
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 385455,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-i",
+   "bytes": 150798,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 191062,
+   "pages": 1,
+   "chars": [
+    629
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 2034874,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "vigilance",
+   "bytes": 205808,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 128626,
+   "pages": 1,
+   "chars": [
+    1450
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 718218,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1299812,
+   "pages": 4,
+   "chars": [
+    471,
+    1548
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 3443310.0,
+   "emd_rs": 68866.0
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 7815168,
+   "pages": 1,
+   "chars": [
+    1594
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Stf_Department",
+   "bytes": 1543263,
+   "pages": 9,
+   "chars": [
+    2183,
+    3148
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 210642,
+   "pages": 2,
+   "chars": [
+    1120,
+    1141
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 181815,
+   "pages": 3,
+   "chars": [
+    1535,
+    2704
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 100896.0
+  },
+  {
+   "sample": "main",
+   "folder": "RTI",
+   "bytes": 198950,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 3964116,
+   "pages": 5,
+   "chars": [
+    2184,
+    2608
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 5.0,
+   "emd_rs": 1.0
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 2060563,
+   "pages": 5,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 1596907,
+   "pages": 6,
+   "chars": [
+    21,
+    21
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Housing Department",
+   "bytes": 146076,
+   "pages": 1,
+   "chars": [
+    21
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "planning files",
+   "bytes": 144140,
+   "pages": 3,
+   "chars": [
+    2138,
+    2233
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "latest_jobs",
+   "bytes": 3436077,
+   "pages": 42,
+   "chars": [
+    2087,
+    1048
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 961953,
+   "pages": 4,
+   "chars": [
+    4619,
+    3711
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 474619,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 703072,
+   "pages": 4,
+   "chars": [
+    523,
+    1534
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 250836.0,
+   "emd_rs": 5017.0
+  },
+  {
+   "sample": "main",
+   "folder": "employee-corner",
+   "bytes": 1241056,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "HousingFinance",
+   "bytes": 2353023,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 369995,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1885,
+   "pages": 1,
+   "chars": [
+    600
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 2216,
+   "pages": 1,
+   "chars": [
+    913
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 189029,
+   "pages": 1,
+   "chars": [
+    118
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 931505,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "technical_committee",
+   "bytes": 11882006,
+   "pages": 42,
+   "chars": [
+    149,
+    746
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 11622650,
+   "pages": 25,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Housing_Department",
+   "bytes": 1055578,
+   "pages": 27,
+   "chars": [
+    145,
+    1413
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 357737,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 135177,
+   "pages": 4,
+   "chars": [
+    1199,
+    1263
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 3610499,
+   "pages": 5,
+   "chars": [
+    2959,
+    2079
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 218470,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 6707220,
+   "pages": 1,
+   "chars": [
+    1700
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 147486,
+   "pages": 1,
+   "chars": [
+    1344
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "RTI",
+   "bytes": 6991935,
+   "pages": 125,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 5029486,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 848905,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 311797,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "employee-corner",
+   "bytes": 484066,
+   "pages": 2,
+   "chars": [
+    1937,
+    565
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1600,
+   "pages": 1,
+   "chars": [
+    347
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 1941402,
+   "pages": 6,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 605780,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 636337,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Housing_Department",
+   "bytes": 160060,
+   "pages": 3,
+   "chars": [
+    936,
+    1036
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "class-iii",
+   "bytes": 3233038,
+   "pages": 6,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 644677,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Housing Department",
+   "bytes": 258481,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1536,
+   "pages": 1,
+   "chars": [
+    261
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 398167,
+   "pages": 3,
+   "chars": [
+    2307,
+    1043
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 577355,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 678210,
+   "pages": 1,
+   "chars": [
+    2047
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 2385976,
+   "pages": 5,
+   "chars": [
+    455,
+    2196
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 1026686,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 435173,
+   "pages": 1,
+   "chars": [
+    680
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 2236631,
+   "pages": 4,
+   "chars": [
+    2151,
+    2345
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 142341.0
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 4689007,
+   "pages": 31,
+   "chars": [
+    1595,
+    3460
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 827366.0
+  },
+  {
+   "sample": "main",
+   "folder": "Stf_Department",
+   "bytes": 2228960,
+   "pages": 16,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "2025-10",
+   "bytes": 1702653,
+   "pages": 6,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 1010407,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1275036,
+   "pages": 3,
+   "chars": [
+    2196,
+    3292
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1876,
+   "pages": 1,
+   "chars": [
+    572
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 770036,
+   "pages": 13,
+   "chars": [
+    1818,
+    2310
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 575669,
+   "pages": 1,
+   "chars": [
+    817
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-i",
+   "bytes": 187025,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "latest_jobs",
+   "bytes": 421874,
+   "pages": 1,
+   "chars": [
+    1372
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 2204428,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1725,
+   "pages": 1,
+   "chars": [
+    435
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 98439,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 687539,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 835153,
+   "pages": 2,
+   "chars": [
+    2599,
+    2677
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 1588910.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 859206,
+   "pages": 3,
+   "chars": [
+    1661,
+    3202
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 37931.0
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 413351,
+   "pages": 1,
+   "chars": [
+    1426
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "land-pooling",
+   "bytes": 402290,
+   "pages": 34,
+   "chars": [
+    2174,
+    2572
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 263623,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1316710,
+   "pages": 6,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "land-pooling",
+   "bytes": 218796,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 822049,
+   "pages": 2,
+   "chars": [
+    1431,
+    1324
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Housing_Department",
+   "bytes": 6522443,
+   "pages": 24,
+   "chars": [
+    54,
+    0
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 2114434,
+   "pages": 6,
+   "chars": [
+    1240,
+    2710
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 342063,
+   "pages": 1,
+   "chars": [
+    1152
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 2382134,
+   "pages": 5,
+   "chars": [
+    4023,
+    2342
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 3787716,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 584220,
+   "pages": 1,
+   "chars": [
+    251
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 544036,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 235173,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 1173728,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 84973,
+   "pages": 39,
+   "chars": [
+    1493,
+    1551
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 3081328,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 107383,
+   "pages": 3,
+   "chars": [
+    2101,
+    1827
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 6462865,
+   "pages": 0,
+   "chars": [],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 314490,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 837469,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 697815,
+   "pages": 5,
+   "chars": [
+    5005,
+    4261
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 177000.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 332038,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 395345,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 397319,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "RTI",
+   "bytes": 564614,
+   "pages": 27,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 272035,
+   "pages": 6,
+   "chars": [
+    2658,
+    1939
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 7860,
+   "pages": 4,
+   "chars": [
+    1479,
+    1578
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 618483,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1380,
+   "pages": 1,
+   "chars": [
+    155
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 832818,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 376118,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 1988119,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 291366,
+   "pages": 1,
+   "chars": [
+    21
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 666926,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "latest_jobs",
+   "bytes": 726010,
+   "pages": 4,
+   "chars": [
+    1623,
+    2302
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1426606,
+   "pages": 6,
+   "chars": [
+    1775,
+    2740
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 41320.0
+  },
+  {
+   "sample": "main",
+   "folder": "employee-corner",
+   "bytes": 300988,
+   "pages": 1,
+   "chars": [
+    2333
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 9857113,
+   "pages": 1,
+   "chars": [
+    1765
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 628082,
+   "pages": 1,
+   "chars": [
+    2482
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "inline-files",
+   "bytes": 838308,
+   "pages": 8,
+   "chars": [
+    120,
+    540
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 1116453,
+   "pages": 7,
+   "chars": [
+    2292,
+    0
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 555503,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 15325,
+   "pages": 7,
+   "chars": [
+    1435,
+    1501
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 227481,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 566682,
+   "pages": 1,
+   "chars": [
+    34
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 99028,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "technical_committee",
+   "bytes": 2037228,
+   "pages": 8,
+   "chars": [
+    198,
+    197
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Housing_Department",
+   "bytes": 766379,
+   "pages": 4,
+   "chars": [
+    1974,
+    386
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1841,
+   "pages": 1,
+   "chars": [
+    498
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1373,
+   "pages": 1,
+   "chars": [
+    145
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1171687,
+   "pages": 7,
+   "chars": [
+    1885,
+    2668
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 70606.0
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1752,
+   "pages": 1,
+   "chars": [
+    508
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 2456,
+   "pages": 1,
+   "chars": [
+    1150
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1054750,
+   "pages": 4,
+   "chars": [
+    2719,
+    432
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 1738227,
+   "pages": 121,
+   "chars": [
+    1321,
+    1333
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 4219959,
+   "pages": 7,
+   "chars": [
+    3090,
+    814
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1844,
+   "pages": 1,
+   "chars": [
+    602
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 622607,
+   "pages": 12,
+   "chars": [
+    2243,
+    3172
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 2491,
+   "pages": 1,
+   "chars": [
+    1407
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 671878,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 6845,
+   "pages": 3,
+   "chars": [
+    1856,
+    2007
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iii",
+   "bytes": 161990,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-ii",
+   "bytes": 2623034,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1880369,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1449,
+   "pages": 1,
+   "chars": [
+    189
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1232935,
+   "pages": 6,
+   "chars": [
+    2908,
+    2465
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 21642.0
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 327594,
+   "pages": 1,
+   "chars": [
+    1265
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "online-service",
+   "bytes": 206035,
+   "pages": 6,
+   "chars": [
+    1826,
+    2036
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 11289146,
+   "pages": 1,
+   "chars": [
+    1768
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1284745,
+   "pages": 8,
+   "chars": [
+    1832,
+    3076
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 28526.0
+  },
+  {
+   "sample": "main",
+   "folder": "Housing_Department",
+   "bytes": 522999,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 528462,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "HousingFinance",
+   "bytes": 624464,
+   "pages": 3,
+   "chars": [
+    2,
+    2
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "gazette-notification",
+   "bytes": 321478,
+   "pages": 12,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "land-pooling",
+   "bytes": 3473033,
+   "pages": 1,
+   "chars": [
+    2689
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 12820,
+   "pages": 1,
+   "chars": [
+    1768
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 797232,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 545807,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 9821512,
+   "pages": 1,
+   "chars": [
+    1597
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 10625963,
+   "pages": 1,
+   "chars": [
+    1912
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 2309865,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 420450,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 955115,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "latest_jobs",
+   "bytes": 470003,
+   "pages": 1,
+   "chars": [
+    1242
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 456050,
+   "pages": 1,
+   "chars": [
+    1012
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 228610,
+   "pages": 2,
+   "chars": [
+    3215,
+    3204
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 10000.0
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 472384,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 448391,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "whats-new",
+   "bytes": 45941,
+   "pages": 6,
+   "chars": [
+    1261,
+    1286
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 425739,
+   "pages": 1,
+   "chars": [
+    1754
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 1480246,
+   "pages": 6,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 7381,
+   "pages": 3,
+   "chars": [
+    1698,
+    1871
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "(root)",
+   "bytes": 2000181,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 9822913,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 149061,
+   "pages": 4,
+   "chars": [
+    2179,
+    1974
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 10552.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 1709765,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 311469,
+   "pages": 1,
+   "chars": [
+    709
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1060548,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "technical_committee",
+   "bytes": 8668960,
+   "pages": 32,
+   "chars": [
+    1492,
+    1252
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 5858791,
+   "pages": 7,
+   "chars": [
+    132,
+    0
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "class-iii",
+   "bytes": 116618,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 117180,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1545,
+   "pages": 1,
+   "chars": [
+    301
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 332714,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "land-pooling",
+   "bytes": 3562398,
+   "pages": 1,
+   "chars": [
+    4695
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 246314,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iii",
+   "bytes": 524660,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 13385,
+   "pages": 2,
+   "chars": [
+    1482,
+    132
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 11051857,
+   "pages": 20,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 355916,
+   "pages": 1,
+   "chars": [
+    23
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 785944,
+   "pages": 2,
+   "chars": [
+    21,
+    21
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "technical_committee",
+   "bytes": 1121900,
+   "pages": 4,
+   "chars": [
+    88,
+    689
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 126420,
+   "pages": 2,
+   "chars": [
+    116,
+    0
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 1651235,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 350132,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 597011,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 46020,
+   "pages": 1,
+   "chars": [
+    1397
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 1191537,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "planning files",
+   "bytes": 229178,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 288289,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "inline-files",
+   "bytes": 2758068,
+   "pages": 1,
+   "chars": [
+    171850
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 152744,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 405597,
+   "pages": 2,
+   "chars": [
+    3177,
+    1517
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 10000.0
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 13785149,
+   "pages": 1,
+   "chars": [
+    1803
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "gazette-notification",
+   "bytes": 6709745,
+   "pages": 12,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "latest_jobs",
+   "bytes": 935753,
+   "pages": 7,
+   "chars": [
+    2130,
+    2519
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "employee-corner",
+   "bytes": 252951,
+   "pages": 1,
+   "chars": [
+    1477
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 2833422,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 10205045,
+   "pages": 1,
+   "chars": [
+    1848
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 170906,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "2023-08",
+   "bytes": 395903,
+   "pages": 1,
+   "chars": [
+    2431
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 901162,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1130244,
+   "pages": 7,
+   "chars": [
+    2920,
+    3379
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 153990.0,
+   "emd_rs": 5000.0
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 955450,
+   "pages": 5,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 8734726,
+   "pages": 1,
+   "chars": [
+    1691
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 423345,
+   "pages": 2,
+   "chars": [
+    1074,
+    273
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 360019,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 11696469,
+   "pages": 1,
+   "chars": [
+    1260
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 5598865,
+   "pages": 38,
+   "chars": [
+    62,
+    95
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "dda_rti",
+   "bytes": 12367630,
+   "pages": 91,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1029163,
+   "pages": 5,
+   "chars": [
+    3532,
+    3572
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "sports",
+   "bytes": 613408,
+   "pages": 2,
+   "chars": [
+    2102,
+    2081
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 2002043,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 1725992,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 18020,
+   "pages": 8,
+   "chars": [
+    1793,
+    1851
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "land-pooling",
+   "bytes": 3405217,
+   "pages": 1,
+   "chars": [
+    5244
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "dda_rti",
+   "bytes": 3884461,
+   "pages": 8,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 584464,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 1114801,
+   "pages": 3,
+   "chars": [
+    2883,
+    3548
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Housing Department",
+   "bytes": 85708,
+   "pages": 17,
+   "chars": [
+    1283,
+    1294
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 232811,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "gazette-notification",
+   "bytes": 7867856,
+   "pages": 138,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 10791026,
+   "pages": 1,
+   "chars": [
+    1629
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 1188389,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-ii",
+   "bytes": 2513093,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 1596524,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "latest_jobs",
+   "bytes": 543894,
+   "pages": 2,
+   "chars": [
+    2228,
+    5609
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "employee-corner",
+   "bytes": 2063968,
+   "pages": 5,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1291415,
+   "pages": 6,
+   "chars": [
+    2924,
+    2253
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 298716.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 493542,
+   "pages": 8,
+   "chars": [
+    1673,
+    1667
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 10796,
+   "pages": 5,
+   "chars": [
+    1771,
+    1997
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "employee-corner",
+   "bytes": 874307,
+   "pages": 2,
+   "chars": [
+    1534,
+    626
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 387407,
+   "pages": 1,
+   "chars": [
+    114
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 1473641,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 573766,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 307070,
+   "pages": 1,
+   "chars": [
+    2018
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 959246,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 2874453,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 251786,
+   "pages": 1,
+   "chars": [
+    21
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 215715,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 336363,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "2021-03",
+   "bytes": 1482253,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 674936,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1126132,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 556672,
+   "pages": 10,
+   "chars": [
+    1395,
+    1426
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 776070,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 6487848,
+   "pages": 1,
+   "chars": [
+    1659
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Housing_Department",
+   "bytes": 1819895,
+   "pages": 5,
+   "chars": [
+    1626,
+    259
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 2927,
+   "pages": 1,
+   "chars": [
+    1491
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 1702064,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 863580,
+   "pages": 1,
+   "chars": [
+    2890
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iii",
+   "bytes": 1002855,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-iii",
+   "bytes": 462135,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 537890,
+   "pages": 1,
+   "chars": [
+    1429
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "employee-corner",
+   "bytes": 1357341,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 776488,
+   "pages": 5,
+   "chars": [
+    4659,
+    3984
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 102542.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 558384,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 283923,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 1622832,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 475343,
+   "pages": 1,
+   "chars": [
+    962
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 451832,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "land-pooling",
+   "bytes": 3307798,
+   "pages": 1,
+   "chars": [
+    3602
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 347025,
+   "pages": 2,
+   "chars": [
+    1222,
+    601
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 2315,
+   "pages": 1,
+   "chars": [
+    1083
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1196746,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 1447825,
+   "pages": 7,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 214814,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 267815,
+   "pages": 4,
+   "chars": [
+    2708,
+    2006
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Housing_Department",
+   "bytes": 4542176,
+   "pages": 13,
+   "chars": [
+    1900,
+    1913
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1012149,
+   "pages": 3,
+   "chars": [
+    3733,
+    3013
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 2000000.0
+  },
+  {
+   "sample": "main",
+   "folder": "Housing_Department",
+   "bytes": 532785,
+   "pages": 2,
+   "chars": [
+    1593,
+    201
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1805,
+   "pages": 1,
+   "chars": [
+    547
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 7337353,
+   "pages": 1,
+   "chars": [
+    1670
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1663,
+   "pages": 1,
+   "chars": [
+    398
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1514,
+   "pages": 1,
+   "chars": [
+    272
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 875163,
+   "pages": 6,
+   "chars": [
+    1544,
+    3038
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1453162,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "planning files",
+   "bytes": 2629681,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 484561,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "land-pooling",
+   "bytes": 5139123,
+   "pages": 1,
+   "chars": [
+    3012
+   ],
+   "text_layer": true,
+   "hindi": true
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 3845400,
+   "pages": 5,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 510280,
+   "pages": 12,
+   "chars": [
+    1375,
+    2690
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Land_Costing_Index",
+   "bytes": 74781,
+   "pages": 2,
+   "chars": [
+    2838,
+    2189
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 499633,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 618892,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 979687,
+   "pages": 3,
+   "chars": [
+    1660,
+    0
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 153258,
+   "pages": 3,
+   "chars": [
+    2357,
+    1785
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 11208.0
+  },
+  {
+   "sample": "main",
+   "folder": "LandDisposal",
+   "bytes": 1173272,
+   "pages": 38,
+   "chars": [
+    311,
+    653
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 246331,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 367131,
+   "pages": 1,
+   "chars": [
+    627
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 1176080,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 207037,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 142811,
+   "pages": 2,
+   "chars": [
+    3804,
+    627
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 1233682,
+   "pages": 1,
+   "chars": [
+    21
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "notice",
+   "bytes": 10178449,
+   "pages": 16,
+   "chars": [
+    66,
+    0
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 567330,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 11053567,
+   "pages": 1,
+   "chars": [
+    1733
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "RTI",
+   "bytes": 420076,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1021751,
+   "pages": 3,
+   "chars": [
+    2356,
+    4206
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 13706.0
+  },
+  {
+   "sample": "main",
+   "folder": "class-iv",
+   "bytes": 554414,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 537668,
+   "pages": 1,
+   "chars": [
+    757
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 212156,
+   "pages": 19,
+   "chars": [
+    1835,
+    3385
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 341611,
+   "pages": 44,
+   "chars": [
+    1908,
+    1729
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 2043,
+   "pages": 1,
+   "chars": [
+    713
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 816668,
+   "pages": 3,
+   "chars": [
+    1464,
+    2538
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 87788.0
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 519154,
+   "pages": 5,
+   "chars": [
+    2013,
+    2745
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 157549.0
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 8641739,
+   "pages": 1,
+   "chars": [
+    1788
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "layoutplan",
+   "bytes": 1110907,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 418826,
+   "pages": 2,
+   "chars": [
+    3185,
+    3349
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 24109.0
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 2986090,
+   "pages": 5,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "technical_committee",
+   "bytes": 10459857,
+   "pages": 48,
+   "chars": [
+    1565,
+    522
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 328113,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Accounts",
+   "bytes": 321589,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 3542719,
+   "pages": 7,
+   "chars": [
+    1890,
+    2622
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 545252,
+   "pages": 0,
+   "chars": [],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 309548,
+   "pages": 1,
+   "chars": [
+    695
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 243334,
+   "pages": 4,
+   "chars": [
+    2375,
+    723
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "class-v",
+   "bytes": 848905,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1736723,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "2022-07",
+   "bytes": 758936,
+   "pages": 41,
+   "chars": [
+    3418,
+    3692
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 192994,
+   "pages": 1,
+   "chars": [
+    1081
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1454,
+   "pages": 1,
+   "chars": [
+    231
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "technical_committee",
+   "bytes": 13482716,
+   "pages": 50,
+   "chars": [
+    63,
+    693
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "pmuday",
+   "bytes": 12458215,
+   "pages": 1,
+   "chars": [
+    1863
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "class-i",
+   "bytes": 304858,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 1467120,
+   "pages": 5,
+   "chars": [
+    2253,
+    3176
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 234922.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Stf_Department",
+   "bytes": 1619891,
+   "pages": 9,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Engineering",
+   "bytes": 175316,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 900313,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "tender",
+   "bytes": 293180,
+   "pages": 11,
+   "chars": [
+    1414,
+    2031
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "main",
+   "folder": "Personnel",
+   "bytes": 1526296,
+   "pages": 5,
+   "chars": [
+    1125,
+    1086
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "public-notice",
+   "bytes": 607794,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "Landmgmt",
+   "bytes": 1508,
+   "pages": 1,
+   "chars": [
+    277
+   ],
+   "text_layer": true,
+   "hindi": false
+  },
+  {
+   "sample": "main",
+   "folder": "RTI",
+   "bytes": 46474,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1544384,
+   "pages": 3,
+   "chars": [
+    2047,
+    2752
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 1575642.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1170021,
+   "pages": 5,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 361726,
+   "pages": 1,
+   "chars": [
+    2053
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 401599,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1071575,
+   "pages": 8,
+   "chars": [
+    2049,
+    3877
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 2016.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 660047,
+   "pages": 6,
+   "chars": [
+    2749,
+    934
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 98921,
+   "pages": 2,
+   "chars": [
+    1997,
+    1723
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 1909543.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 649416,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 2655283,
+   "pages": 4,
+   "chars": [
+    3294,
+    3953
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 686514,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 695718,
+   "pages": 5,
+   "chars": [
+    5046,
+    4642
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 249428.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 365375,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 118860,
+   "pages": 3,
+   "chars": [
+    326,
+    1664
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 787525,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 5373780,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1367479,
+   "pages": 4,
+   "chars": [
+    1412,
+    2290
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 3017841,
+   "pages": 6,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 946672,
+   "pages": 3,
+   "chars": [
+    1485,
+    4067
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 4982.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 421166,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 567468,
+   "pages": 1,
+   "chars": [
+    2564
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 1146753.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 251388,
+   "pages": 1,
+   "chars": [
+    1040
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 989691,
+   "pages": 7,
+   "chars": [
+    2394,
+    4513
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 29502.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 290218,
+   "pages": 3,
+   "chars": [
+    1998,
+    3428
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 80050.0,
+   "emd_rs": 5000.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1960197,
+   "pages": 8,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1424018,
+   "pages": 11,
+   "chars": [
+    50,
+    422
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1021670,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 656954,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 84202,
+   "pages": 2,
+   "chars": [
+    1452,
+    1166
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1525941,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1271131,
+   "pages": 8,
+   "chars": [
+    1475,
+    2798
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 4805.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 544940,
+   "pages": 3,
+   "chars": [
+    3901,
+    4738
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 6974.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 2984259,
+   "pages": 4,
+   "chars": [
+    2276,
+    492
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 7.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 677039,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 758785,
+   "pages": 2,
+   "chars": [
+    1465,
+    345
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 8398194.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 901030,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1149490,
+   "pages": 3,
+   "chars": [
+    2179,
+    3737
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1970313,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1524407,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 97197,
+   "pages": 2,
+   "chars": [
+    3179,
+    3229
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 10000.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1141754,
+   "pages": 3,
+   "chars": [
+    5258,
+    4298
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 2640.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1376524,
+   "pages": 3,
+   "chars": [
+    2183,
+    2543
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 4789.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1032643,
+   "pages": 4,
+   "chars": [
+    1380,
+    1967
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 4321819,
+   "pages": 7,
+   "chars": [
+    2936,
+    2840
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 334063.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 611357,
+   "pages": 2,
+   "chars": [
+    3198,
+    3162
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 10000.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 5986316,
+   "pages": 10,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 2960796,
+   "pages": 13,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 335943,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 740905,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 325059,
+   "pages": 1,
+   "chars": [
+    1541
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1046736,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 550048,
+   "pages": 10,
+   "chars": [
+    3300,
+    2149
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 679688,
+   "pages": 2,
+   "chars": [
+    2789,
+    1087
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1206917,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 867804,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1384600,
+   "pages": 21,
+   "chars": [
+    414,
+    2380
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1084429,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 339372,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 2907807,
+   "pages": 13,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 204042,
+   "pages": 2,
+   "chars": [
+    2222,
+    973
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 358224,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1399703,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 770036,
+   "pages": 13,
+   "chars": [
+    1818,
+    2310
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 301465,
+   "pages": 3,
+   "chars": [
+    2273,
+    4293
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 33667.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 3212056,
+   "pages": 7,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 533980,
+   "pages": 1,
+   "chars": [
+    2639
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1004900,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 742154,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1070175,
+   "pages": 6,
+   "chars": [
+    3324,
+    2327
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 453759,
+   "pages": 4,
+   "chars": [
+    3615,
+    4756
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 452673,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1197446,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 615203,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 7325158,
+   "pages": 12,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 422772,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1127996,
+   "pages": 7,
+   "chars": [
+    1815,
+    2727
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": 34287.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 925401,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1434521,
+   "pages": 4,
+   "chars": [
+    4993,
+    6799
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 97306.0,
+   "emd_rs": 5000.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 3237757,
+   "pages": 4,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1207546,
+   "pages": 6,
+   "chars": [
+    1634,
+    2821
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 1105630.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 961771,
+   "pages": 3,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1408452,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1187953,
+   "pages": 6,
+   "chars": [
+    4113,
+    4397
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 354018,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1115487,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1108111,
+   "pages": 4,
+   "chars": [
+    1436,
+    3511
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": 93319.0,
+   "emd_rs": 10000.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 871660,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1774387,
+   "pages": 10,
+   "chars": [
+    2565,
+    3672
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 647694,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 3844995,
+   "pages": 25,
+   "chars": [
+    12,
+    1294
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 393499,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1872731,
+   "pages": 5,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 406968,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 697578,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 947152,
+   "pages": 3,
+   "chars": [
+    1480,
+    4711
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 4982.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1461711,
+   "pages": 4,
+   "chars": [
+    1401,
+    2979
+   ],
+   "text_layer": true,
+   "hindi": true,
+   "cost_rs": null,
+   "emd_rs": 200761.0
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 1570300,
+   "pages": 2,
+   "chars": [
+    0,
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 673027,
+   "pages": 7,
+   "chars": [
+    3301,
+    3603
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": 144900.0,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 3548433,
+   "pages": 7,
+   "chars": [
+    1708,
+    1295
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 403106,
+   "pages": 1,
+   "chars": [
+    0
+   ],
+   "text_layer": false,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  },
+  {
+   "sample": "tender",
+   "folder": "tender",
+   "bytes": 434838,
+   "pages": 2,
+   "chars": [
+    1568,
+    232
+   ],
+   "text_layer": true,
+   "hindi": false,
+   "cost_rs": null,
+   "emd_rs": null
+  }
+ ],
+ "summary": {
+  "sampled": 500,
+  "errors": 0,
+  "seconds": 737,
+  "text_layer_share": 0.53,
+  "hindi_share": 0.068,
+  "median_pages": 2,
+  "tender_text_share": 0.559,
+  "tender_cost_found": 23,
+  "tender_emd_found": 43,
+  "tender_sampled": 188,
+  "by_folder": {
+   "tender": {
+    "sampled": 88,
+    "text": 56
+   },
+   "Personnel": {
+    "sampled": 37,
+    "text": 23
+   },
+   "Landmgmt": {
+    "sampled": 34,
+    "text": 34
+   },
+   "Engineering": {
+    "sampled": 34,
+    "text": 4
+   },
+   "pmuday": {
+    "sampled": 24,
+    "text": 22
+   },
+   "Accounts": {
+    "sampled": 17,
+    "text": 6
+   },
+   "class-v": {
+    "sampled": 13,
+    "text": 0
+   },
+   "public-notice": {
+    "sampled": 13,
+    "text": 3
+   },
+   "LandDisposal": {
+    "sampled": 12,
+    "text": 5
+   },
+   "layoutplan": {
+    "sampled": 12,
+    "text": 1
+   },
+   "class-iv": {
+    "sampled": 11,
+    "text": 1
+   },
+   "notice": {
+    "sampled": 10,
+    "text": 6
+   },
+   "class-iii": {
+    "sampled": 8,
+    "text": 0
+   },
+   "land-pooling": {
+    "sampled": 8,
+    "text": 7
+   },
+   "latest_jobs": {
+    "sampled": 8,
+    "text": 8
+   },
+   "Housing_Department": {
+    "sampled": 8,
+    "text": 7
+   },
+   "RTI": {
+    "sampled": 7,
+    "text": 1
+   },
+   "technical_committee": {
+    "sampled": 7,
+    "text": 7
+   },
+   "employee-corner": {
+    "sampled": 7,
+    "text": 4
+   },
+   "gazette-notification": {
+    "sampled": 5,
+    "text": 1
+   },
+   "Stf_Department": {
+    "sampled": 4,
+    "text": 2
+   },
+   "inline-files": {
+    "sampled": 4,
+    "text": 3
+   },
+   "class-i": {
+    "sampled": 3,
+    "text": 0
+   },
+   "Housing Department": {
+    "sampled": 3,
+    "text": 1
+   },
+   "planning files": {
+    "sampled": 3,
+    "text": 1
+   },
+   "(root)": {
+    "sampled": 2,
+    "text": 1
+   },
+   "HousingFinance": {
+    "sampled": 2,
+    "text": 0
+   },
+   "class-ii": {
+    "sampled": 2,
+    "text": 0
+   },
+   "dda_rti": {
+    "sampled": 2,
+    "text": 0
+   },
+   "architecture": {
+    "sampled": 1,
+    "text": 1
+   },
+   "medical": {
+    "sampled": 1,
+    "text": 0
+   },
+   "policy_guideline": {
+    "sampled": 1,
+    "text": 1
+   },
+   "vigilance": {
+    "sampled": 1,
+    "text": 0
+   },
+   "2025-10": {
+    "sampled": 1,
+    "text": 0
+   },
+   "online-service": {
+    "sampled": 1,
+    "text": 1
+   },
+   "whats-new": {
+    "sampled": 1,
+    "text": 1
+   },
+   "2023-08": {
+    "sampled": 1,
+    "text": 1
+   },
+   "sports": {
+    "sampled": 1,
+    "text": 1
+   },
+   "2021-03": {
+    "sampled": 1,
+    "text": 0
+   },
+   "Land_Costing_Index": {
+    "sampled": 1,
+    "text": 1
+   },
+   "2022-07": {
+    "sampled": 1,
+    "text": 1
+   }
+  },
+  "error_kinds": {}
+ }
+}

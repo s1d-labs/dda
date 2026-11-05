@@ -139,6 +139,8 @@ def build(a, repair):
     deb = dict((r[0], r[1]) for r in a["debarments"])
     broken = st.get("broken", 0)
     scope = a.get("scope", {})
+    hp = (a.get("hindi_parity") or [[0, 0]])[0]
+    alt = (a.get("award_letter_text") or [[0, 0, 0, 0, 0, 0]])[0]
 
     years = [(y, c) for y, c in a["rows_per_year"] if y and 1990 <= y <= 2026]
     s = []
@@ -161,20 +163,22 @@ Simplified Technical English. It names no private individuals or firms.</p>
  <div class="tile"><b>{n(col.get('1731', (0, 0))[0])}</b><span>unauthorised colonies as a table</span></div>
  <div class="tile"><b>{n(broken)}</b><span>document links that return HTTP 404</span></div>
 </div>
-<p>The scrape continues on the scrape pool. The repair pass found {n(scope.get('pages', pages_total) - pages_total)} more pages;
-the pool scrapes them in turn. All counts on this page come from the workspace database tables (schema <code>dda</code>)
-at the time shown above. The figures from page data use the {n(pages_total)} pages that are scraped now.</p>
+<p>{"The scrape is complete: every page and every document that the site delivers is stored." if pages_total >= scope.get('pages', 0)
+ else f"The scrape continues. {n(scope.get('pages', pages_total) - pages_total)} pages are still in the queue."}
+All counts on this page come from the workspace database tables (schema <code>dda</code>) at the time shown above.</p>
 """)
 
     # verification
     s.append(f"""<h2>1. Verification of the scrape</h2>
 <p>We checked the stored records against the site structure. The checks found five defects in the first version
-of the scraper. We fixed all five. The table gives each defect and its effect.</p>
+of the scraper and three more during the run. We fixed all of them. The table gives each defect and its effect.</p>
 {table(["Check", "Result", "Action"], [
         ["One spelling per URL", "221 pages were scraped twice (http:// and https://). 27 documents had two spellings (space and %20).", "One canonical URL. 2,871 pages became 2,649."],
         ["HTML entities in links", "157 document links were lost. The crawler read '&amp;' in a file name as text.", "Links are unescaped. The repair pass adds the files."],
         ["Pager coverage", "395 listing pages were not reached. Example: 191 of 285 pages of the tender archive.", "Every page 1..N of a listing is queued. The repair pass fetches them."],
-        ["Failed downloads", f"All {n(broken)} failed documents return HTTP 404 on the site.", "They are recorded once as broken links. No retries."],
+        ["Failed downloads", f"{n(broken)} documents return HTTP 404 on the site.", "They are recorded once as broken links. No retries."],
+        ["Files the server never delivers", "The server cuts one 40 MB PDF at the same byte on every try. The pool ran about 38 runner jobs an hour for 3 such files.", "After 10 tries the file is recorded as unretrievable."],
+        ["Discovery of files", "A file linked as a page was read in full (more than 400 MB).", "Discovery reads the headers first."],
         ["Large downloads", "A dropped connection during a 40 MB file stopped a worker process.", "The item fails and the worker continues."],
         ["Dates", "Two-digit years became 20xx (1986 was stored as 2086).", "Two-digit years now resolve to the past."],
     ])}
@@ -213,9 +217,8 @@ office code and the financial year from each NIT number (for example <code>07/EE
 The full tender process runs on the central e-procurement portal. The DDA site keeps the notice and the documents.</p>
 <figure><figcaption>Tender rows on the DDA site by financial year (from the NIT number)</figcaption>
 {vbar([(k[2:], v) for k, v in fy], note="Tender rows by financial year")}</figure>
-<div class="flag"><p><strong>Coverage note.</strong> The chart has almost no tender rows for the financial years 2022-23 to 2024-25.
-This is a coverage defect of the first scrape, not a gap on the site. The first scrape read only 94 of the 285 pages of the
-tender archive. A sample of the pages that the repair pass found has tender notices of 2023-24 and 2024-25. The pool scrapes these pages now.</p></div>
+<div class="flag"><p><strong>Coverage note.</strong> The first scrape read only 94 of the 285 pages of the tender archive, so
+it showed almost no tenders for 2022-23 to 2024-25. The repair pass read all 285 pages. The chart now shows these years.</p></div>
 <ul>
 <li>{n(tt[3])} tender rows ({tt[3] * 100 / max(tt[0], 1):.1f}%) are marked "re-invited". A re-invited tender had no valid bid in the first call.</li>
 <li>The site has {n(wa[0])} work award letters. {n(wa[1])} of them give the NIT number of the tender.</li>
@@ -268,23 +271,102 @@ Most orders are from 2022 to 2025.</li>
 <li><strong>Links to raw IP addresses.</strong> Some pages link to services by IP address over plain HTTP.</li>
 <li><strong>Link to a staging server.</strong> One page links to a vendor staging host on port 91.</li>
 <li><strong>Plain HTTP links.</strong> {n(a['external_http'][0][0])} external links use <code>http://</code>. Most go to the DDA online services portal.</li>
-<li><strong>Hindi mirror.</strong> The site has {n(lang.get('hi', 0))} Hindi pages and {n(lang.get('en', 0))} English pages. Many English listings have no Hindi page.</li>
+<li><strong>Hindi mirror.</strong> The site has {n(lang.get('hi', 0))} Hindi pages and {n(lang.get('en', 0))} English pages. Only {n(hp[1])} of {n(hp[0])} English pages have a Hindi page at the same path (a lower bound).</li>
 </ul>
 <h3>Sections with no new dated entry for a long time</h3>
 {table(["Section (category)", "Latest date", "Rows"], [(r[0], r[1], r[2]) for r in a["latest_by_category"][:8]], num_cols=(2,))}
 <div class="flag"><p><strong>Privacy indicator.</strong> The archive of registered contractors links {n(ef[0])} files.
 They include {n(ef[1])} bank solvency certificates and {n(ef[2])} application forms. Many registered contractors are
 sole proprietors, so these files can hold personal and financial data. We did not open or extract these files.
+{f"Also, {n(alt[1])} of {n(alt[0])} award letters with a text layer print a bank account number of the contractor (counted, not stored in the report)." if alt[0] else ""}
 We recommend that DDA reviews whether these files must stay public.</p></div>
 """)
 
+    # eprocure
+    eps = dict((r[0], r[1]) for r in a.get("ep_stage", []))
+    ep_total = sum(eps.values())
+    epl = (a.get("ep_links") or [[0, 0, 0, 0]])[0]
+    ar = (a.get("ep_award_ratio") or [[0, 0, 0]])[0]
+    alst = dict((r[0], r[1]) for r in a.get("ep_award_letter_stage", []))
+    epy = [(str(r[0]), r[1]) for r in a.get("ep_years", []) if r[0] and r[0] <= 2026]
+    single = [(str(r[0]), r[3] * 100.0 / r[4]) for r in a.get("ep_years", []) if r[0] and r[4]]
+    peers = a.get("ep_peer_awarded", [])
+    award_id_note = (f"{n(alt[2])} award letters print the eprocure Tender ID itself; {n(alt[4])} of these tenders show "
+                     f"\"in evaluation\" on eprocure." if alt[2] else "")
+    if ep_total:
+        s.append(f"""<h2>7. DDA on the central e-procurement portal</h2>
+<p>DDA runs its tenders on the central e-procurement portal (<code>eprocure.gov.in</code>). The team database already holds
+{n(ep_total)} DDA tenders from that portal, with tender value, EMD, bid counts and stage. The DDA site keeps the notices and the
+award letters. Both use the same NIT reference, so we linked them by number, office and financial year
+(<code>link_eprocure.py</code>).</p>
+<ul>
+<li>{n(epl[1])} of {n(epl[0])} tender rows on the DDA site ({epl[1] * 100 / max(epl[0], 1):.1f}%) link to an eprocure tender.</li>
+<li>{n(epl[3])} of {n(epl[2])} award letters with an NIT number link to an eprocure tender.</li>
+</ul>
+<figure><figcaption>DDA tenders published on eprocure by year</figcaption>
+{vbar(epy, note="DDA tenders on eprocure by year", every=2)}</figure>
+<figure><figcaption>Share of DDA tenders with exactly one bid, by year (% of tenders with bids)</figcaption>
+{vbar(single, fmt=lambda v: f"{v:.1f}%", note="Single-bid share by year", every=2, h=200)}</figure>
+<div class="flag"><p><strong>Indicator.</strong> Only {n(eps.get('awarded', 0))} of {n(ep_total)} DDA tenders
+({eps.get('awarded', 0) * 100 / ep_total:.1f}%) reach the stage "awarded" on eprocure. {n(eps.get('in evaluation', 0))}
+({eps.get('in evaluation', 0) * 100 / ep_total:.1f}%) stay "in evaluation". Of the tenders with an award letter on the DDA site,
+{n(alst.get('in evaluation', 0))} still show "in evaluation" on eprocure. DDA publishes the award on its own site, not on the portal.
+{award_id_note}</p></div>
+<h3>Awarded share of the largest buyers on eprocure</h3>
+{table(["Organisation code", "Tenders", "Awarded on eprocure (%)"], [(r[0], r[1], f"{r[2]:.1f}") for r in peers], num_cols=(1,))}
+<ul>
+<li>Where eprocure shows an award, the median award is {ar[1]:.2f} times the estimated value ({n(ar[0])} tenders).
+{n(ar[2])} of them ({ar[2] * 100 / max(ar[0], 1):.1f}%) are below the estimate.</li>
+<li>The tables <code>dda.eprocure_tenders</code>, <code>dda.tender_links</code> and <code>dda.award_links</code> hold the link.
+They have no bidder names.</li>
+</ul>
+""")
+
+    pc = a.get("pdf_census") or {}
+    if pc:
+        bf = sorted(pc.get("by_folder", {}).items(), key=lambda kv: -kv[1]["sampled"])[:10]
+        s.append(f"""<h2>8. Text in the documents (no OCR)</h2>
+<p>We opened a random sample of {n(pc.get('sampled'))} stored PDF files and read the text layer of the first pages. A page with
+fewer than 25 characters counts as a scanned page. This measures the OCR work for later.</p>
+<ul>
+<li><strong>{pc.get('text_layer_share', 0) * 100:.1f}%</strong> of the sampled PDF files have a text layer. The rest are scans and need OCR.</li>
+<li>{pc.get('hindi_share', 0) * 100:.1f}% of the sampled files have Hindi text. The median file has {n(pc.get('median_pages'))} pages.</li>
+<li>Tender notices: {pc.get('tender_text_share', 0) * 100:.1f}% have a text layer. The estimated cost was found in
+{n(pc.get('tender_cost_found'))} of {n(pc.get('tender_sampled'))} sampled notices and the EMD in {n(pc.get('tender_emd_found'))}.
+eprocure already gives these values for the linked tenders.</li>
+</ul>
+{table(["Folder", "Sampled", "With text layer"], [(k, v["sampled"], v["text"]) for k, v in bf], num_cols=(1, 2))}
+""")
+    dt = (a.get("doc_text") or [[0, 0, 0, 0]])[0]
+    if dt[0]:
+        s.append(f"""<h3>Full-text table</h3>
+<p><code>extract_text.py</code> reads the text layer of the stored PDF files into <code>dda.document_text</code>, with a
+full-text index. It has read {n(dt[0])} of {n(dt[3])} stored PDF files so far. {n(dt[1])} of them have text
+({n(dt[2])} characters). The rest are scans for OCR later. Run it again to continue.</p>
+{table(["Search words", "Documents that match"], [(r[0], r[1]) for r in a.get("doc_text_search", [])], num_cols=(1,))}
+""")
+
+    s.append("""<h2>9. More scope and next steps</h2>
+<p>These are the next sources and tasks. Each one is public data. None needs a login.</p>
+""" + table(["Scope", "What it gives", "Size or effort"], [
+        ["Award letters to eprocure", "Award date and contractor for tenders that eprocure shows as in evaluation", "Text PDF; link table exists"],
+        ["Text of text-layer PDFs", "Full-text search of orders, circulars, notices", "Started: dda.document_text; run extract_text.py again"],
+        ["OCR of scanned PDFs", "Text of old orders, agendas, Authority minutes since 1959", "Large; for later"],
+        ["Authority meeting agendas", "Decisions of the Authority by date, 1959 to now", "About 470 files, many scanned"],
+        ["Land acquisition awards", "Village, award number and year for about 1,800 awards", "Rows exist; PDFs give area and amount"],
+        ["Layout plans and KMZ maps", "Boundaries of parks, plots and colonies as map files", "About 700 KMZ files"],
+        ["Hindi mirror", "Check which English listings have no Hindi page", "Data exists"],
+        ["STF portal and DDA Greens", "Enforcement notices; plantation counts", "Small public pages"],
+        ["Change watch", "New tenders, notices and orders each week", "Re-run discovery; seed_queue adds only new keys"],
+    ]) + "\n")
+
     # how to use
-    s.append("""<h2>7. How to use the data</h2>
+    s.append("""<h2>10. How to use the data</h2>
 <p>The workspace database <code>ws_trideep</code>, schema <code>dda</code>, holds the data. Metabase shows it as
 "Workspace: trideep". The repository <code>s1d-labs/dda</code> holds the code.</p>
 """ + table(["Table or view", "Content"], [
         ["pages", "One row per HTML page: language, section, category, title, counts"],
-        ["documents", "One row per document: status (stored, broken, pending), size, SHA-256, source page"],
+        ["documents", "One row per document: status (stored, broken, unretrievable), size, SHA-256, source page"],
         ["listing_rows", "One row per listing row: serial, title, date, size label, file"],
         ["html_tables", "Every row of every plain HTML table on the site"],
         ["tenders / work_awards / debarments", "Tender notices with NIT, office and year; award letters; debarment orders"],
@@ -292,12 +374,14 @@ We recommend that DDA reviews whether these files must stay public.</p></div>
         ["unauthorised_colonies / delineated_boundaries", "PM-UDAY colony lists and boundary maps"],
         ["colony_boundary_status (view)", "Boundary status of each colony"],
         ["duplicate_files / size_mismatch / broken_links (views)", "Data quality checks"],
+        ["eprocure_tenders / tender_links / award_links", "DDA tenders on eprocure and their link to the site rows"],
     ]) + """
 <p>To refresh: run <code>python build_db.py --html DIR</code>, then <code>python analyze.py</code>, then
 <code>python report_html.py analysis.json report.html</code>.</p>
-<h2>8. Limits</h2>
+<h2>11. Limits</h2>
 <ul>
-<li>The document download is not complete. Document counts by status change while the pool runs.</li>
+<li>Three documents can not be downloaded: the server cuts the transfer or refuses the link.</li>
+<li>The eprocure data comes from the team database. Its stage reflects the last time the team scraped that tender.</li>
 <li>The login, OTP and captcha portals of DDA are separate systems. We did not access them.</li>
 <li>We did not use OCR. Scanned PDF files are stored for later work.</li>
 <li>Dates come from the listing text. A row without a printed date has no date.</li>

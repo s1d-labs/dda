@@ -34,6 +34,9 @@ Q = {
     # pages
     "pages_lang": "select lang, count(*) from dda.pages group by 1",
     "pages_sections": "select section, count(*) from dda.pages where lang='en' group by 1 order by 2 desc limit 15",
+    "hindi_parity": """with en as (select regexp_replace(url, '^https://dda.gov.in', '') p from dda.pages where lang = 'en'),
+                       hi as (select regexp_replace(url, '^https://dda.gov.in/hi', '') p from dda.pages where lang = 'hi')
+                       select count(*), count(hi.p) from en left join hi using (p)""",
     "pages_no_title": "select count(*) from dda.pages where coalesce(title,'') = ''",
     "external_hosts": """select host, count(distinct url), count(distinct page_url) from dda.external_links
                          group by 1 order by 3 desc limit 15""",
@@ -74,6 +77,22 @@ Q = {
                                left join dda.unauthorised_colonies c on c.reg_key=b.reg_no where c.reg_key is null""",
     "colony_pins": """select pin, count(*) from dda.unauthorised_colonies where list='1731' and pin is not null
                       group by 1 order by 2 desc limit 12""",
+    # DDA on the central e-procurement portal (link_eprocure.py); counts and values only, no bidder names
+    "ep_years": """select extract(year from published_at)::int, count(*), round(sum(tender_value)/1e7),
+                   count(*) filter (where bids_count = 1), count(*) filter (where bids_count >= 1)
+                   from dda.eprocure_tenders where is_real and published_at >= '2014-01-01' group by 1 order by 1""",
+    "ep_stage": "select stage_group, count(*) from dda.eprocure_tenders group by 1 order by 2 desc",
+    "ep_award_ratio": """select count(*), percentile_cont(0.5) within group (order by awarded_value / tender_value),
+                         count(*) filter (where awarded_value < tender_value)
+                         from dda.eprocure_tenders where awarded_value > 0 and tender_value > 0""",
+    "ep_links": """select (select count(*) from dda.tenders where nit is not null),
+                          (select count(distinct (page_url, row_no)) from dda.tender_links),
+                          (select count(*) from dda.work_awards where nit is not null),
+                          (select count(distinct (page_url, row_no)) from dda.award_links)""",
+    "ep_award_letter_stage": """select e.stage_group, count(distinct e.tender_id) from dda.award_links l
+                                join dda.eprocure_tenders e using (tender_id) group by 1 order by 2 desc""",
+    "ep_rounds": """select n_rounds, count(*) from (select nit_key, count(*) n_rounds from dda.eprocure_tenders
+                    where nit_key is not null group by 1) t group by 1 order by 1 limit 8""",
     # privacy indicator: contractor enlistment files (counts only)
     "enlistment_files": """select count(*), count(*) filter (where filename ~* 'solv'),
                            count(*) filter (where filename ~* 'appli'),
@@ -111,6 +130,30 @@ def main():
     # the full discovered scope (seeds.json, one spelling per URL) and the hub queue state
     import family
     res["scope"] = {"pages": len(family.PAGE_ITEMS), "documents": len(family.DOC_ITEMS)}
+    res["ep_peer_awarded"] = run("scrape_hub", """select org_code, count(*),
+        round(100.0 * count(*) filter (where stage_group = 'awarded') / count(*), 1)
+        from eprocure.tender_facts where org_code in (select org_code from eprocure.org_index
+        order by tenders desc limit 10) group by 1 order by 2 desc""")
+    try:
+        res["doc_text"] = run(args.db, """select count(*), count(*) filter (where has_text), coalesce(sum(chars), 0),
+            (select count(*) from dda.documents where status='stored' and ext='pdf') from dda.document_text""")
+        res["doc_text_search"] = run(args.db, """select q, (select count(*) from dda.document_text
+            where to_tsvector('simple', coalesce(text,'')) @@ plainto_tsquery('simple', q)) from
+            unnest(array['land pooling','unauthorised colony','encroachment','demolition','arbitration','debarment']) q""")
+    except subprocess.CalledProcessError:
+        pass
+    try:   # award letters with a text layer: direct eprocure Tender ID, bank account numbers (counts only)
+        res["award_letter_text"] = run(args.db, r"""with x as (select t.text, regexp_match(regexp_replace(t.text, '\s', '', 'g'),
+              '(20[0-9]{2})_?DDA_?([0-9]{5,7})_([0-9])', 'i') m
+              from dda.work_awards w join dda.document_text t on t.url = w.doc_url where t.has_text)
+            select count(*), count(*) filter (where text ~* 'a/?c\.?\s*no'), count(m), count(e.tender_id),
+                   count(*) filter (where e.stage_group = 'in evaluation'),
+                   (select count(*) from dda.work_awards w join dda.document_text t on t.url = w.doc_url)
+            from x left join dda.eprocure_tenders e on e.tender_id = m[1] || '_DDA_' || m[2] || '_' || m[3]""")
+    except subprocess.CalledProcessError:
+        pass
+    if os.path.exists("pdf_census.json"):
+        res["pdf_census"] = json.load(open("pdf_census.json")).get("summary")
     res["hub_queue"] = run("scrape_hub", "select project, status, count(*) from public.queue "
                                          "where project in ('dda-pages','dda-docs') group by 1,2 order by 1,2")
     import time

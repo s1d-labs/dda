@@ -139,6 +139,7 @@ def build(a, repair):
     deb = dict((r[0], r[1]) for r in a["debarments"])
     broken = st.get("broken", 0)
     scope = a.get("scope", {})
+    hp = (a.get("hindi_parity") or [[0, 0]])[0]
     alt = (a.get("award_letter_text") or [[0, 0, 0, 0, 0, 0]])[0]
 
     years = [(y, c) for y, c in a["rows_per_year"] if y and 1990 <= y <= 2026]
@@ -270,7 +271,7 @@ Most orders are from 2022 to 2025.</li>
 <li><strong>Links to raw IP addresses.</strong> Some pages link to services by IP address over plain HTTP.</li>
 <li><strong>Link to a staging server.</strong> One page links to a vendor staging host on port 91.</li>
 <li><strong>Plain HTTP links.</strong> {n(a['external_http'][0][0])} external links use <code>http://</code>. Most go to the DDA online services portal.</li>
-<li><strong>Hindi mirror.</strong> The site has {n(lang.get('hi', 0))} Hindi pages and {n(lang.get('en', 0))} English pages. Many English listings have no Hindi page.</li>
+<li><strong>Hindi mirror.</strong> The site has {n(lang.get('hi', 0))} Hindi pages and {n(lang.get('en', 0))} English pages. Only {n(hp[1])} of {n(hp[0])} English pages have a Hindi page at the same path (a lower bound).</li>
 </ul>
 <h3>Sections with no new dated entry for a long time</h3>
 {table(["Section (category)", "Latest date", "Rows"], [(r[0], r[1], r[2]) for r in a["latest_by_category"][:8]], num_cols=(2,))}
@@ -290,7 +291,6 @@ We recommend that DDA reviews whether these files must stay public.</p></div>
     epy = [(str(r[0]), r[1]) for r in a.get("ep_years", []) if r[0] and r[0] <= 2026]
     single = [(str(r[0]), r[3] * 100.0 / r[4]) for r in a.get("ep_years", []) if r[0] and r[4]]
     peers = a.get("ep_peer_awarded", [])
-    alt = (a.get("award_letter_text") or [[0, 0, 0, 0, 0, 0]])[0]
     award_id_note = (f"{n(alt[2])} award letters print the eprocure Tender ID itself; {n(alt[4])} of these tenders show "
                      f"\"in evaluation\" on eprocure." if alt[2] else "")
     if ep_total:

@@ -147,7 +147,7 @@ select folder, count(*) from dda.broken_links group by 1 order by 2 desc;
 | 5 | Land acquisition awards without a year (at the source) | 844 of 1,810 | year only in the PDF |
 | 6 | Internal page links that return 404 (at the source) | 76 | none |
 | 7 | Files the server never delivers (at the source) | 3 | recorded; no more retries |
-| 8 | Hindi mirror smaller than English (at the source) | 598 vs 2,448 pages | a parity table is a next step |
+| 8 | Hindi mirror smaller than English (at the source) | 522 of 2,448 English pages (21.3%) have a Hindi page at the same path | lower bound: a Hindi page may use another path; `personnel` 9 of 158 |
 | 9 | eprocure tenders with a future `published_at` (team data) | 67 of 53,170 | tell the eprocure family owner |
 | 10 | Second spellings in the hub queue (missed by us, fixed) | 224 pages, 42 docs | harmless; tables count each URL once |
 
@@ -172,7 +172,7 @@ select folder, count(*) from dda.broken_links group by 1 order by 2 desc;
 6. Check 20 of the 318 unlinked tender rows by hand on eprocure.
 7. OCR pilot on `Authority Meeting` agendas (about 470 files, 1959 to now).
 8. Scrape the small public portals `stf.dda.org.in` and `ddagreens.dda.org.in` (a new project each, a few pages).
-9. Hindi parity table from `dda.pages` (English listings without a Hindi page).
+9. Hindi parity by title, not only by path (the path check in [9](#9-known-gaps-and-quality-issues) is a lower bound).
 
 **Housekeeping**
 10. CI: the org runner queue blocks `check`; ask the hub owner whether `s1d-labs/scrape-runner` can leave free slots.

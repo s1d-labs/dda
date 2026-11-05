@@ -34,6 +34,9 @@ Q = {
     # pages
     "pages_lang": "select lang, count(*) from dda.pages group by 1",
     "pages_sections": "select section, count(*) from dda.pages where lang='en' group by 1 order by 2 desc limit 15",
+    "hindi_parity": """with en as (select regexp_replace(url, '^https://dda.gov.in', '') p from dda.pages where lang = 'en'),
+                       hi as (select regexp_replace(url, '^https://dda.gov.in/hi', '') p from dda.pages where lang = 'hi')
+                       select count(*), count(hi.p) from en left join hi using (p)""",
     "pages_no_title": "select count(*) from dda.pages where coalesce(title,'') = ''",
     "external_hosts": """select host, count(distinct url), count(distinct page_url) from dda.external_links
                          group by 1 order by 3 desc limit 15""",

@@ -108,6 +108,11 @@ def main():
     ap.add_argument("--out", default="analysis.json")
     args = ap.parse_args()
     res = {k: run(args.db, sql) for k, sql in Q.items()}
+    # the full discovered scope (seeds.json, one spelling per URL) and the hub queue state
+    import family
+    res["scope"] = {"pages": len(family.PAGE_ITEMS), "documents": len(family.DOC_ITEMS)}
+    res["hub_queue"] = run("scrape_hub", "select project, status, count(*) from public.queue "
+                                         "where project in ('dda-pages','dda-docs') group by 1,2 order by 1,2")
     import time
     res["_generated_at"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     with open(args.out, "w") as f:

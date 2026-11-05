@@ -306,7 +306,7 @@ def main():
         if not u or "&amp;" in u:
             continue
         u = crawl.canon_url(u)
-        status = "broken" if data.get("broken") else "stored"
+        status = "broken" if data.get("broken") else "unretrievable" if data.get("unretrievable") else "stored"
         if u in docs and docs[u][6] == "stored":
             continue
         folder, month = doc_folder(u)

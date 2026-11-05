@@ -106,3 +106,23 @@ def test_404_page_is_a_broken_link():
 
 def test_kmz_is_a_document():
     assert crawl.classify("https://dda.gov.in/sites/default/files/layout/x.kmz") == "document"
+
+
+def test_cut_transfer_retries_then_gives_up():
+    hub = FakeHub()
+    crawl.do_doc(hub, FakeSession(FakeResponse(200, broken=True)), dict(_item(), attempts=2))
+    assert hub.completed[0][1] == "failed" and "cut" in hub.completed[0][2]
+    hub = FakeHub()
+    crawl.do_doc(hub, FakeSession(FakeResponse(200, broken=True)), dict(_item(), attempts=crawl.GIVE_UP_AFTER))
+    assert hub.completed == [("d-1", "done", None, 0)]
+    (rec,) = hub.records.values()
+    assert rec["unretrievable"] is True
+
+
+def test_403_document_gives_up_after_many_attempts():
+    hub = FakeHub()
+    crawl.do_doc(hub, FakeSession(FakeResponse(403, ctype="text/html")), dict(_item(), attempts=1))
+    assert hub.completed[0][1] == "failed" and hub.metrics.get("_block") == 1
+    hub = FakeHub()
+    crawl.do_doc(hub, FakeSession(FakeResponse(403, ctype="text/html")), dict(_item(), attempts=12))
+    assert hub.completed[0][1] == "done"

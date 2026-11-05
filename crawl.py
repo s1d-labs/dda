@@ -34,6 +34,7 @@ HOST = "dda.gov.in"
 DOC_EXT = ("pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "zip", "rar",
            "csv", "rtf", "txt", "odt", "ods", "kmz", "kml", "apk", "exe", "tif", "tiff", "dwg")
 GONE = (404, 410)          # a broken link on the site: record it once, do not retry it
+GIVE_UP_AFTER = 10         # attempts; then a file the server refuses (403) or always cuts off is recorded, not retried
 ASSET_EXT = ("css", "js", "ico", "png", "jpg", "jpeg", "gif", "svg", "webp",
              "woff", "woff2", "ttf", "eot", "mp4", "mp3")
 
@@ -326,7 +327,17 @@ def do_doc(hub, session, item):
     content = read_body(hub, r) if r is not None else None
     if content is None:
         why = f"HTTP {status}" if status else "connection error or timeout"
+        if status == 200:
+            why = "connection cut during the transfer"
         hub.failure("document", item["key"], f"download failed: {why}", url=url)
+        if item.get("attempts", 0) >= GIVE_UP_AFTER and status in (200, 403):
+            # dda.gov.in cuts some files at the same byte on every try, and refuses a few odd links (/.pdf)
+            # with 403. After GIVE_UP_AFTER tries, record that and stop: each retry costs a runner job.
+            hub.record(record_id(url), {"url": url, "type": "document", "unretrievable": True, "status": status,
+                                        "reason": why, "attempts": item.get("attempts"), "fetched_at": int(time.time())})
+            hub.metric("unretrievable")
+            hub.complete([item["key"]], "done", fetched=0)
+            return
         hub.complete([item["key"]], "failed", error=f"document did not load ({why})")
         return
     sha = hashlib.sha256(content).hexdigest()

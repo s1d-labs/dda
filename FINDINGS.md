@@ -1,9 +1,9 @@
 # DDA scraper: scope and findings
 
 **Subject:** the public website of the Delhi Development Authority, `https://dda.gov.in/`.
-**Family:** `dda` (repo `s1d-labs/dda`). **Date:** 2026-11-04, updated 2026-11-05.
-**Status:** the scraper is built, tested and live. The pool downloads the documents now. This report gives the measured
-scope and the findings. The numbers are live and increase while the scrape runs.
+**Family:** `dda` (repo `s1d-labs/dda`). **Date:** 2026-11-04, updated 2026-11-05 (scrape complete).
+**Status:** the scrape is complete. All 3,046 pages and 22,746 documents that the site delivers are stored. This report
+gives the measured scope, the verification and the findings. The HTML version is `reports/dda-audit.html`.
 
 This report uses ASD-STE100 Simplified Technical English. It names no private individuals.
 
@@ -37,12 +37,13 @@ The scraper never disables certificate verification.
 
 | Measure | Count |
 |---|---|
-| Unique pages found | 3,046 |
-| Pages scraped at the time of this report | 2,649 |
-| Pages found by the repair pass (in the pool queue) | 397 |
+| Unique pages found and scraped | 3,046 |
+| English pages | 2,448 |
+| Hindi pages (`/hi/`) | 598 |
 | Internal page links that return HTTP 404 | 76 |
 
-The numbers in 3.2 and 3.3 are from the first discovery (19,134 document URLs). The repair pass added 3,988 documents.
+The numbers in 3.2 and 3.3 are from the first discovery (19,134 document URLs). The repair pass raised the unique
+document scope to 23,095.
 
 ### 3.2 Documents by type
 
@@ -120,10 +121,13 @@ We checked the stored records against the site structure. The checks found these
 | One spelling per URL | 221 pages were scraped two times (`http://` and `https://`). 27 documents had two spellings. | `crawl.canon_url` gives one spelling. |
 | HTML entities in links | 157 document links were lost. The crawler read `&amp;` in a file name as text. | Links are unescaped. |
 | Pager coverage | 395 listing pages were not reached. Example: 191 of 285 pages of the tender archive. | A `?page=N` link queues pages 1 to N. |
-| Failed downloads | All 181 failed documents return HTTP 404 on the site. | One broken-link record. No retries. |
+| Failed downloads | 346 documents return HTTP 404 on the site. | One broken-link record. No retries. |
 | Large downloads | A dropped connection in a 40 MB file stopped a worker process. | Only the item fails. |
 | Dates | Two-digit years became 20xx (1986 became 2086). | Two-digit years resolve to the past. |
 | Discovery of files | A file linked as a page was read in full (more than 400 MB). | Discovery reads the headers first. |
+| Files never delivered | The server cuts 2 files at the same point on every try. 1 link has no file name. The pool ran about 38 runner jobs an hour to retry these 3 files. | After 10 tries the file is recorded as unretrievable. |
+| Bucket completeness | HEAD check of all 22,746 stored files. | All present. All sizes match. |
+| Link to eprocure | The first key parser missed references that start with "NIT No." or "NIQ No.". | Fixed. 1,499 rows link. |
 
 The repair pass (`discover.py --resume --repair`) added 397 pages and 3,988 documents. Setup added them to the queues.
 
@@ -132,23 +136,32 @@ The repair pass (`discover.py --resume --repair`) added 397 pages and 3,988 docu
 These are indicators, not findings of wrongdoing.
 
 - **Unauthorised colonies.** We extracted the list of 1,731 colonies and the list of 69 affluent colonies (text PDF, no OCR).
-  Of the 1,731 colonies, 1,205 have a final boundary map on the site. 135 have the remark "can not be delineated as per SOP".
+  1,205 of the 1,731 colonies have a final boundary map on the site. 135 have the remark "can not be delineated as per SOP".
   154 are not in the boundary table. All final boundary maps have upload dates from March to August 2020.
-- **Tenders.** The site has 713 tender rows from 94 archive pages. The repair pass found the other 191 archive pages.
-  A sample shows tenders of 2023-24 and 2024-25. The earlier gap in these years is a coverage defect.
-- **Re-invited tenders.** 51 of 713 tender rows (7.2%) are marked "re-invited".
+- **Tenders on the site.** The site has 1,919 tender rows with 1,470 NIT numbers. 143 rows (7.5%) are "re-invited".
+- **Awards are not on the central portal.** The team database has 53,170 DDA tenders from `eprocure.gov.in`. Only 1,070 (2.0%)
+  reach the stage "awarded"; 45,894 (86.3%) stay "in evaluation". This is the lowest awarded share of the ten largest buyers
+  on the portal. 244 award letters on the DDA site link to eprocure tenders; 240 of these still show "in evaluation" there.
+- **Link between site and portal.** 1,499 of 1,837 tender rows with an NIT number (81.6%) link to an eprocure tender
+  (`link_eprocure.py`). Where eprocure shows an award, the median award is 0.74 times the estimated value.
+- **Single bids.** On eprocure, 2.5% to 9.3% of DDA tenders with bids have exactly one bid, by year. Some divisions are
+  above 15% since 2022.
+- **Text in documents.** In a random sample of 500 stored PDF files, 53.0% have a text layer. The rest are scans that need OCR.
 - **Debarments.** The site has 39 debarment or suspension orders and 3 withdrawals.
-- **Broken links.** 181 document links return HTTP 404. Most are in the contractor enlistment folders (`class-i` to `class-v`).
-- **Duplicate files.** 358 files occur at more than one URL (436 extra copies, 0.7 GB).
+- **Broken links.** 346 document links return HTTP 404. Most are in the contractor enlistment folders (`class-i` to `class-v`).
+- **Duplicate files.** 1,252 files occur at more than one URL (1,494 extra copies, 2.4 GB).
 - **Privacy indicator.** The archive of registered contractors links 2,171 files. They include about 540 bank solvency
   certificates and 540 application forms. These can hold personal and financial data. We did not open these files.
 - **Security indicators.** Legacy TLS renegotiation, an incomplete certificate chain, links to raw IP addresses over plain
-  HTTP, and one link to a vendor staging host.
+  HTTP, one link to a vendor staging host, and two links to DDA services that return HTTP 404.
 
 ## 9. Failures and missing data
 
-- **Discovery errors:** 76 internal page links return HTTP 404 on the site.
-- **Download failures:** 181 documents return HTTP 404 (`linkcheck.py`, `linkcheck.json`).
+- **Broken links on the site:** 346 documents and 76 pages return HTTP 404.
+- **Files the server does not deliver:** 3 documents. The server cuts one 40 MB PDF at the same byte on every try, cuts
+  one XLS before the first byte, and refuses a link with no file name (`/.pdf`). After 10 tries the scraper records
+  them as unretrievable.
+- **Bucket check:** all 22,746 stored documents are in the bucket with the same size as the record (HEAD check).
 - **Reliability:** the hub had one short outage during the run. The workers failed and then restarted by themselves.
 
 ## 10. How to run it
@@ -162,6 +175,7 @@ These are indicators, not findings of wrongdoing.
 
 ## 11. Current progress
 
-- **Pages:** 2,649 of 3,046 scraped. The 397 pages from the repair pass are in the queue.
-- **Documents:** 10,184 of 23,095 stored (about 45 GB). 181 are broken links. The rest are in the queue.
-- **Scale:** the rest of the download is about 12,700 files. It is a multi-hour task on the pool.
+- **Pages:** 3,046 of 3,046 scraped (100%).
+- **Documents:** 22,746 stored (about 87 GB), 346 broken links, 3 not delivered by the server. Total 23,095.
+- **Organised data:** workspace database `ws_trideep`, schema `dda` (see README).
+- **Full text:** `extract_text.py` fills `dda.document_text` in time-limited runs. Run it again to continue.

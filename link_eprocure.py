@@ -28,6 +28,10 @@ def nit_key(ref):
     if not ref:
         return None
     t = re.sub(r"(?i)_r\d+$|\(?re-?\s?invit\w*\)?|/re-?invit\w*", "", ref)
+    # 'NIT No. 05/...', 'Short NIQ No. 01/...', 'E-Tender Notice No: 06/...' -> '05/...'.
+    # An NIQ (quotation) has its own number series, so its key starts with 'Q'.
+    kind = "Q" if re.match(r"(?i)^\s*(short\s+)?(niq|n\.i\.q)", t) else ""
+    t = re.sub(r"(?i)^\s*(short\s+)?(e-?\s?tender\s+notice|nit|niq|n\.i\.[tq]\.?|tender)\s*(no\.?|number)?\s*[:.\-]*\s*", "", t)
     parts = [p.strip() for p in re.split(r"/+", t) if p.strip()]
     if len(parts) < 2:
         return None
@@ -39,7 +43,7 @@ def nit_key(ref):
                      if p.upper() not in ("DDA", "NIT") and not re.fullmatch(r"\d{2,4}\s*-\s*\d{2,4}.*", p))
     if not fy or not office:
         return None
-    return f"{m.group(1)}|{office}|{fy}"
+    return f"{kind}{m.group(1)}|{office}|{fy}"
 
 
 def main():

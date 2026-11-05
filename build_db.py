@@ -362,10 +362,11 @@ def main():
         ins("land_acq_awards", laa)
         ins("html_tables", html_rows)
         ins("delineated_boundaries", bounds)
-        # keep the colony list (extract_colonies.py) across rebuilds
-        cur.execute("SELECT to_regclass('dda.unauthorised_colonies') IS NOT NULL")
-        if cur.fetchone()[0]:
-            cur.execute("CREATE TABLE dda_new.unauthorised_colonies AS TABLE dda.unauthorised_colonies")
+        # keep the tables other scripts make (extract_colonies.py, link_eprocure.py) across rebuilds
+        for kept in ("unauthorised_colonies", "eprocure_tenders"):
+            cur.execute(f"SELECT to_regclass('dda.{kept}') IS NOT NULL")
+            if cur.fetchone()[0]:
+                cur.execute(f"CREATE TABLE dda_new.{kept} AS TABLE dda.{kept}")
         cur.execute("DROP SCHEMA IF EXISTS dda CASCADE; ALTER SCHEMA dda_new RENAME TO dda;")
         cur.execute(VIEWS)
         cur.execute("SELECT to_regclass('dda.unauthorised_colonies') IS NOT NULL")
@@ -379,6 +380,7 @@ def main():
                                  ("land_acq_awards", laa), ("external_links", ext_links),
                                  ("html_tables", html_rows), ("delineated_boundaries", bounds)]}
     print(json.dumps(st))
+    print("next: python link_eprocure.py  (re-links tenders and award letters to eprocure)")
 
 
 if __name__ == "__main__":

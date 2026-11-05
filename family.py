@@ -91,6 +91,7 @@ PROJECTS = [
         "probe": PROBE,
         "proxy": "IN",
         "max_workers": 4,          # pages are scraped; documents now use all 4 India proxies
+        "pool": False,             # paused while the 399 repaired pages are scraped first
         "unit_label": "file", "record_label": "document",
         "items": DOC_ITEMS,
     },

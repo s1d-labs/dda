@@ -139,6 +139,16 @@ def main():
             unnest(array['land pooling','unauthorised colony','encroachment','demolition','arbitration','debarment']) q""")
     except subprocess.CalledProcessError:
         pass
+    try:   # award letters with a text layer: direct eprocure Tender ID, bank account numbers (counts only)
+        res["award_letter_text"] = run(args.db, r"""with x as (select t.text, regexp_match(regexp_replace(t.text, '\s', '', 'g'),
+              '(20[0-9]{2})_?DDA_?([0-9]{5,7})_([0-9])', 'i') m
+              from dda.work_awards w join dda.document_text t on t.url = w.doc_url where t.has_text)
+            select count(*), count(*) filter (where text ~* 'a/?c\.?\s*no'), count(m), count(e.tender_id),
+                   count(*) filter (where e.stage_group = 'in evaluation'),
+                   (select count(*) from dda.work_awards w join dda.document_text t on t.url = w.doc_url)
+            from x left join dda.eprocure_tenders e on e.tender_id = m[1] || '_DDA_' || m[2] || '_' || m[3]""")
+    except subprocess.CalledProcessError:
+        pass
     if os.path.exists("pdf_census.json"):
         res["pdf_census"] = json.load(open("pdf_census.json")).get("summary")
     res["hub_queue"] = run("scrape_hub", "select project, status, count(*) from public.queue "

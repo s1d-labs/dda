@@ -139,6 +139,7 @@ def build(a, repair):
     deb = dict((r[0], r[1]) for r in a["debarments"])
     broken = st.get("broken", 0)
     scope = a.get("scope", {})
+    alt = (a.get("award_letter_text") or [[0, 0, 0, 0, 0, 0]])[0]
 
     years = [(y, c) for y, c in a["rows_per_year"] if y and 1990 <= y <= 2026]
     s = []
@@ -276,6 +277,7 @@ Most orders are from 2022 to 2025.</li>
 <div class="flag"><p><strong>Privacy indicator.</strong> The archive of registered contractors links {n(ef[0])} files.
 They include {n(ef[1])} bank solvency certificates and {n(ef[2])} application forms. Many registered contractors are
 sole proprietors, so these files can hold personal and financial data. We did not open or extract these files.
+{f"Also, {n(alt[1])} of {n(alt[0])} award letters with a text layer print a bank account number of the contractor (counted, not stored in the report)." if alt[0] else ""}
 We recommend that DDA reviews whether these files must stay public.</p></div>
 """)
 
@@ -288,6 +290,9 @@ We recommend that DDA reviews whether these files must stay public.</p></div>
     epy = [(str(r[0]), r[1]) for r in a.get("ep_years", []) if r[0] and r[0] <= 2026]
     single = [(str(r[0]), r[3] * 100.0 / r[4]) for r in a.get("ep_years", []) if r[0] and r[4]]
     peers = a.get("ep_peer_awarded", [])
+    alt = (a.get("award_letter_text") or [[0, 0, 0, 0, 0, 0]])[0]
+    award_id_note = (f"{n(alt[2])} award letters print the eprocure Tender ID itself; {n(alt[4])} of these tenders show "
+                     f"\"in evaluation\" on eprocure." if alt[2] else "")
     if ep_total:
         s.append(f"""<h2>7. DDA on the central e-procurement portal</h2>
 <p>DDA runs its tenders on the central e-procurement portal (<code>eprocure.gov.in</code>). The team database already holds
@@ -305,7 +310,8 @@ award letters. Both use the same NIT reference, so we linked them by number, off
 <div class="flag"><p><strong>Indicator.</strong> Only {n(eps.get('awarded', 0))} of {n(ep_total)} DDA tenders
 ({eps.get('awarded', 0) * 100 / ep_total:.1f}%) reach the stage "awarded" on eprocure. {n(eps.get('in evaluation', 0))}
 ({eps.get('in evaluation', 0) * 100 / ep_total:.1f}%) stay "in evaluation". Of the tenders with an award letter on the DDA site,
-{n(alst.get('in evaluation', 0))} still show "in evaluation" on eprocure. DDA publishes the award on its own site, not on the portal.</p></div>
+{n(alst.get('in evaluation', 0))} still show "in evaluation" on eprocure. DDA publishes the award on its own site, not on the portal.
+{award_id_note}</p></div>
 <h3>Awarded share of the largest buyers on eprocure</h3>
 {table(["Organisation code", "Tenders", "Awarded on eprocure (%)"], [(r[0], r[1], f"{r[2]:.1f}") for r in peers], num_cols=(1,))}
 <ul>

@@ -100,4 +100,54 @@ PROJECTS = [
     },
 ]
 
-PROBES = []  # no probe: see the note in family.py
+# The two small public portals next to dda.gov.in (portals.py; seeds from `python portals.py discover`).
+# They answer from outside India: no proxy, GitHub runners only, one gentle worker each.
+def _portal_seeds():
+    p = HERE / "data" / "portal_seeds.json"
+    return json.loads(p.read_text()) if p.exists() else {"stf_pages": {}, "stf_files": [], "greens_parks": []}
+
+
+_ps = _portal_seeds()
+STF_ITEMS = (
+    [{"key": "s-" + _record_key(u), "payload": {"url": u, "type": "stf-page", "section": m.get("section", ""),
+                                                 "expected": 1}} for u, m in _ps["stf_pages"].items()]
+    + [{"key": "f-" + _record_key(u), "payload": {"url": u, "type": "doc", "expected": 1}} for u in _ps["stf_files"]]
+)
+
+
+def _greens_items():
+    from portals import greens_endpoints
+    return [{"key": "g-" + _record_key(e), "payload": {"endpoint": e, "type": "api", "expected": 1,
+                                                        "park_id": (e.split("parkId=")[1].split("&")[0] if "parkId=" in e else None)}}
+            for e in greens_endpoints(_ps["greens_parks"])]
+
+
+PROJECTS += [
+    {
+        "name": f"{FAMILY}-stf",
+        "title": "DDA Special Task Force: meeting agendas, minutes, notices",
+        "task": "portal", "target": "stf.dda.org.in", "env": {"SITE": "https://stf.dda.org.in/"},
+        "probe": PROBE, "max_workers": 1, "delay_ms": 800,
+        "unit_label": "page or file", "record_label": "record",
+        "items": STF_ITEMS,
+    },
+    {
+        "name": f"{FAMILY}-greens",
+        "title": "DDA Greens: plantation dashboard, parks, species",
+        "task": "portal", "target": "ddagreens.dda.org.in", "env": {"SITE": "https://ddagreens.dda.org.in/"},
+        "probe": PROBE, "max_workers": 1, "delay_ms": 800,
+        "unit_label": "API call", "record_label": "record",
+        "items": _greens_items(),
+    },
+    {
+        # One item a week (seed_watch.py from .github/workflows/watch.yml): new listings, pages and files.
+        "name": f"{FAMILY}-watch",
+        "title": "DDA weekly change watch (new tenders, notices, orders)",
+        "task": "watch", "target": TARGET, "env": {"SITE": SITE},
+        "probe": PROBE, "proxy": "IN", "max_workers": 1,
+        "unit_label": "weekly check", "record_label": "record",
+        "items": [],
+    },
+]
+
+PROBES = []  # no probe: see the note above (legacy TLS)

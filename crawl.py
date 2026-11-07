@@ -294,15 +294,8 @@ def broken_link(hub, item, url, status):
     hub.complete([item["key"]], "done", fetched=0)
 
 
-def do_page(hub, session, item):
-    url = item["payload"]["url"]
-    r, status = fetch(hub, session, url)
-    if status in GONE:
-        return broken_link(hub, item, url, status)
-    body_bytes = read_body(hub, r) if r is not None else None
-    if body_bytes is None:
-        hub.complete([item["key"]], "failed", error=f"page did not load (HTTP {status})" if status else "page did not load")
-        return
+def store_page(hub, url, r, body_bytes):
+    """Parse one fetched page, upload the raw HTML and store the record. Returns the record."""
     if not r.encoding or r.encoding.lower() == "iso-8859-1":
         r.encoding = r.apparent_encoding or "utf-8"
     body = r.text
@@ -315,6 +308,19 @@ def do_page(hub, session, item):
     except Exception as e:
         data["upload_error"] = str(e)[:120]
     hub.record(record_id(url), data)
+    return data
+
+
+def do_page(hub, session, item):
+    url = item["payload"]["url"]
+    r, status = fetch(hub, session, url)
+    if status in GONE:
+        return broken_link(hub, item, url, status)
+    body_bytes = read_body(hub, r) if r is not None else None
+    if body_bytes is None:
+        hub.complete([item["key"]], "failed", error=f"page did not load (HTTP {status})" if status else "page did not load")
+        return
+    store_page(hub, url, r, body_bytes)
     hub.complete([item["key"]], "done", fetched=1)
 
 
@@ -330,9 +336,10 @@ def do_doc(hub, session, item):
         if status == 200:
             why = "connection cut during the transfer"
         hub.failure("document", item["key"], f"download failed: {why}", url=url)
-        if item.get("attempts", 0) >= GIVE_UP_AFTER and status in (200, 403):
-            # dda.gov.in cuts some files at the same byte on every try, and refuses a few odd links (/.pdf)
-            # with 403. After GIVE_UP_AFTER tries, record that and stop: each retry costs a runner job.
+        if item.get("attempts", 0) >= GIVE_UP_AFTER and status in (200, 403, None):
+            # dda.gov.in cuts some files at the same byte on every try, refuses a few odd links (/.pdf) with 403,
+            # and drops the connection for one file. After GIVE_UP_AFTER tries, record that and stop: each retry
+            # costs a runner job. (A 5xx stays retryable.)
             hub.record(record_id(url), {"url": url, "type": "document", "unretrievable": True, "status": status,
                                         "reason": why, "attempts": item.get("attempts"), "fetched_at": int(time.time())})
             hub.metric("unretrievable")
@@ -340,7 +347,13 @@ def do_doc(hub, session, item):
             return
         hub.complete([item["key"]], "failed", error=f"document did not load ({why})")
         return
-    sha = hashlib.sha256(content).hexdigest()
+    store_document(hub, url, r, content, referrer=item["payload"].get("referrer", ""),
+                   category=item["payload"].get("category", ""))
+    hub.complete([item["key"]], "done", fetched=1)
+
+
+def store_document(hub, url, r, content, **extra):
+    """Upload one downloaded file and store its record (size, SHA-256, type, bucket key). Returns the record."""
     ext = (re.search(r"\.([a-z0-9]{1,6})$", urlparse(url).path.lower()) or [None, ""])[1]
     data = {
         "url": url,
@@ -348,12 +361,11 @@ def do_doc(hub, session, item):
         "filename": urlparse(url).path.rsplit("/", 1)[-1][:200],
         "ext": ext,
         "bytes": len(content),
-        "sha256": sha,
+        "sha256": hashlib.sha256(content).hexdigest(),
         "content_type": r.headers.get("Content-Type", ""),
-        "referrer": item["payload"].get("referrer", ""),
-        "category": item["payload"].get("category", ""),
         "bucket_key": f"{PROJECT}/{bucket_path(url, 'docs')}",
         "fetched_at": int(time.time()),
+        **extra,
     }
     try:
         hub.upload_many([(bucket_path(url, "docs"), content,
@@ -361,7 +373,7 @@ def do_doc(hub, session, item):
     except Exception as e:
         data["upload_error"] = str(e)[:120]
     hub.record(record_id(url), data)
-    hub.complete([item["key"]], "done", fetched=1)
+    return data
 
 
 def main():

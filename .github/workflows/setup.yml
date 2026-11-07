@@ -8,6 +8,9 @@ on:
       docs_pool:
         description: "Documents in the pool (false = pages first)"
         default: "true"
+      reset_failed:
+        description: "Put failed queue items back to pending once (true/false)"
+        default: "false"
 
 permissions:
   id-token: write
@@ -27,3 +30,4 @@ jobs:
         env:
           SCRAPE_HUB_URL: https://scrape.s1d.me
           DDA_DOCS_POOL: ${{ inputs.docs_pool }}
+          RESET_FAILED: ${{ inputs.reset_failed }}

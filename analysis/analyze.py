@@ -1,7 +1,7 @@
 """Figures for the DDA analysis report, from the organised tables (build_db.py, extract_colonies.py).
 
-    python analyze.py                 # ws_$USER -> analysis.json
-    python analyze.py --db ws_trideep --out analysis.json
+    python -m analysis.analyze                 # ws_$USER -> analysis.json
+    python -m analysis.analyze --db ws_trideep --out analysis.json
 
 Counts and categories only. It does not output names of contractors or other persons.
 """
@@ -124,7 +124,7 @@ def run(db, sql):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", default="ws_" + os.environ.get("USER", "trideep"))
-    ap.add_argument("--out", default="analysis.json")
+    ap.add_argument("--out", default="reports/analysis.json")
     args = ap.parse_args()
     res = {k: run(args.db, sql) for k, sql in Q.items()}
     # the full discovered scope (seeds.json, one spelling per URL) and the hub queue state
@@ -152,8 +152,8 @@ def main():
             from x left join dda.eprocure_tenders e on e.tender_id = m[1] || '_DDA_' || m[2] || '_' || m[3]""")
     except subprocess.CalledProcessError:
         pass
-    if os.path.exists("pdf_census.json"):
-        res["pdf_census"] = json.load(open("pdf_census.json")).get("summary")
+    if os.path.exists("data/pdf_census.json"):
+        res["pdf_census"] = json.load(open("data/pdf_census.json")).get("summary")
     res["hub_queue"] = run("scrape_hub", "select project, status, count(*) from public.queue "
                                          "where project in ('dda-pages','dda-docs') group by 1,2 order by 1,2")
     import time

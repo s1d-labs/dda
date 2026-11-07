@@ -6,8 +6,8 @@ It reads two sources and writes report.json plus a short summary:
 
 The database part uses the `psql` client and is read-only. Run it on the box:
 
-    python report.py                 # full report -> report.json
-    python report.py --no-db         # discovery scope only (no hub database)
+    python -m analysis.coverage                 # full report -> report.json
+    python -m analysis.coverage --no-db         # discovery scope only (no hub database)
 
 It names no private individuals. It reports counts, categories and coverage only.
 """
@@ -153,7 +153,7 @@ def coverage(disc, db):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds", default="seeds.json")
-    ap.add_argument("--out", default="report.json")
+    ap.add_argument("--out", default="reports/coverage.json")
     ap.add_argument("--no-db", action="store_true")
     args = ap.parse_args()
 

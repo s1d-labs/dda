@@ -1,5 +1,5 @@
 """Colony registration numbers: one key for the list PDF and the boundary table."""
-from extract_colonies import pin_of, reg_key
+from analysis.extract_colonies import pin_of, reg_key
 
 
 def test_reg_key_forms():

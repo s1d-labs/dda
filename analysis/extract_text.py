@@ -5,7 +5,7 @@ stores the text in the workspace database. Scanned PDFs give almost no text; the
 has_text = false and left for OCR later. Resumable: documents already done are skipped.
 
     eval "$(mybucket env)"
-    python extract_text.py --max-minutes 60          # a bounded portion; run again to continue
+    python -m analysis.extract_text --max-minutes 60          # a bounded portion; run again to continue
 
 Table dda.document_text (url, bucket_key, folder, pages, chars, has_text, text, extracted_at) with a
 full-text index. Search:  select url from dda.document_text

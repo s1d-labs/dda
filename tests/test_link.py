@@ -1,5 +1,5 @@
 """NIT keys: the DDA site and eprocure write one tender reference in different ways."""
-from link_eprocure import nit_key
+from analysis.link_eprocure import nit_key
 
 
 def test_same_tender_same_key():
@@ -21,7 +21,7 @@ def test_no_key_without_year_or_office():
 
 
 def test_combined_notice_and_recall():
-    from link_eprocure import nit_keys
+    from analysis.link_eprocure import nit_keys
     assert nit_keys("13,14&15/EE/EMD-7/DDA/2024-25") == ["13|EMD7|2024-25", "14|EMD7|2024-25", "15|EMD7|2024-25"]
     assert nit_key("14/RSC/DDA2025-26(RECALL)") == nit_key("14/RSC/DDA/2025-26") == "14|RSC|2025-26"
 

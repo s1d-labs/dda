@@ -4,7 +4,7 @@ Reads a random sample of stored PDFs from the bucket (read-only key), opens the 
 and counts the characters. A page with fewer than 25 characters counts as a scanned page. No OCR is done.
 
     eval "$(mybucket env)"                      # read-only bucket key
-    python pdf_census.py --sample 400           # -> pdf_census.json (+ per-folder estimate)
+    python -m analysis.pdf_census --sample 400           # -> pdf_census.json (+ per-folder estimate)
 
 For tender notices (NIT) it also tries to read the estimated cost and the earnest money (EMD) from the
 text, to measure how much value data the PDFs hold. Output has no names of persons.
@@ -61,7 +61,7 @@ def main():
     ap.add_argument("--db", default="ws_" + os.environ.get("USER", "trideep"))
     ap.add_argument("--sample", type=int, default=400)
     ap.add_argument("--tenders", type=int, default=80, help="extra sample from the tender folder")
-    ap.add_argument("--out", default="pdf_census.json")
+    ap.add_argument("--out", default="data/pdf_census.json")
     args = ap.parse_args()
     s3 = boto3.client("s3", endpoint_url=os.environ.get("AWS_ENDPOINT_URL"))
     rows, population = sample_rows(args.db, args.sample)

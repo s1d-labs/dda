@@ -135,7 +135,7 @@ PROJECTS += [
         "name": f"{FAMILY}-greens",
         "title": "DDA Greens: plantation dashboard, parks, species",
         "task": "portal", "target": "ddagreens.dda.org.in", "env": {"SITE": "https://ddagreens.dda.org.in/"},
-        "probe": PROBE, "max_workers": 1, "delay_ms": 800,
+        "probe": PROBE, "max_workers": 2, "delay_ms": 300,     # small JSON calls: two gentle workers
         "unit_label": "API call", "record_label": "record",
         "items": _greens_items(),
     },

@@ -1,5 +1,5 @@
 """Award letter values from noisy text: labels, nearest amounts, no guarantee/FDR amounts, no account numbers."""
-from extract_awards import parse_letter
+from analysis.extract_awards import parse_letter
 
 
 def test_estimate_and_tendered_amount():

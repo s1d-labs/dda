@@ -8,6 +8,14 @@
     "crawl": [
       "python",
       "crawl.py"
+    ],
+    "portal": [
+      "python",
+      "portals.py"
+    ],
+    "watch": [
+      "python",
+      "watch.py"
     ]
   }
 }

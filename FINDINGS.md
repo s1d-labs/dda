@@ -1,7 +1,7 @@
 # DDA scraper: scope and findings
 
 **Subject:** the public website of the Delhi Development Authority, `https://dda.gov.in/`.
-**Family:** `dda` (repo `s1d-labs/dda`). **Date:** 2026-11-04, updated 2026-11-05 (scrape complete).
+**Family:** `dda` (repo `s1d-labs/dda`). **Date:** 2026-11-04, updated 2026-11-07 (scrape complete; portals and weekly watch added).
 **Status:** the scrape is complete. All 3,046 pages and 22,746 documents that the site delivers are stored. This report
 gives the measured scope, the verification and the findings. The HTML version is `reports/dda-audit.html`.
 
@@ -142,7 +142,9 @@ These are indicators, not findings of wrongdoing.
 - **Awards are not on the central portal.** The team database has 53,170 DDA tenders from `eprocure.gov.in`. Only 1,070 (2.0%)
   reach the stage "awarded"; 45,894 (86.3%) stay "in evaluation". This is the lowest awarded share of the ten largest buyers
   on the portal. 243 of the 252 eprocure tenders that have an award letter on the DDA site still show "in evaluation" there. 14 letters print the eprocure Tender ID; all 14 are "in evaluation".
-- **Link between site and portal.** 1,506 of 1,837 tender rows with an NIT number (82.0%) link to an eprocure tender
+- **Award values.** 212 of 349 award letters with a text layer give the awarded amount (`dda.award_values`). The median
+  award is 0.66 times the estimated cost; 104 of 189 plausible letters are below 70% of the estimate.
+- **Link between site and portal.** 1,730 of 1,837 tender rows with an NIT number (94.2%) link to an eprocure tender
   (`link_eprocure.py`). Where eprocure shows an award, the median award is 0.74 times the estimated value.
 - **Single bids.** On eprocure, 2.5% to 9.3% of DDA tenders with bids have exactly one bid, by year. Some divisions are
   above 15% since 2022.
@@ -152,6 +154,10 @@ These are indicators, not findings of wrongdoing.
 - **Duplicate files.** 1,252 files occur at more than one URL (1,494 extra copies, 2.4 GB).
 - **Privacy indicator.** The archive of registered contractors links 2,171 files. They include about 540 bank solvency
   certificates and 540 application forms. These can hold personal and financial data. We did not open these files. Also, 73 of 349 award letters with a text layer print a bank account number of the contractor (counted only).
+- **DDA Greens.** The species of 100,147 of 119,627 planted trees (83.7%) is "Other". The dashboard counts 52,955 photos
+  and 0 verified locations. 463 of 638 parks report 100% or more of their target; 112 report less than 25%.
+- **Special Task Force.** The STF portal holds the agendas (meetings 51 to 166) and minutes (meetings 1 to 166) of its
+  meetings, uploaded from 23 Jan 2020 to 7 Oct 2026. All 338 files are stored.
 - **Security indicators.** Legacy TLS renegotiation, an incomplete certificate chain, links to raw IP addresses over plain
   HTTP, one link to a vendor staging host, and two links to DDA services that return HTTP 404.
 
@@ -170,12 +176,13 @@ These are indicators, not findings of wrongdoing.
 2. **Repair the scope** after timeouts: `myproxy run python discover.py --resume --repair`
 3. **Apply to the hub** (registers the projects and seeds the queue): run the Setup workflow (Actions, then setup).
 4. **Scrape**: the hub starts the `scrape-runner` workflow of pool members for family `dda` by itself.
-5. **Organised tables**: `python build_db.py --html DIR` and `python extract_colonies.py ...` (see README).
-6. **Report**: `python analyze.py`, then `python report_html.py analysis.json report.html`. `python report.py` gives the coverage JSON.
+5. **Organised tables and report**: `python -m analysis.refresh --html DIR --sync` (see README).
+6. **Weekly watch**: runs by itself; Actions, then watch, then Run workflow to run it now.
 
 ## 11. Current progress
 
-- **Pages:** 3,046 of 3,046 scraped (100%).
-- **Documents:** 22,746 stored (about 87 GB), 346 broken links, 3 not delivered by the server. Total 23,095.
-- **Organised data:** workspace database `ws_trideep`, schema `dda` (see README).
-- **Full text:** `dda.document_text` holds 21,089 PDFs (all stored PDFs up to 25 MB); 10,524 have text.
+- **dda.gov.in:** 3,046 of 3,046 pages; 22,755 documents stored (86 GB), 346 broken links, 3 not delivered.
+- **Portals:** STF 7 pages and 338 files; DDA Greens 1,916 API calls (dashboard, 638 parks).
+- **Weekly watch:** every Monday 02:30 UTC (`.github/workflows/watch.yml`); the first run found 9 new files.
+- **Organised data:** workspace database `ws_trideep`, schema `dda`; refresh with `python -m analysis.refresh`.
+- **Report:** `reports/dda-audit.html` (open in a browser; it works offline).

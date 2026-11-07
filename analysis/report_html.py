@@ -359,9 +359,10 @@ the workspace database (schema <code>dda</code>) on {gen}.</p>
          f"{n(alt[1])} award letters print a bank account number."),
         ("text", pct(dt[1], dt[0]), "Half of the PDFs are scans",
          f"{n(dt[1])} of {n(dt[0])} PDF files have a text layer and are searchable. The rest need OCR."),
-        ("greens", pct((gother.get('Shrub') or [0, 0, 0])[1], (gother.get('Shrub') or [0, 0, 1])[2]), "Plantation species not recorded",
-         f"In DDA Greens, the species of {n((gother.get('Shrub') or [0, 0])[1])} of {n((gother.get('Shrub') or [0, 0, 0])[2])} "
-         f"planted shrubs is &ldquo;Other&rdquo;."),
+        ("greens", pct((gother.get('Tree') or [0, 0, 0])[1], (gother.get('Tree') or [0, 0, 1])[2]), "Plantation records are thin",
+         f"In DDA Greens, the species of {n((gother.get('Tree') or [0, 0])[1])} of {n((gother.get('Tree') or [0, 0, 0])[2])} "
+         f"planted trees is &ldquo;Other&rdquo;. {n(gdash.get('locationVerified', 0))} of {n(gdash.get('photosUploaded', 0))} "
+         f"photos have a verified location."),
     ]
     S.append('<section id="findings"><h2><span class="no">&#9733;</span>Key findings</h2>'
              '<p>These are indicators, not findings of wrongdoing. Each card links to its section.</p><div class="findings">'
@@ -539,9 +540,11 @@ the details of single plantations are left out.</p>
 {fig("Parks by share of the target done", hbar([(r[0], r[1]) for r in a.get("greens_pct_bands", [])], label_w=130, note="Parks by completion"))}
 <ul class="reveal">
 <li>{n(gp[2])} parks report 100% or more of their target; {n(gp[3])} report less than half.</li>
+<li>The dashboard counts {n(gdash.get('photosUploaded', 0))} uploaded photos and {n(gdash.get('locationVerified', 0))} verified locations.</li>
 <li>Species recorded as &ldquo;Other&rdquo;: {n((gother.get('Shrub') or [0, 0])[1])} of {n((gother.get('Shrub') or [0, 0, 0])[2])} shrubs and
 {n((gother.get('Tree') or [0, 0])[1])} of {n((gother.get('Tree') or [0, 0, 0])[2])} trees in the species summaries.</li>
 </ul>
+{flag("Indicator", f"The species of {pct((gother.get('Tree') or [0, 0, 0])[1], (gother.get('Tree') or [0, 0, 1])[2])} of the planted trees is &ldquo;Other&rdquo;, and no photo location is verified. The public figures can not show which trees were planted where.")}
 {table(["Type", "Species", "Plants"], [(r[0], r[1], r[2]) for r in a.get("greens_top_species", [])], num_cols=(2,))}
 </section>""")
 

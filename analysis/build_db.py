@@ -375,7 +375,7 @@ def main():
     # documents: stored records + queue state for the rest
     docs, bucket_keys = {}, {}
     for rid, data in src_rows("""select record_id, data from public.records
-                                  where project in ('dda-docs', 'dda-watch') and data->>'type' = 'document'"""):
+                                  where project in ('dda-docs', 'dda-watch') and data->>'type' in ('document', 'doc')"""):
         u = data.get("url")
         if not u or "&amp;" in u:
             continue

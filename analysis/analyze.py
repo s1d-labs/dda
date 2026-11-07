@@ -101,6 +101,43 @@ Q = {
 }
 
 
+# Figures from tables that a later step makes (award values, portals, links): skipped when the table is missing
+OPTIONAL = {
+    "award_summary": """select count(*), count(estimated_rs), count(tendered_rs),
+        count(*) filter (where checks like '%ratio ok%'),
+        percentile_cont(0.5) within group (order by ratio) filter (where checks like '%ratio ok%'),
+        count(*) filter (where checks like '%ratio ok%' and ratio < 0.7),
+        count(tender_id), count(*) filter (where checks like '%estimate = eprocure value%'),
+        count(*) filter (where checks like '%estimate differs%'),
+        round(sum(tendered_rs) filter (where checks like '%ratio ok%') / 1e7, 1)
+        from dda.award_values""",
+    "award_ratio_bands": """select case when ratio < 0.4 then '< 0.4' when ratio < 0.5 then '0.4 - 0.5'
+        when ratio < 0.6 then '0.5 - 0.6' when ratio < 0.7 then '0.6 - 0.7' when ratio < 0.8 then '0.7 - 0.8'
+        when ratio < 0.9 then '0.8 - 0.9' when ratio < 1.0 then '0.9 - 1.0' else '>= 1.0' end, count(*), min(ratio)
+        from dda.award_values where checks like '%ratio ok%' group by 1 order by 3""",
+    "link_match": """select match, count(distinct (page_url, row_no)) from dda.tender_links group by 1 order by 2 desc""",
+    "unlinked_reasons": "select reason, count(*) from dda.tender_unlinked group by 1 order by 2 desc",
+    "unlinked_offices": """select office, count(*) from dda.tender_unlinked where reason = 'not found on eprocure'
+        group by 1 order by 2 desc limit 6""",
+    "stf_kinds": """select kind, count(*), count(*) filter (where status = 'stored'), min(meeting_no), max(meeting_no),
+        min(uploaded), max(uploaded), coalesce(sum(bytes), 0) from dda.stf_documents group by 1 order by 2 desc""",
+    "stf_years": """select extract(year from uploaded)::int, count(*) from dda.stf_documents
+        where uploaded is not null group by 1 order by 1""",
+    "stf_pages": "select section, n_files, n_rows from dda.stf_pages order by n_files desc",
+    "greens_dashboard": "select key, value from dda.greens_dashboard",
+    "greens_parks": """select count(*), round(avg(completed_pct), 1), count(*) filter (where completed_pct >= 100),
+        count(*) filter (where completed_pct < 50), sum(tree_completed), sum(shrub_completed),
+        sum(tree_target), sum(shrub_target) from dda.greens_parks""",
+    "greens_pct_bands": """select case when completed_pct < 25 then '< 25%' when completed_pct < 50 then '25 - 50%'
+        when completed_pct < 75 then '50 - 75%' when completed_pct < 100 then '75 - 100%' else '100% and more' end,
+        count(*), min(completed_pct) from dda.greens_parks group by 1 order by 3""",
+    "greens_other": """select species_type, sum(count) filter (where plant_name = 'Other'), sum(count),
+        count(distinct park_id) from dda.greens_species group by 1""",
+    "greens_top_species": """select species_type, plant_name, sum(count) n from dda.greens_species
+        where plant_name <> 'Other' group by 1, 2 order by 3 desc limit 10""",
+}
+
+
 def run(db, sql):
     env = dict(os.environ, PGOPTIONS="-c statement_timeout=300000")
     out = subprocess.run(["psql", db, "-tAF", "\t", "-c", sql], capture_output=True, text=True, env=env, check=True)
@@ -127,6 +164,20 @@ def main():
     ap.add_argument("--out", default="reports/analysis.json")
     args = ap.parse_args()
     res = {k: run(args.db, sql) for k, sql in Q.items()}
+    for k, sql in OPTIONAL.items():
+        try:
+            res[k] = run(args.db, sql)
+        except subprocess.CalledProcessError:
+            res[k] = []
+    try:
+        res["watch"] = [r[0] for r in run("scrape_hub", """select data::text from public.records
+            where project = 'dda-watch' and data->>'type' = 'watch' order by record_id desc limit 6""")]
+        res["watch"] = [json.loads(x) for x in res["watch"]]
+        for w in res["watch"]:
+            w.pop("new_page_urls", None)
+            w["new_document_urls"] = w.get("new_document_urls", [])[:12]
+    except (subprocess.CalledProcessError, ValueError):
+        res["watch"] = []
     # the full discovered scope (seeds.json, one spelling per URL) and the hub queue state
     import family
     res["scope"] = {"pages": len(family.PAGE_ITEMS), "documents": len(family.DOC_ITEMS)}

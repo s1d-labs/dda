@@ -4,7 +4,7 @@ The team database (scrape_hub, schema eprocure) already holds DDA's eprocure.gov
 value, EMD, bid counts, award. The DDA site holds the notice PDFs. Both use the same NIT reference
 ('07/EE/ELD-8/DDA/2026-27'), so a key of (number, office, financial year) links them.
 
-    python link_eprocure.py                # -> ws_$USER: dda.eprocure_tenders, dda.tender_links
+    python -m analysis.link_eprocure                # -> ws_$USER: dda.eprocure_tenders, dda.tender_links
 
 Tables:
   eprocure_tenders  DDA tenders on eprocure (no bidder names): tender_id, ref_no, nit_key, title, stage, values, bids, dates
@@ -16,7 +16,7 @@ import argparse
 import os
 import re
 
-from build_db import fin_year
+from analysis.build_db import fin_year
 
 
 ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10, "XI": 11, "XII": 12}

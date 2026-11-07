@@ -4,8 +4,8 @@ It reads the raw records the pool stored in scrape_hub (read-only) and writes cl
 schema `dda` in a workspace database (default: ws_<user>, which Metabase shows as "Workspace: <user>").
 Re-running replaces the tables (one transaction), so it is safe to run while the scrape continues.
 
-    python build_db.py                    # -> ws_$USER, schema dda
-    python build_db.py --db ws_trideep
+    python -m analysis.build_db                    # -> ws_$USER, schema dda
+    python -m analysis.build_db --db ws_trideep
 
 Tables (schema dda):
   pages           one row per HTML page (language, section, category, title, counts)
@@ -21,7 +21,7 @@ Tables (schema dda):
   delineated_boundaries  PM-UDAY boundary maps of unauthorised colonies (/delineated-boundary)
   views: duplicate_files, size_mismatch, broken_links
 
-Needs psycopg2 (pip install -r requirements-analysis.txt). Box only; not used by the pool task.
+Needs psycopg2 (pip install -r analysis/requirements.txt). Box only; not used by the pool task.
 """
 import argparse
 import json
@@ -197,8 +197,76 @@ CREATE VIEW dda.broken_links AS
 """
 
 
+PORTALS_DDL = """
+CREATE TABLE dda_new.stf_documents (url text PRIMARY KEY, kind text, meeting_no int, uploaded date, status text,
+  bytes bigint, sha256 text, bucket_key text, filename text);
+CREATE TABLE dda_new.stf_pages (url text PRIMARY KEY, section text, n_files int, n_rows int);
+CREATE TABLE dda_new.greens_parks (park_id int PRIMARY KEY, tree_target bigint, shrub_target bigint,
+  tree_completed bigint, shrub_completed bigint, total_target bigint, total_completed bigint, completed_pct numeric);
+CREATE TABLE dda_new.greens_species (park_id int, species_type text, plant_name text, count bigint,
+  PRIMARY KEY (park_id, species_type, plant_name));
+CREATE TABLE dda_new.greens_dashboard (key text PRIMARY KEY, value numeric);
+"""
+
+
+def stf_kind(url):
+    path = unquote(urlparse(url).path)
+    return ("agenda" if "/AgendaDoc/" in path else "quarterly minutes" if "/QuaterlyMeeting/" in path
+            else "minutes" if re.search(r"minute|mom", path, re.I) else "other")
+
+
+def stf_upload_date(url):
+    """STF file names start with the upload time, ddmmyyyyHHMMSS: '01042024035614-Final 127th ...' -> 2024-04-01."""
+    m = re.match(r"(\d{2})(\d{2})(\d{4})\d{6}-", unquote(urlparse(url).path).rsplit("/", 1)[-1])
+    if not m:
+        return None
+    d, mth, y = map(int, m.groups())
+    return f"{y:04d}-{mth:02d}-{d:02d}" if 1 <= d <= 31 and 1 <= mth <= 12 and 2000 <= y <= 2035 else None
+
+
+def stf_meeting_no(url):
+    m = re.search(r"(\d{1,3})\s*(?:st|nd|rd|th)\b", unquote(urlparse(url).path).rsplit("/", 1)[-1], re.I)
+    return int(m.group(1)) if m else None
+
+
+def portal_tables(cur):
+    """STF and DDA Greens (portals.py) into dda_new: documents, pages, park and species summaries."""
+    cur.execute(PORTALS_DDL)
+    docs, pages = [], []
+    for rid, data in src_rows("select record_id, data from public.records where project = 'dda-stf'"):
+        if data.get("type") == "stf-page":
+            pages.append((data["url"], data.get("section"), data.get("n_files"), len(data.get("rows", []))))
+        elif data.get("url"):
+            u = data["url"]
+            status = "broken" if data.get("broken") else "unretrievable" if data.get("unretrievable") else "stored"
+            docs.append((u, stf_kind(u), stf_meeting_no(u), stf_upload_date(u), status, data.get("bytes"),
+                         data.get("sha256"), data.get("bucket_key"), unquote(urlparse(u).path).rsplit("/", 1)[-1][:300]))
+    parks, species, dash = {}, [], []
+    for rid, data in src_rows("select record_id, data from public.records where project = 'dda-greens'"):
+        ep, resp = data.get("endpoint", ""), data.get("response") or {}
+        if ep.startswith("Plantation/park-summary"):
+            d = resp.get("data") or {}
+            parks[int(data["park_id"])] = (int(data["park_id"]), d.get("tree_target"), d.get("shrub_target"),
+                                           d.get("tree_completed"), d.get("shrub_completed"), d.get("total_target"),
+                                           d.get("total_completed"), d.get("completedPercentage"))
+        elif ep.startswith("plantation/species-summary"):
+            st = "Tree" if "speciesType=Tree" in ep else "Shrub"
+            for row in resp.get("data") or []:
+                species.append((int(data["park_id"]), st, (row.get("plantName") or "")[:120], row.get("count")))
+        elif ep == "plantation/dashboard":
+            dash = [(k, v) for k, v in (resp.get("data") or {}).items() if isinstance(v, (int, float))]
+    ins = lambda t, rows: rows and psycopg2.extras.execute_values(
+        cur, f"INSERT INTO dda_new.{t} VALUES %s ON CONFLICT DO NOTHING", rows, page_size=1000)
+    ins("stf_documents", docs)
+    ins("stf_pages", pages)
+    ins("greens_parks", list(parks.values()))
+    ins("greens_species", species)
+    ins("greens_dashboard", dash)
+    print(f"portals: STF {len(pages)} pages, {len(docs)} files; Greens {len(parks)} parks, {len(species)} species rows")
+
+
 def reg_no(text):
-    from extract_colonies import reg_key
+    from analysis.extract_colonies import reg_key
     return reg_key(text)
 
 
@@ -250,7 +318,9 @@ def main():
 
     pages, prows, links, ext_links, seen_pages = [], [], {}, [], set()
     tenders, awards, debar, laa = [], [], [], []
-    for rid, at, data in src_rows("select record_id, scraped_at, data from projects.dda_pages"):
+    # dda-watch (the weekly change watch) stores new pages and files in the same shape: read them too
+    for rid, at, data in src_rows("""select record_id, scraped_at, data from public.records
+                                      where project in ('dda-pages', 'dda-watch') and data->>'type' = 'page'"""):
         if data.get("broken"):
             continue
         url = crawl.canon_url(data["url"])
@@ -304,7 +374,8 @@ def main():
 
     # documents: stored records + queue state for the rest
     docs, bucket_keys = {}, {}
-    for rid, data in src_rows("select record_id, data from projects.dda_docs"):
+    for rid, data in src_rows("""select record_id, data from public.records
+                                  where project in ('dda-docs', 'dda-watch') and data->>'type' = 'document'"""):
         u = data.get("url")
         if not u or "&amp;" in u:
             continue
@@ -337,7 +408,7 @@ def main():
         docs[u] = [u, crawl.record_id(u), unquote(urlparse(u).path.rsplit("/", 1)[-1])[:300], ext, folder, month,
                    status, int(m.group(1)) if m else None, None, None, None, None]
     # HEAD results for failed downloads (linkcheck.py): a 404/410 is a broken link on the site
-    lc = os.path.join(os.path.dirname(os.path.abspath(__file__)), "linkcheck.json")
+    lc = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "linkcheck.json")
     if os.path.exists(lc):
         for u, code in json.load(open(lc)).get("status", {}).items():
             row = docs.get(crawl.canon_url(u))
@@ -365,6 +436,7 @@ def main():
         ins("land_acq_awards", laa)
         ins("html_tables", html_rows)
         ins("delineated_boundaries", bounds)
+        portal_tables(cur)
         # keep the tables other scripts make (extract_colonies.py, link_eprocure.py) across rebuilds
         for kept in ("unauthorised_colonies", "eprocure_tenders", "document_text"):
             cur.execute(f"SELECT to_regclass('dda.{kept}') IS NOT NULL")
@@ -383,7 +455,7 @@ def main():
                                  ("land_acq_awards", laa), ("external_links", ext_links),
                                  ("html_tables", html_rows), ("delineated_boundaries", bounds)]}
     print(json.dumps(st))
-    print("next: python link_eprocure.py  (re-links tenders and award letters to eprocure)")
+    print("next: python -m analysis.link_eprocure  (re-links tenders and award letters to eprocure)")
 
 
 if __name__ == "__main__":

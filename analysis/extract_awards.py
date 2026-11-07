@@ -12,7 +12,7 @@ so labels and amounts are out of order. The rules:
   - the check: the estimated cost against the eprocure tender value of the linked tender (dda.award_links or the
     Tender ID printed in the letter), and tendered / estimated between 0.3 and 1.6.
 
-    python extract_awards.py               # -> ws_$USER: dda.award_values
+    python -m analysis.extract_awards               # -> ws_$USER: dda.award_values
 
 No names: the table holds amounts, dates and keys only.
 """

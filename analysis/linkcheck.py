@@ -4,8 +4,8 @@ The pool marks an item failed when a download does not load. This sends one HEAD
 failed document (gently, through the India proxy) and writes linkcheck.json {url: status}.
 build_db.py reads it and marks 404/410 documents as 'broken'.
 
-    myproxy run python linkcheck.py                 # failed documents from the workspace db
-    myproxy run python linkcheck.py --db ws_trideep --delay 0.7
+    myproxy run python -m analysis.linkcheck                 # failed documents from the workspace db
+    myproxy run python -m analysis.linkcheck --db ws_trideep --delay 0.7
 """
 import argparse
 import json
@@ -27,7 +27,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--db", default="ws_" + os.environ.get("USER", "trideep"))
     ap.add_argument("--delay", type=float, default=0.7)
-    ap.add_argument("--out", default="linkcheck.json")
+    ap.add_argument("--out", default="data/linkcheck.json")
     args = ap.parse_args()
     prev = json.load(open(args.out)) if os.path.exists(args.out) else {}
     s = ddatls.make_session(retries=1)

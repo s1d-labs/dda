@@ -5,8 +5,8 @@ pmuday/1731_uc.pdf, and the list of 69 colonies inhabited by the affluent sectio
 The pool stores both in the bucket (dda-docs/docs/sites/default/files/pmuday/...).
 
     mybucket get dda-docs/docs/sites/default/files/pmuday/1731_uc.pdf DIR/
-    python extract_colonies.py --uc DIR/1731_uc.pdf --affluent DIR/69.pdf      # -> ws_$USER dda.unauthorised_colonies
-    python extract_colonies.py ... --csv data/unauthorised_colonies.csv
+    python -m analysis.extract_colonies --uc DIR/1731_uc.pdf --affluent DIR/69.pdf      # -> ws_$USER dda.unauthorised_colonies
+    python -m analysis.extract_colonies ... --csv data/unauthorised_colonies.csv
 
 Output columns: list ('1731' or 'affluent'), sl_no, reg_no (as printed), part, reg_key (one form for
 joins, e.g. '732B', '90-ELD'), name, pin (Delhi 1100xx from 'Delhi-41' where printed).
@@ -131,7 +131,7 @@ def main():
                                            [tuple(r[k] for k in cols) for r in data])
             cur.execute("SELECT to_regclass('dda.delineated_boundaries') IS NOT NULL")
             if cur.fetchone()[0]:
-                from build_db import COLONY_VIEW
+                from analysis.build_db import COLONY_VIEW
                 cur.execute(COLONY_VIEW)
         conn.close()
 

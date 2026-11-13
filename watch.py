@@ -30,11 +30,17 @@ MAX_NEW_PAGES = 150
 MAX_NEW_DOCS = 400
 
 
-def known_scope(path=os.path.join(HERE, "seeds.json")):
-    """Canonical URLs of the known pages and documents, and the listings to read (the first page of each)."""
+KNOWN = os.path.join(HERE, "data", "watch_known.json")
+
+
+def known_scope(path=os.path.join(HERE, "seeds.json"), known=KNOWN):
+    """Canonical URLs of the known pages and documents, and the listings to read (the first page of each).
+    Known = the discovered scope (seeds.json) plus what earlier watches stored or found dead (data/watch_known.json,
+    written on the box by analysis.fold_watch), so a file is downloaded once, not every week."""
     s = json.load(open(path))
-    pages = {crawl.canon_url(u) for u in s.get("pages", [])}
-    docs = {crawl.canon_url(u) for u in s.get("documents", [])}
+    k = json.load(open(known)) if known and os.path.exists(known) else {}
+    pages = {crawl.canon_url(u) for u in s.get("pages", []) + k.get("pages", []) + k.get("dead_pages", [])}
+    docs = {crawl.canon_url(u) for u in s.get("documents", []) + k.get("documents", [])}
     listings = {crawl.canon_url("https://dda.gov.in/")}
     for u in pages:
         p = urlparse(u)
@@ -72,6 +78,7 @@ def run_watch(hub, session, week, local=False):
         time.sleep(0.5)
     new_p, new_d = new_links(parsed, known_pages, known_docs)
     stored_p = stored_d = 0
+    dead_p = []
     if not local:
         for url in new_p[:MAX_NEW_PAGES]:
             r, status = crawl.fetch(hub, session, url)
@@ -80,6 +87,8 @@ def run_watch(hub, session, week, local=False):
                 d = crawl.store_page(hub, url, r, body)
                 d["watch_week"] = week
                 stored_p += 1
+            else:
+                dead_p.append(url)          # 404 or not HTML: fold_watch adds it to the known list
             time.sleep(0.5)
         for url in new_d[:MAX_NEW_DOCS]:
             r, status = crawl.fetch(hub, session, url)
@@ -91,6 +100,7 @@ def run_watch(hub, session, week, local=False):
     summary = {"type": "watch", "week": week, "listings_read": len(parsed), "listing_errors": errors,
                "new_pages": len(new_p), "new_documents": len(new_d), "stored_pages": stored_p,
                "stored_documents": stored_d, "new_page_urls": new_p[:500], "new_document_urls": new_d[:500],
+               "dead_page_urls": dead_p[:500],
                "fetched_at": int(time.time())}
     if not local:
         hub.record(f"watch-{week}", summary)

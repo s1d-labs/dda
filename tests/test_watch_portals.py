@@ -30,3 +30,13 @@ def test_greens_endpoints():
     e = portals.greens_endpoints([{"id": 7}])
     assert e[:2] == ["plantation/dashboard", "plantation/filter/parks"]
     assert "plantation/species-summary?parkId=7&speciesType=Shrub" in e and len(e) == 5
+
+
+def test_known_list_stops_repeat_downloads(tmp_path):
+    k = tmp_path / "known.json"
+    k.write_text('{"documents": ["https://dda.gov.in/sites/default/files/tender/new.pdf"], "dead_pages": ["https://dda.gov.in/updates"]}')
+    pages, docs, _ = watch.known_scope(known=str(k))
+    assert "https://dda.gov.in/sites/default/files/tender/new.pdf" in docs
+    assert "https://dda.gov.in/updates" in pages
+    parsed = [{"page_links": ["https://dda.gov.in/updates"], "documents": ["https://dda.gov.in/sites/default/files/tender/new.pdf"]}]
+    assert watch.new_links(parsed, pages, docs) == ([], [])

@@ -11,6 +11,7 @@ on:
 permissions:
   id-token: write
   contents: read
+  actions: write          # the keep-alive step below
 
 jobs:
   seed:
@@ -25,3 +26,9 @@ jobs:
       - run: python seed_watch.py
         env:
           SCRAPE_HUB_URL: https://scrape.s1d.me
+      - name: Keep the schedule alive
+        # GitHub turns off a scheduled workflow after 60 days without commits. Enabling it again through the API
+        # each week resets that timer. (A workflow that a person turns off does not run, so this never undoes that.)
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/watch.yml/enable"
+        env:
+          GH_TOKEN: ${{ github.token }}

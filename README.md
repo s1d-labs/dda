@@ -61,7 +61,7 @@ tests/            offline tests (parsing, downloads, discovery, links, awards, w
 | Discover the portals | `python portals.py discover` |
 | Try one page or file | `myproxy run python crawl.py --local https://dda.gov.in/whats-new` |
 | Try the watch | `myproxy run python watch.py --local` (lists what is new, stores nothing) |
-| Check a task | `myproxy run scrape-check --project dda-pages --items 2` |
+| Check a task | `myproxy run scrape-check --project dda-pages --items 2` (needs `scrape-hub-client` 0.10 or later; `pip install -r analysis/requirements.txt` installs it) |
 | Apply to the hub | Actions -> **setup** -> Run workflow (inputs: `docs_pool`, `reset_failed`) |
 | Weekly watch | runs by itself; Actions -> **watch** -> Run workflow to run it now |
 | Tests | `python -m pytest tests -q` |
@@ -87,6 +87,7 @@ python -m analysis.refresh --html /tmp/dda-html --sync   # tables, links, award 
 | `analysis.linkcheck` | HEAD check of failed downloads (`data/linkcheck.json`) |
 | `analysis.analyze` + `analysis.report_html` | figures (`reports/analysis.json`) and the HTML report |
 | `analysis.coverage` | discovery scope against the hub (`reports/coverage.json`) |
+| `analysis.fold_watch` | adds what the weekly watch stored to `data/watch_known.json`, so the watch does not download it again; commit the file |
 
 ## Rules
 
